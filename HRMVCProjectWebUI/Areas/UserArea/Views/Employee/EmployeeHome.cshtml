@@ -1,0 +1,161 @@
+﻿@model HRMVCProjectEntities.Concrete.Employee
+@{
+    ViewData["Title"] = "Çalışan Detayları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!doctype html>
+<html class="fixed">
+<body>
+    <section class="body">
+        <!-- start: page -->
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <section class="panel">
+                    <div class="panel-body">
+                        <div class="thumb-info mb-md">
+                            <img src="@Model.UserPhotoPath" class="rounded img-responsive" alt="">
+                            <div class="thumb-info-title">
+                                <span class="thumb-info-inner">@Html.DisplayFor(model => model.FirstName)</span>
+                                @*<span class="thumb-info-type">CEO</span>*@
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-8 col-lg-6">
+
+                <div class="tabs">
+                    <ul class="nav nav-tabs tabs-primary">
+                        <li class="active">
+                            <a href="#overview" data-toggle="tab">Görüntüle</a>
+                        </li>
+                        <li>
+                            <a href="#edit" data-toggle="tab">Düzenle</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="overview" class="tab-pane active">
+                            <h4 class="mb-md">Bilgilerim</h4>
+                            <div class="compose-box-footer">
+                                <dl class="row">
+                                    <blockquote class="primary">
+										<dt class="col-sm-2">
+                                            Ad
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.FirstName)
+                                        </dd>
+									</blockquote>
+                                    <blockquote class="primary">
+										<dt class="col-sm-2">
+                                            Soyad
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.LastName)
+                                        </dd>
+									</blockquote>
+                                    <blockquote class="primary">
+										<dt class="col-sm-2">
+                                            Mail
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Email)
+                                        </dd>
+									</blockquote>
+                                    <blockquote class="primary">
+										<dt class="col-sm-2">
+                                            Telefon
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Telephone)
+                                        </dd>
+									</blockquote>
+                                    <blockquote class="primary">
+										<dt class="col-sm-2">
+                                            İşe Giriş
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.DateStarted)
+                                        </dd>
+									</blockquote>
+                                    <blockquote class="primary">
+										<dt class="col-sm-2">
+                                            İşten Çıkış
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @if(Model.DateQuit == null)
+                                            {
+                                                <p>Halen çalışmakta</p>
+                                            }
+                                            else
+                                            {
+                                                @Html.DisplayFor(model => model.DateQuit)
+                                            }
+                                        </dd>
+									</blockquote>
+                                    <blockquote class="primary">
+										<dt class="col-sm-2">
+                                            Kimlik No
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.Identity)
+                                        </dd>
+									</blockquote>
+                                </dl>
+                            </div>
+                        </div>
+                        <div id="edit" class="tab-pane">
+                            <form class="form-horizontal" asp-action="Edit" enctype="multipart/form-data" method="post">
+                                <h4 class="mb-xlg">Çalışan Bilgileri</h4>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label asp-for="Email" class="col-md-3 control-label" for="profileAddress">Mail</label>
+                                        <div class="col-md-8">
+                                            <input asp-for="Email" type="text" class="form-control" id="profileAddress">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Telephone" class="col-md-3 control-label" for="profileCompany">Telefon</label>
+                                        <div class="col-md-8">
+                                            <input type="tel" asp-for="Telephone"  class="form-control" id="profileCompany">
+                                        </div>
+                                    </div>
+                                       <div class="form-group">
+                                        <label asp-for="UserPhoto" class="col-md-3 control-label" for="profileCompany" accept="image/jpeg,image/gif,image/png">Fotograf</label>
+                                        <div class="col-md-8">
+                                            <input type="file" asp-for="UserPhoto"  class="form-control" id="profileCompany">
+                                        </div>
+                                    </div>
+                                </fieldset>            
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-md-9 col-md-offset-3">
+                                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-3">
+                <h4 class="mb-md">Diğer Bilgiler</h4>
+                <ul class="simple-card-list mb-xlg">
+                 
+                    <li class="primary">
+                        <h3>@ViewBag.IzinTalepSayisi</h3>
+                        <p>Güncel İzin Talepleri</p>
+                    </li>
+                    <li class="primary">
+                        <h3>@ViewBag.AvansTalepSayisi</h3>
+                        <p>Güncel Avans Talepleri</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- end: page -->
+    </section>
+</body>
+</html>

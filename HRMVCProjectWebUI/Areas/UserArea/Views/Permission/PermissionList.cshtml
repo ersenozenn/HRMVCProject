@@ -1,0 +1,68 @@
+﻿@model IEnumerable<HRMVCProjectEntities.Concrete.Permission>
+
+@{
+    ViewData["Title"] = "İzinler";
+}
+<header class="page-header">
+	<h2>Çalışan İzinleri</h2>
+	<div class="right-wrapper pull-right">
+		<ol class="breadcrumbs">
+			<li>
+				<a href="index.html">
+					<i class="fa fa-home"></i>
+				</a>
+			</li>
+			<li><span>Çalışan</span></li>
+			<li><span>Çalışan İzinleri</span></li>
+		</ol>				
+    </div>
+</header>
+<h2>Çalışan İzinleri</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplyState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdressToGo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReplyState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdressToGo)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

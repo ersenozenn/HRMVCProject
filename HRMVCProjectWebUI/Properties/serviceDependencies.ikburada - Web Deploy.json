@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/boostserver/databases/IkProjectDb",
+      "type": "mssql.azure",
+      "connectionId": "ikconstr",
+      "dynamicId": null
+    }
+  }
+}

@@ -1,0 +1,67 @@
+﻿@model HRMVCProjectWebUI.Models.LoginVm
+@{
+    ViewData["Title"] = "Giriş Sayfası";
+	 Layout = null;
+}
+<link href="~/assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link href="~/assets/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" />
+ <link href="~/assets/stylesheets/theme.css" rel="stylesheet" />
+  <link href="~/assets/stylesheets/skins/default.css" rel="stylesheet" />
+
+<!-- start: page --><br /> <br />
+		<section class="body-sign">
+			<div >
+			@*	<a href="/" class="logo pull-left">
+					<img src="assets/images/logo.png" height="54" alt="Porto Admin" />
+				</a>*@
+
+				<div class="panel panel-sign">
+					<div class="panel-title-sign mt-xl text-right">
+						<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Giriş Yap</h2>
+					</div>
+					<div class="panel-body">
+						<form asp-action="LogIn">
+							<div class="form-group mb-lg">
+								<label asp-for="@Model.Email">Mail Adresi</label>
+								<div class="input-group input-group-icon">
+									<input  asp-for="@Model.Email" type="email" class="form-control input-lg" />
+									<span asp-validation-for="@Model.Email" class="text-danger"></span>
+									<span class="input-group-addon">
+										<span class="icon icon-lg">
+											<i class="fa fa-user"></i>
+										</span>
+									</span>
+								</div>
+							</div>
+
+							<div class="form-group mb-lg">
+								<div class="clearfix">
+									<label asp-for="@Model.Password" class="pull-left">Şifre</label>
+								
+								</div>
+								<div class="input-group input-group-icon">
+									<input asp-for="@Model.Password" type="password" class="form-control input-lg" />
+									<span asp-validation-for="@Model.Password" class="text-danger"></span>
+									<span class="input-group-addon">
+										<span class="icon icon-lg">
+											<i class="fa fa-lock"></i>
+										</span>
+									</span>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-8">
+								
+								</div>
+								<div class="col-sm-4 text-right">
+									<input type="submit" class="btn btn-primary hidden-xs" value="Giriş Yap"/> 
+									<input type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg" value="Giriş Yap"/>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				</div>
+		</section>
+		<!-- end: page -->

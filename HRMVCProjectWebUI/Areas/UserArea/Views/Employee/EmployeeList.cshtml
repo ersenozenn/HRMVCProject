@@ -1,0 +1,51 @@
+﻿@model IEnumerable<HRMVCProjectEntities.Concrete.Employee>
+
+@{
+    ViewData["Title"] = "Çalışan Listesi";
+}
+<!-- start: page -->
+<section class="panel">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Çalışanlar Listesi </h2>
+    </header>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped mb-none" id="datatable-default">
+            <thead>
+                <tr>
+                    <th>Ad</th>
+                    <th>Soyad</th>
+                    <th>Mail</th>
+                    <th class="hidden-phone">Fotoğraf</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="gradeA">
+                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                        <td class="center hidden-phone">@Html.DisplayFor(modelItem => item.Email)</td>
+                        @if (item.UserPhotoPath == null)
+                        {
+                            <td class="center hidden-phone">
+                                <img src="~/assets/images/default.png" width="55" height="55" class="img-circle" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="center hidden-phone">
+                                <img src="@item.UserPhotoPath" width="50" height="50" class="img-circle" />
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- end: page -->
