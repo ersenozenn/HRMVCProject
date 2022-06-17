@@ -22,6 +22,8 @@ namespace HRMVCProjectDataAccess.Data
         public DbSet<PermissionType> PermissionTypes { get; set; }     
         public DbSet<AdvancePayment> AdvancePayment { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Cost> Costs { get; set; }
+        public DbSet<CostType> CostTypes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,9 +38,14 @@ namespace HRMVCProjectDataAccess.Data
 
             modelBuilder.Entity<Employee>().Property(a => a.Telephone).IsRequired().HasMaxLength(15);
             modelBuilder.Entity<Employee>().Ignore(a => a.UserPhoto);
+            modelBuilder.Entity<Cost>().Ignore(a => a.CostFile);
            
             //modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "User",NormalizedName="USER" });
             modelBuilder.Entity<UserRole>().HasData(new UserRole { Name = "User",NormalizedName="USER",Id=1 });
+            modelBuilder.Entity<CostType>().HasData(new CostType { CostName = "Yemek",Id=1 });
+            modelBuilder.Entity<CostType>().HasData(new CostType { CostName = "Seyehat",Id=2 });
+            modelBuilder.Entity<CostType>().HasData(new CostType { CostName = "Ulaşım",Id=3 });
+            modelBuilder.Entity<CostType>().HasData(new CostType { CostName = "Konaklama",Id=4 });
             base.OnModelCreating(modelBuilder);
             //RoleManager = new RoleManager<IdentityRole>(
             //       new RoleStore<IdentityRole>(new HRMVCProjectDbContext()));
@@ -49,7 +56,7 @@ namespace HRMVCProjectDataAccess.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:boostserver.database.windows.net,1433;Initial Catalog=HRProjectDb;Persist Security Info=False;User ID=***;Password=***;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;");
+                optionsBuilder.UseSqlServer("Server=tcp:boostserver.database.windows.net,1433;Initial Catalog=HRProjectDb;Persist Security Info=False;User ID=boostadmin;Password=Boost1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;");
             }
         }
     }

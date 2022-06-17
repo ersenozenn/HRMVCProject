@@ -4,14 +4,16 @@ using HRMVCProjectDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRMVCProjectDataAccess.Migrations
 {
     [DbContext(typeof(HRMVCProjectDbContext))]
-    partial class HRMVCProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220616183553_cost")]
+    partial class cost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

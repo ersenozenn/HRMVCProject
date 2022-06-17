@@ -1,7 +1,9 @@
 ﻿using HRMVCProjectBusiness.Services.Abstract;
 using HRMVCProjectEntities.Concrete;
+using HRMVCProjectEntities.Concrete.Enums;
 using HRMVCProjectWebUI.Areas.UserArea.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
@@ -35,37 +37,37 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
             return View(permissionAndTypesVM);
         }
 
-        //[HttpPost]
-        //public IActionResult PermissionCreate(int id,PermissionAndTypesVM permissionAndTypesVM)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        TempData["Message"] = "İzin eklenemedi!";
-        //        permissionAndTypesVM.PermissionTypes = permissionTypeService.GetAll();
-        //        return View(permissionAndTypesVM);
-        //    }
-        //    Permission permission = new Permission();
-        //    permission.StartingDate = permissionAndTypesVM.Permission.StartingDate;
-        //    permission.AdressToGo = permissionAndTypesVM.Permission.AdressToGo;
-        //    permission.PermissionTypeID = permissionAndTypesVM.Permission.PermissionTypeID;
+        [HttpPost]
+        public IActionResult PermissionCreate(int id, PermissionAndTypesVM permissionAndTypesVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Message"] = "İzin eklenemedi!";
+                permissionAndTypesVM.PermissionTypes = permissionTypeService.GetAll();
+                return View(permissionAndTypesVM);
+            }
+            Permission permission = new Permission();
+            permission.StartingDate = permissionAndTypesVM.Permission.StartingDate;
+            permission.AdressToGo = permissionAndTypesVM.Permission.AdressToGo;
+            permission.PermissionTypeID = permissionAndTypesVM.Permission.PermissionTypeID;
 
-        //    PermissionType permissionType = permissionTypeService.GetById((int)permissionAndTypesVM.Permission.PermissionTypeID);
+            //PermissionType permissionType = permissionTypeService.GetById((int)permissionAndTypesVM.Permission.PermissionTypeID); bu metod yazılacak(getbyid) bide zaten bunu niye yapıyoruz anlamadım?
 
-        //    if (permission.StartingDate.Year == DateTime.Now.Year && permission.StartingDate.CompareTo(DateTime.Now) != -1 && permission.StartingDate.CompareTo(DateTime.Now) != 0)
-        //    {
-        //        permission.RequestDate = DateTime.Now;
-        //        permission.EndDate = permissionAndTypesVM.Permission.StartingDate.AddDays(permissionType.AllowedDays);
-        //        permission.ReplyState = ReplyState.Beklemede;
-        //        permission.Employees.Add(employeeService.GetById(id));
-        //        permissionService.Add(permission);
-        //        return RedirectToAction(nameof(List));
-        //    }
-        //    else
-        //    {
-        //        throw new Exception("Başlangıç tarihi bugünden sonra olmalıdır.");
-        //    }
+            if (permission.StartingDate.Year == DateTime.Now.Year && permission.StartingDate.CompareTo(DateTime.Now) != -1 && permission.StartingDate.CompareTo(DateTime.Now) != 0)
+            {
+                permission.RequestDate = DateTime.Now;
+                //permission.EndDate = permissionAndTypesVM.Permission.StartingDate.AddDays(permissionType.AllowedDays);
+                permission.ReplyState = ReplyState.Beklemede;
+                permission.Employees.Add(employeeService.GetById(id));
+                permissionService.Add(permission);
+                return RedirectToAction("PermissionList", "Permission");
+            }
+            else
+            {
+                throw new Exception("Başlangıç tarihi bugünden sonra olmalıdır.");
+            }
 
-        //}
+        }
 
     }
 }

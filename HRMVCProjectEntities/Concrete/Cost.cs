@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using HRMVCProjectEntities.Concrete.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,23 +10,26 @@ using System.Threading.Tasks;
 
 namespace HRMVCProjectEntities.Concrete
 {
-    public class AdvancePayment:BaseEntity
+    public class Cost:BaseEntity
     {
-        [Display(Name ="Açıklama")]
-        [StringLength(250, MinimumLength = 10, ErrorMessage = "10 karakterden az, 250 karakterden fazla giremezsiniz.")]
-        [Required(ErrorMessage ="Lütfen açıklama giriniz")]
-        public string Description { get; set; }
+        public Cost()
+        {
+            Employees = new HashSet<Employee>();
+        }
         [Display(Name = "Tutar")]
         [Required(ErrorMessage = "Lütfen tutar giriniz")]
         public double Amount { get; set; }
         [Display(Name = "Talep Tarihi")]
-        public DateTime RequestDate { get; set; } = DateTime.Now;
+        public DateTime RequestDate { get; set; } 
         [Display(Name = "Cevaplanma Tarihi")]
         public DateTime ReplyDate { get; set; }
         [Display(Name = "Onay Durumu")]
         public ReplyState ReplyState { get; set; }
-
-        public int EmployeeId { get; set; }    
-        public Employee Employee { get; set; }    
+        [Display(Name = "Harcama Dosyası")]
+        public IFormFile CostFile { get; set; }
+        public string CostFilePath { get; set; }
+        public int? CostTypeId { get; set; }
+        public CostType CostType { get; set; }
+        public ICollection<Employee> Employees { get; set; }
     }
 }

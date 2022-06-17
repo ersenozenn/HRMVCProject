@@ -15,6 +15,7 @@ namespace HRMVCProjectEntities.Concrete
         {
             Permissions = new HashSet<Permission>();
             AdvancePayments = new HashSet<AdvancePayment>();
+            Costs = new HashSet<Cost>();
         }
 
        
@@ -34,5 +35,6 @@ namespace HRMVCProjectEntities.Concrete
         public ICollection<Permission> Permissions { get; set; }       
        
         public ICollection<AdvancePayment> AdvancePayments { get; set; }    
+        public ICollection<Cost> Costs { get; set; }    
     }
 }

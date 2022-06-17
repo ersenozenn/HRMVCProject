@@ -1,0 +1,42 @@
+﻿@model HRMVCProjectEntities.Concrete.Cost
+
+@{
+    ViewData["Title"] = "CostCreate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CostCreate</h2>
+
+<h4>Cost</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CostCreate">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            @* harcama türü seçiyor*@
+            <div class="form-group">
+                <label asp-for="CostType.CostName" class="control-label"></label>
+                <select asp-for="CostTypeId" class="form-control" asp-items="@(new SelectList(ViewBag.CostTypes,"CostTypeId","CostName"))"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CostFile" class="control-label"></label>            
+                 <input type="file" asp-for="CostFile" class="form-control" accept="image/jpeg,image/png/pdf" />
+                <span asp-validation-for="CostFile" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

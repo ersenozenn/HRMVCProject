@@ -66,6 +66,12 @@ namespace HRMVCProjectWebUI
 
             services.AddScoped<IAdvancePaymentRepository, AdvancePaymentRepository>();
             services.AddScoped<IAdvancePaymentService, AdvancePaymentService>();
+            
+            services.AddScoped<ICostRepositroy, CostRepository>();
+            services.AddScoped<ICostService, CostService>();
+            
+            services.AddScoped<ICostTypeRepository, CostTypeRepository>();
+            services.AddScoped<ICostTypeService, CostTypeService>();
 
 
             services.AddMvc()

@@ -43,7 +43,7 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
                 employeeAdvanceVM.AdvancePayment.ReplyState = ReplyState.Beklemede;
                 employeeAdvanceVM.AdvancePayment.ReplyDate = DateTime.Now;
                 advancePaymentService.AddAdvancePayment(employeeAdvanceVM.AdvancePayment, employeeAdvanceVM.Employee);
-                return RedirectToAction("List","Employee");//??
+                return RedirectToAction("AdvancePaymentList", "AdvancePayment");//??
             }
             return View();
         }

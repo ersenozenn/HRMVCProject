@@ -24,7 +24,7 @@ namespace HRMVCProjectBusiness.Services.Concrete
             if (advancePaymentRepository.AddAdvancePayment(advance, employee))
                 return true;
             else
-                throw new Exception("Hatalı eklme.(Maaşınızın en fazla %30 u kadar avans talebinde bulunabilirsiniz!)");
+                throw new Exception("Hatalı ekleme.(Maaşınızın en fazla %30 u kadar avans talebinde bulunabilirsiniz!)");
         }
 
         public IEnumerable<AdvancePayment> AdvancePaymentList(int id)

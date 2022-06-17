@@ -38,9 +38,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReplyDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReplyState)
-            </th>
+           @* <th>
+                @Html.DisplayNameFor(model => model.ReplyState) siliniyor muydu bu??
+            </th>*@
             
             <th></th>
         </tr>
@@ -52,28 +52,34 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Amount)
+                @Html.DisplayFor(modelItem => item.Amount) ₺
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RequestDate)
             </td>
-            <td>
+           @* <td>
                 @Html.DisplayFor(modelItem => item.ReplyDate)
-            </td>
+            </td>*@
             <td>
                 @if(item.ReplyState==ReplyState.Onaylandı)
                 {
-                    @Html.DisplayFor(modelItem => item.ReplyState)
+                   @* @Html.DisplayFor(modelItem => item.ReplyState)*@                  
                     <span class="ball green"></span>
+                    <span class="green"></span>
+                    @*<p class="text-success">.text-success</p>
+<p class="text-danger">.text-danger</p>
+<p class="text-warning">.text-warning</p>*@
+//https://www.w3schools.com/howto/howto_css_circles.asp
                 }
                  @if(item.ReplyState==ReplyState.OnaylanMAdı)
                 {
-                    @Html.DisplayFor(modelItem => item.ReplyState)
+                    @*@Html.DisplayFor(modelItem => item.ReplyState)*@
                     <span class="ball red"></span>
+                    <span>&#128308;</span>
                 }
                  @if(item.ReplyState==ReplyState.Beklemede)
                 {
-                    @Html.DisplayFor(modelItem => item.ReplyState)
+                   @* @Html.DisplayFor(modelItem => item.ReplyState)*@
                     <span class="ball orange"></span>
                 }
                 
