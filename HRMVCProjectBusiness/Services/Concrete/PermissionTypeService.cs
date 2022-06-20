@@ -17,5 +17,14 @@ namespace HRMVCProjectBusiness.Services.Concrete
         {
             this.permissionTypeRepository = permissionTypeRepository;
         }
+
+        public PermissionType GetById(int id)
+        {
+            if (id >= 0)
+            {
+                return permissionTypeRepository.GetById(id);
+            }
+            else throw new Exception("Id hatası !!");
+        }
     }
 }

@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Manager\**" />
+    <Content Remove="Areas\Manager\**" />
+    <EmbeddedResource Remove="Areas\Manager\**" />
+    <None Remove="Areas\Manager\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.17" />
@@ -26,10 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Manager\Controllers\" />
-    <Folder Include="Areas\Manager\Data\" />
-    <Folder Include="Areas\Manager\Models\" />
-    <Folder Include="Areas\Manager\Views\" />
+    <Folder Include="Areas\ManagerArea\Data\" />
     <Folder Include="Areas\UserArea\Data\" />
     <Folder Include="wwwroot\assets\files\" />
   </ItemGroup>

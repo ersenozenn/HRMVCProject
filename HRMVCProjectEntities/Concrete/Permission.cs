@@ -18,14 +18,16 @@ namespace HRMVCProjectEntities.Concrete
 		[Display(Name = "Talep Tarihi")]
         public DateTime RequestDate { get; set; }
         [Display(Name = "Başlangıç Tarihi")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime StartingDate { get; set; }
         [Display(Name = "Bitiş Tarihi")]
         public DateTime EndDate { get; set; }
         [Display(Name = "Başvuru Durumu")]
         public ReplyState ReplyState { get; set; }
         [Display(Name = "Gidilecek Adres")]
+        [StringLength(250, MinimumLength = 10, ErrorMessage = "10 karakterden az, 250 karakterden fazla giremezsiniz.")]
         public string AdressToGo { get; set; }
-        [Display(Name = "İzin Türü ID'si")]
+        [Display(Name = "İzin Türü")]
         public int? PermissionTypeID { get; set; }
         [Display(Name = "İzin Türü")]
         public PermissionType PermissionType { get; set; }

@@ -2,6 +2,7 @@
 using HRMVCProjectWebUI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace HRMVCProjectWebUI.Controllers
@@ -33,9 +34,10 @@ namespace HRMVCProjectWebUI.Controllers
                     UserName = userRegisterVM.UserName,
                     FirstName = userRegisterVM.FirstName,
                     LastName = userRegisterVM.LastName,
-                    //Identity = userRegisterVM.IdentityNumber,                
+                    Identity = userRegisterVM.IdentityNumber,                
                     Email = userRegisterVM.Mail,
-                    
+                    BirthDate = userRegisterVM.BirthDate
+                    //DateStarted = DateTime.Now                    
                 };
 
 

@@ -18,7 +18,7 @@ namespace HRMVCProjectWebUI.Controllers
         }
       
         public IActionResult Login()
-        {         
+        {       
 
             return View();
         }
@@ -29,21 +29,43 @@ namespace HRMVCProjectWebUI.Controllers
             if (ModelState.IsValid)
             {
                 var userResult = userManager.FindByEmailAsync(user.Email).Result;
-                var getAdmin = userManager.IsInRoleAsync(userResult, "User").Result;
-                
-                    if (getAdmin)
+                if(userResult != null)
+                {
+                    var getUser = userManager.IsInRoleAsync(userResult, "User").Result;
+                    var getAdmin = userManager.IsInRoleAsync(userResult, "Manager").Result;
+
+                    
+                    if (getUser)
                     {
-                        var result = await signInManager.PasswordSignInAsync(userResult.UserName, user.Password, false, true);//user name olacak
-                    if (result.Succeeded)
+                        var result = await signInManager.PasswordSignInAsync(userResult.UserName, user.Password, false, true);
+                        if (result.Succeeded)
                         {
                             return RedirectToAction("Index", "Employee", new { id = userResult.Id, Area = "UserArea" });
-                       
+
                         }
                         else
                         {
                             ModelState.AddModelError("", "Hatalı kullanıcı adı veya şifre girdiniz");
                         }
-                    }               
+                    }
+                    else if(getAdmin)
+                    {
+                        var result = await signInManager.PasswordSignInAsync(userResult.UserName, user.Password, false, true);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("ManagerHome", "Manager", new { id = userResult.Id, Area = "ManagerArea" });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Hatalı kullanıcı adı veya şifre girdiniz");
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Hatalı kullanıcı adı veya şifre girdiniz");
+                }
+
             }
             return View();
 

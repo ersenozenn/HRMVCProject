@@ -1,8 +1,10 @@
 ﻿using HRMVCProjectBusiness.Services.Abstract;
+using HRMVCProjectBusiness.Services.Concrete;
 using HRMVCProjectEntities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,12 +15,14 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService employeeService;
+        private readonly IAdvancePaymentService advancePaymentService;
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService,IAdvancePaymentService advancePaymentService)
         {
             this.employeeService = employeeService;
+            this.advancePaymentService = advancePaymentService;
         }
         public IActionResult Index(int id)
         {
@@ -46,7 +50,7 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
         }
 
         // [HttpGet("{id}")]
-        [Route("Anasayfa/{id:int}")]
+       // [Route("Anasayfa/{id:int}")]
         public IActionResult EmployeeHome(int id)
         {
             Employee employee = employeeService.GetById(id);
@@ -62,28 +66,30 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
             ViewBag.KullanıcıAdı = $"{employee.FirstName} {employee.LastName}";
             ICollection<Permission> permissions = employeeService.GetByIdIncludePermission(id).Permissions;
             ViewBag.IzinTalepSayisi = permissions.Count;
-            //ICollection<AdvancePayment> advancePayments = (ICollection<AdvancePayment>)advancePaymentService.AdvancePaymentList(id);
-            //ViewBag.AvansTalepSayisi = advancePayments.Count;
+            ViewBag.AvansMiktari = (employee.Wage*0.3) - advancePaymentService.TotalAdvance(id);
+            ICollection<AdvancePayment> advancePayments = (ICollection<AdvancePayment>)advancePaymentService.AdvancePaymentList(id);
+            ViewBag.AvansTalepSayisi = advancePayments.Count;
             return View(employee);
         }
 
 
         //[Route("Düzenle/{id:int}")]
-        public IActionResult EmployeeUpdate(int id)
-        {
-            Employee _employee = employeeService.GetById(id);
-            ViewBag.Header = "Çalışanlar";
-            ViewBag.Header2 = "Düzenleme";
-            return View(_employee);
-        }
+        //public IActionResult EmployeeUpdate(int id)
+        //{
+        //    //int id =(int)HttpContext.Session.GetInt32("Id");
+        //    Employee _employee = employeeService.GetById(id);
+        //    //ViewBag.Header = "Çalışanlar";
+        //    //ViewBag.Header2 = "Düzenleme";
+        //    return View(_employee);
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EmployeeUpdate(Employee _employee)
         {
+            Employee employee = employeeService.GetById(_employee.Id);
             if (ModelState.IsValid)
             {
-                Employee employee = employeeService.GetById(_employee.Id);
 
                 if (_employee.UserPhoto != null)
                 {
@@ -96,18 +102,23 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
                     _employee.UserPhotoPath = @"\assets\images\" + ticks + Path.GetExtension(_employee.UserPhoto.FileName);
                     employee.UserPhotoPath = _employee.UserPhotoPath;
                 }
-
-                employee.Telephone = _employee.Telephone;
+                
+                employee.PhoneNumber = _employee.PhoneNumber;
 
                 employeeService.Update(employee);
                 return RedirectToAction(nameof(EmployeeList));
             }
-            TempData["Message"] = "Güncellenemedi!";
-            //return View(Index());
+            ModelState.AddModelError("","Güncellenemedi!");
             return View();
         }
 
-
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Remove("Id");
+            HttpContext.Session.Remove("userName");
+            HttpContext.Session.Remove("picPath");
+            return RedirectToAction("Index", "Home");
+        }
 
 
     }

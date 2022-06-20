@@ -1,9 +1,20 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@{
+    int id = (int)Context.Session.GetInt32("Id");
+    if(id<0)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "_LayoutForEmployee";
+    }
     ViewData["Title"] = "About Us";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }
+<link href="~/assets/stylesheets/aboutUs.css" rel="stylesheet" />
 <html>
-<body>
+<body class="bg">
     <div class="col-md-3">
         <section class="panel">
             <header class="panel-heading">
@@ -36,8 +47,11 @@
     <hr>
 
     <div id="AboutUs" class="text-center">
-        <h1 class="display-4">Hoşgeldiniz</h1>
-        <p>Hakkımızda sayfasıdır. Buraya hakkımızda yazılar gelecek</p>
+        <h1 class="display-4">Hakkımızda Sayfasına Hoşgeldiniz</h1>
+        <p>Biz insan kaynakları desteği veren şirketiz.</p>
+        <p>Amacımız, müşterilerimizin taleplerini en iyi şekilde karşılamaktır.</p>
+        <p>Hedefimiz, her zaman büyüyerek bu sektördeki en iyi firma olmak.</p>
+        <p>Değerli müşterilerimiz ile çalışmak bizim için bir zevktir.</p>
     </div>
 </body>
 </html>

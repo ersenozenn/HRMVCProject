@@ -40,7 +40,10 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
         //{
         //    return db.Employees.FirstOrDefault(a => a.UserMail == email && a.Password == password);
         //}
-
+        public Employee GetByIdIncludeCosts(int id)
+        {
+            return db.Employees.Include(a => a.Costs).FirstOrDefault(a => a.Id == id);
+        }
 
     }
 }

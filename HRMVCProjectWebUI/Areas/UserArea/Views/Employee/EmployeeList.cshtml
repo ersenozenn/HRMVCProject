@@ -4,7 +4,7 @@
     ViewData["Title"] = "Çalışan Listesi";
 }
 <!-- start: page -->
-<section class="panel">
+<section class="panel bold-olsun">
     <header class="panel-heading">
         <div class="panel-actions">
             <a href="#" class="fa fa-caret-down"></a>
@@ -18,8 +18,7 @@
                 <tr>
                     <th>Ad</th>
                     <th>Soyad</th>
-                    <th>Mail</th>
-                    <th class="hidden-phone">Fotoğraf</th>
+                    <th>Mail</th>                    
                 </tr>
             </thead>
             <tbody>
@@ -28,19 +27,7 @@
                     <tr class="gradeA">
                         <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                         <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                        <td class="center hidden-phone">@Html.DisplayFor(modelItem => item.Email)</td>
-                        @if (item.UserPhotoPath == null)
-                        {
-                            <td class="center hidden-phone">
-                                <img src="~/assets/images/default.png" width="55" height="55" class="img-circle" />
-                            </td>
-                        }
-                        else
-                        {
-                            <td class="center hidden-phone">
-                                <img src="@item.UserPhotoPath" width="50" height="50" class="img-circle" />
-                            </td>
-                        }
+                        <td class="center hidden-phone">@Html.DisplayFor(modelItem => item.Email)</td>                        
                     </tr>
                 }
             </tbody>

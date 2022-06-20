@@ -1,0 +1,10 @@
+﻿.bg {
+    background-image: url("/assets/images/background1.jpg");
+    color: black;
+}
+
+.bg p {
+    color: black;
+    font-size: 25px;
+    text-align: justify-all;
+}

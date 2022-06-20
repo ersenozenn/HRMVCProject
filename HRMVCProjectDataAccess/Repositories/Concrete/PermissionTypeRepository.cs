@@ -18,5 +18,9 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
         {
             this.db = db;
         }
+        public PermissionType GetById(int id)
+        {
+            return db.Set<PermissionType>().FirstOrDefault(a => a.Id == id);
+        }
     }
 }

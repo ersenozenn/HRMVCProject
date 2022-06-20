@@ -35,15 +35,23 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
         {
             if (ModelState.IsValid)
             {
-                //if(employeeAdvanceVM.AdvancePayment.Amount>employeeAdvanceVM.Employee.Wage*0.3)
+                //if (employeeAdvanceVM.AdvancePayment.Amount > employeeAdvanceVM.Employee.Wage * 0.3)
                 //{
                 //    TempData["ErrorMessage"] = "Maaşınızın en fazla %30 u kadar avans talebinde bulunabilirsiniz!!";
                 //}
                 employeeAdvanceVM.Employee = employeeService.GetById(id);
-                employeeAdvanceVM.AdvancePayment.ReplyState = ReplyState.Beklemede;
-                employeeAdvanceVM.AdvancePayment.ReplyDate = DateTime.Now;
-                advancePaymentService.AddAdvancePayment(employeeAdvanceVM.AdvancePayment, employeeAdvanceVM.Employee);
-                return RedirectToAction("AdvancePaymentList", "AdvancePayment");//??
+                employeeAdvanceVM.AdvancePayment.ReplyState = ReplyState.Beklemede;   
+                if(employeeAdvanceVM.AdvancePayment.Amount>=0)
+                {
+                    if (advancePaymentService.AddAdvancePayment(employeeAdvanceVM.AdvancePayment, employeeAdvanceVM.Employee))
+                    {
+                        return RedirectToAction("AdvancePaymentList", "AdvancePayment", new { id });//??******oley
+                    }
+                    else ModelState.AddModelError("", "Avans talebiniz maaşınızın %30undan fazla olmaz ve 3 ayda bir avans alabilirsiniz.");
+                }
+                else ModelState.AddModelError("", "Avans talebiniz negatif bir değer olamaz.");
+
+
             }
             return View();
         }

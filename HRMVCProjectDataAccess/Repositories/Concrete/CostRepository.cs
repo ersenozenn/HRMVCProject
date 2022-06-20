@@ -20,9 +20,11 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
             this.db = db;
         }
 
-        public IEnumerable<Cost> CostList(int id)
-        {
-            return (ICollection<Cost>)db.Employees.Include(a => a.Costs).Where(a => a.Id == id).ToList();
-        }
+        //public IEnumerable<Cost> CostList(int id)
+        //{
+        //    return db.Costs.Include(a => a.Employees).Where(a => a.Id == id).ToList();
+        //}
+
+       
     }
 }

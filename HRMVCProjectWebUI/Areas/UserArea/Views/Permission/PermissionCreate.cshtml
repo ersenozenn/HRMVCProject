@@ -10,15 +10,15 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="PermissionCreate">
+        <form  asp-action="PermissionCreate">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Permission.StartingDate" class="control-label"></label>
-                <input asp-for="Permission.StartingDate" class="form-control" />
+                <input type="date" asp-for="Permission.StartingDate" class="form-control" />
                 <span asp-validation-for="Permission.StartingDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Permission.AdressToGo" class="control-label"></label>
+                <label asp-for="Permission.AdressToGo"  class="control-label"></label>
                 <input asp-for="Permission.AdressToGo" class="form-control" />
                 <span asp-validation-for="Permission.AdressToGo" class="text-danger"></span>
             </div>
@@ -33,8 +33,9 @@
                     }
                 </select>
             </div>
+            	<div class="text-danger" asp-validation-summary="ModelOnly"> </div>
             <div class="form-group">
-                <input type="submit" value="Oluştur" class="btn btn-default" asp-route-id="@Model.Employee.Id" asp-controller="Employee"/>
+                <input type="submit" value="Oluştur" class="btn btn-default" asp-route-id="@Model.EmployeeId" asp-controller="Permission"/>
             </div>
         </form>
     </div>

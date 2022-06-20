@@ -28,6 +28,7 @@ namespace HRMVCProjectEntities.Concrete
         [Display(Name = "Harcama Dosyası")]
         public IFormFile CostFile { get; set; }
         public string CostFilePath { get; set; }
+        [Display(Name ="Harcama Türü")]
         public int? CostTypeId { get; set; }
         public CostType CostType { get; set; }
         public ICollection<Employee> Employees { get; set; }

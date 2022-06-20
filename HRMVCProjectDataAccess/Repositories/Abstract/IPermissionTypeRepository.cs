@@ -10,5 +10,6 @@ namespace HRMVCProjectDataAccess.Repositories.Abstract
 {
     public interface IPermissionTypeRepository : IRepository<PermissionType>
     {
+        public PermissionType GetById(int id);
     }
 }

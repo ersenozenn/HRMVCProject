@@ -15,5 +15,6 @@ namespace HRMVCProjectDataAccess.Repositories.Abstract
         //Employee GetByEmailAndPassword(string email, string password);
        // Employee GetByEmailAndPassword(string email, string password);
         Employee GetById(int id);
+        Employee GetByIdIncludeCosts(int id);
     }
 }

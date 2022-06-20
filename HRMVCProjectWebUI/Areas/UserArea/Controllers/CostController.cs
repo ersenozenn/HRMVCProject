@@ -8,6 +8,7 @@ using System.IO;
 
 namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
 {
+    [Area("UserArea")]
     public class CostController : Controller
     {
         private readonly ICostService costService;
@@ -24,7 +25,7 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
 
         public IActionResult CostList(int id)
         {
-           var costs = costService.CostList(id);
+           var costs = employeeService.GetByIdIncludeCosts(id).Costs;
             return View(costs);
         }
 
@@ -40,9 +41,10 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
             CostAndTypesVM costAndTypesVM = new CostAndTypesVM();
             costAndTypesVM.CostTypes = costTypeService.GetAll();
             costAndTypesVM.Employee = employeeService.GetById(id);
+            costAndTypesVM.EmployeeId= id; 
             return View(costAndTypesVM);
         }
-
+        [HttpPost]
         public IActionResult CostCreate(int id, CostAndTypesVM costAndTypesVM)
         {
             if(!ModelState.IsValid)
@@ -62,17 +64,25 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
             {
                 string ticks = DateTime.Now.Ticks.ToString();
                 var path = Directory.GetCurrentDirectory() +
-                    @"\wwwroot\files\" + ticks + Path.GetExtension(cost.CostFile.FileName);
+                    @"\wwwroot\assests\files\" + ticks + Path.GetExtension(cost.CostFile.FileName);
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     cost.CostFile.CopyTo(stream);
                 }
-                cost.CostFilePath = @"\files\" + ticks + Path.GetExtension(cost.CostFile.FileName);
+                cost.CostFilePath = @"\assests\files\" + ticks + Path.GetExtension(cost.CostFile.FileName);
             }
-            cost.Employees.Add(employeeService.GetById(id));
-            costService.Add(cost);
-            return RedirectToAction("CostList","Cost");
-            
+            if (cost.Amount > 0)
+            {
+                cost.Employees.Add(employeeService.GetById(id));
+                costService.Add(cost);
+                return RedirectToAction("CostList", "Cost", new { id });
+            }
+            else
+            {
+                ModelState.AddModelError("", "Harcama tutarı negatif bir değer olamaz.");
+                costAndTypesVM.CostTypes = costTypeService.GetAll();
+                return View(costAndTypesVM);
+            }
         }
 
     }

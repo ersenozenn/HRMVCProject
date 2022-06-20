@@ -13,6 +13,7 @@ namespace HRMVCProjectBusiness.Validators
         public PermissionValidator()
         {
             RuleFor(x => x.AdressToGo).Matches(@"(?!^\d+$)^.+$").WithMessage("Lütfen geçerli bir adres giriniz.").NotEmpty().WithMessage("Lütfen adres giriniz.");
+            RuleFor(x => x.AdressToGo).Matches(@"^\d+$").WithMessage("Lütfen geçerli bir adres giriniz.");
 
         }
     }

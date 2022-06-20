@@ -19,6 +19,21 @@ namespace HRMVCProjectDataAccess.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("CostEmployee", b =>
+                {
+                    b.Property<int>("CostsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CostsId", "EmployeesId");
+
+                    b.HasIndex("EmployeesId");
+
+                    b.ToTable("CostEmployee");
+                });
+
             modelBuilder.Entity("EmployeePermission", b =>
                 {
                     b.Property<int>("EmployeesId")
@@ -68,6 +83,114 @@ namespace HRMVCProjectDataAccess.Migrations
                     b.ToTable("AdvancePayment");
                 });
 
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.Company", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MailExtension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sector")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "İstanbul/Kadıköy",
+                            MailExtension = "bilgeadamboost.com",
+                            Name = "Bilge Adam",
+                            Sector = "Technology"
+                        });
+                });
+
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.Cost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("CostFilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CostTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReplyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ReplyState")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CostTypeId");
+
+                    b.ToTable("Costs");
+                });
+
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.CostType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CostName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CostTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CostName = "Yemek"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CostName = "Seyehat"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CostName = "Ulaşım"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CostName = "Konaklama"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CostName = "Diğer"
+                        });
+                });
+
             modelBuilder.Entity("HRMVCProjectEntities.Concrete.Permission", b =>
                 {
                     b.Property<int>("Id")
@@ -76,7 +199,8 @@ namespace HRMVCProjectDataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdressToGo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
@@ -116,6 +240,56 @@ namespace HRMVCProjectDataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PermissionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AllowedDays = 80,
+                            PermissionName = "Doğum"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AllowedDays = 5,
+                            PermissionName = "Babalık"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AllowedDays = 3,
+                            PermissionName = "Evlilik"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AllowedDays = 3,
+                            PermissionName = "Evlat Edinme"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AllowedDays = 14,
+                            PermissionName = "Yıllık"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AllowedDays = 3,
+                            PermissionName = "Cenaze"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AllowedDays = 2,
+                            PermissionName = "İş Arama"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AllowedDays = 7,
+                            PermissionName = "Diğer"
+                        });
                 });
 
             modelBuilder.Entity("HRMVCProjectEntities.Concrete.User", b =>
@@ -224,9 +398,16 @@ namespace HRMVCProjectDataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "52763cf9-d699-45f8-9f73-556300076190",
+                            ConcurrencyStamp = "31011a61-64da-4793-947c-87a1d0dc0618",
                             Name = "User",
                             NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "4fd654a8-0dea-419f-ab57-9872a4303a8b",
+                            Name = "Manager",
+                            NormalizedName = "MANAGER"
                         });
                 });
 
@@ -312,6 +493,13 @@ namespace HRMVCProjectDataAccess.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -342,6 +530,9 @@ namespace HRMVCProjectDataAccess.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DateQuit")
                         .HasColumnType("datetime2");
 
@@ -363,18 +554,62 @@ namespace HRMVCProjectDataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Telephone")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
                     b.Property<string>("UserPhotoPath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Wage")
                         .HasColumnType("float");
 
+                    b.HasIndex("CompanyId");
+
                     b.HasDiscriminator().HasValue("Employee");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3c5015f0-86b2-40ae-bda1-ba2c6818bb74",
+                            Email = "fatos@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "FATOS@GMAİL.COM",
+                            NormalizedUserName = "FATOSERASLAN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFiGhbtRniNwU+NOrcZc4RqQisku1BVdxj7eKtwPmvnLqvUGe7+efE6/xniVqcuu/A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "db6f40c4-59e8-4db9-ad76-6bbcc36e8caa",
+                            TwoFactorEnabled = false,
+                            UserName = "fatoseraslan",
+                            BirthDate = new DateTime(1998, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CompanyId = 1,
+                            DateStarted = new DateTime(2022, 6, 20, 3, 8, 57, 737, DateTimeKind.Local).AddTicks(2743),
+                            FirstName = "Fatoş",
+                            Identity = "12345678912",
+                            LastName = "Eraslan",
+                            Wage = 152000.0
+                        });
+                });
+
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.Manager", b =>
+                {
+                    b.HasBaseType("HRMVCProjectEntities.Concrete.User");
+
+                    b.HasDiscriminator().HasValue("Manager");
+                });
+
+            modelBuilder.Entity("CostEmployee", b =>
+                {
+                    b.HasOne("HRMVCProjectEntities.Concrete.Cost", null)
+                        .WithMany()
+                        .HasForeignKey("CostsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HRMVCProjectEntities.Concrete.Employee", null)
+                        .WithMany()
+                        .HasForeignKey("EmployeesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EmployeePermission", b =>
@@ -401,6 +636,15 @@ namespace HRMVCProjectDataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.Cost", b =>
+                {
+                    b.HasOne("HRMVCProjectEntities.Concrete.CostType", "CostType")
+                        .WithMany("Costs")
+                        .HasForeignKey("CostTypeId");
+
+                    b.Navigation("CostType");
                 });
 
             modelBuilder.Entity("HRMVCProjectEntities.Concrete.Permission", b =>
@@ -461,6 +705,25 @@ namespace HRMVCProjectDataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.Employee", b =>
+                {
+                    b.HasOne("HRMVCProjectEntities.Concrete.Company", "Company")
+                        .WithMany("Employees")
+                        .HasForeignKey("CompanyId");
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.Company", b =>
+                {
+                    b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.CostType", b =>
+                {
+                    b.Navigation("Costs");
                 });
 
             modelBuilder.Entity("HRMVCProjectEntities.Concrete.PermissionType", b =>

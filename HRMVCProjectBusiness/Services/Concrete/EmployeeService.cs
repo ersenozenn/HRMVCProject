@@ -42,6 +42,11 @@ namespace HRMVCProjectBusiness.Services.Concrete
             return employeeRepository.GetById(id);
         }
 
+        public Employee GetByIdIncludeCosts(int id)
+        {
+            return employeeRepository.GetByIdIncludeCosts(id);
+        }
+
 
         //public Employee GetByEmailAndPassword(string email, string password)
         //{

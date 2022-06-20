@@ -1,0 +1,8 @@
+﻿.bg {
+    background-image: url("/assets/images/background1.jpg");
+    color: black;
+}
+
+.bg p{
+    font-size: 25px;
+}

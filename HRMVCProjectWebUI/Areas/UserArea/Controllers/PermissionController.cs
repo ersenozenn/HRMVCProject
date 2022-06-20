@@ -34,12 +34,14 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
             PermissionAndTypesVM permissionAndTypesVM = new PermissionAndTypesVM();
             permissionAndTypesVM.PermissionTypes = permissionTypeService.GetAll();
             permissionAndTypesVM.Employee = employeeService.GetById(id);
+            permissionAndTypesVM.EmployeeId = id;
             return View(permissionAndTypesVM);
         }
 
         [HttpPost]
         public IActionResult PermissionCreate(int id, PermissionAndTypesVM permissionAndTypesVM)
         {
+            
             if (!ModelState.IsValid)
             {
                 TempData["Message"] = "İzin eklenemedi!";
@@ -51,23 +53,23 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
             permission.AdressToGo = permissionAndTypesVM.Permission.AdressToGo;
             permission.PermissionTypeID = permissionAndTypesVM.Permission.PermissionTypeID;
 
-            //PermissionType permissionType = permissionTypeService.GetById((int)permissionAndTypesVM.Permission.PermissionTypeID); bu metod yazılacak(getbyid) bide zaten bunu niye yapıyoruz anlamadım?
+            PermissionType permissionType = permissionTypeService.GetById((int)permissionAndTypesVM.Permission.PermissionTypeID);
 
-            if (permission.StartingDate.Year == DateTime.Now.Year && permission.StartingDate.CompareTo(DateTime.Now) != -1 && permission.StartingDate.CompareTo(DateTime.Now) != 0)
+            if ( permission.StartingDate.CompareTo(DateTime.Now) != -1 && permission.StartingDate.CompareTo(DateTime.Now) != 0)
             {
                 permission.RequestDate = DateTime.Now;
-                //permission.EndDate = permissionAndTypesVM.Permission.StartingDate.AddDays(permissionType.AllowedDays);
+                permission.EndDate = permissionAndTypesVM.Permission.StartingDate.AddDays(permissionType.AllowedDays);
                 permission.ReplyState = ReplyState.Beklemede;
                 permission.Employees.Add(employeeService.GetById(id));
                 permissionService.Add(permission);
-                return RedirectToAction("PermissionList", "Permission");
+                return RedirectToAction("PermissionList", "Permission", new { id });
             }
             else
             {
-                throw new Exception("Başlangıç tarihi bugünden sonra olmalıdır.");
+               ModelState.AddModelError("", "Başlangıç tarihi bugünden sonra olmalıdır.");
+                permissionAndTypesVM.PermissionTypes = permissionTypeService.GetAll();
+                return View(permissionAndTypesVM);
             }
-
         }
-
     }
 }

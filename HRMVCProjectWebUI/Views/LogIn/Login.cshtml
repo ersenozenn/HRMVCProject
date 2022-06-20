@@ -1,67 +1,78 @@
-﻿@model HRMVCProjectWebUI.Models.LoginVm
-@{
-    ViewData["Title"] = "Giriş Sayfası";
-	 Layout = null;
-}
-<link href="~/assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
-<link href="~/assets/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" />
- <link href="~/assets/stylesheets/theme.css" rel="stylesheet" />
-  <link href="~/assets/stylesheets/skins/default.css" rel="stylesheet" />
+﻿@using Microsoft.AspNetCore.Http
+@model HRMVCProjectWebUI.Models.LoginVm
+	@{
+		ViewData["Title"] = "Giriş Sayfası";
+		 Layout = null;
+		  //int id = (int)Context.Session.GetInt32("Id");
+	}
 
-<!-- start: page --><br /> <br />
-		<section class="body-sign">
-			<div >
-			@*	<a href="/" class="logo pull-left">
-					<img src="assets/images/logo.png" height="54" alt="Porto Admin" />
-				</a>*@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Giriş Sayfası</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-				<div class="panel panel-sign">
-					<div class="panel-title-sign mt-xl text-right">
-						<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Giriş Yap</h2>
-					</div>
-					<div class="panel-body">
-						<form asp-action="LogIn">
-							<div class="form-group mb-lg">
-								<label asp-for="@Model.Email">Mail Adresi</label>
-								<div class="input-group input-group-icon">
-									<input  asp-for="@Model.Email" type="email" class="form-control input-lg" />
-									<span asp-validation-for="@Model.Email" class="text-danger"></span>
-									<span class="input-group-addon">
-										<span class="icon icon-lg">
-											<i class="fa fa-user"></i>
-										</span>
-									</span>
-								</div>
-							</div>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 
-							<div class="form-group mb-lg">
-								<div class="clearfix">
-									<label asp-for="@Model.Password" class="pull-left">Şifre</label>
-								
-								</div>
-								<div class="input-group input-group-icon">
-									<input asp-for="@Model.Password" type="password" class="form-control input-lg" />
-									<span asp-validation-for="@Model.Password" class="text-danger"></span>
-									<span class="input-group-addon">
-										<span class="icon icon-lg">
-											<i class="fa fa-lock"></i>
-										</span>
-									</span>
-								</div>
-							</div>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-							<div class="row">
-								<div class="col-sm-8">
-								
-								</div>
-								<div class="col-sm-4 text-right">
-									<input type="submit" class="btn btn-primary hidden-xs" value="Giriş Yap"/> 
-									<input type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg" value="Giriş Yap"/>
-								</div>
-							</div>
-						</form>
+    <link href="~/assets/stylesheets/login.css" rel="stylesheet" />
+
+</head>
+<body class="img js-fullheight" style="background-image: url('/assets/images/bg.jpg')" >
+<section class="ftco-section">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-6 text-center mb-5">
+						<h2 class="heading-section">Giriş Yap</h2>
 					</div>
 				</div>
+				<div class="row justify-content-center">
+					<div class="col-md-6 col-lg-4">
+						<div class="login-wrap p-0">
+		      		@*<h3 class="mb-4 text-center">Have an account?</h3>*@
+		      		<form asp-action="LogIn" class="signin-form">
+		      			<div class="form-group">
+		      				<input asp-for="@Model.Email" type="email" class="form-control" placeholder="E-mail" required>
+							  <span asp-validation-for="@Model.Email" class="text-danger"></span>
+		      			</div>
+					<div class="form-group">
+					  <input id="password-field" asp-for="@Model.Password" type="password" class="form-control" placeholder="Şifre" required>
+					  <span asp-validation-for="@Model.Password" class="text-danger"></span>
+					  <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+					</div>
+					<div class="text-danger" asp-validation-summary="ModelOnly"> </div>
+					<div class="form-group">
+	            		<button type="submit" class="form-control btn btn-primary submit px-3" @*asp-route-id="@id"*@>Giriş Yap</button>
+					</div>
+					@*<div class="form-group d-md-flex">
+	            		<div class="w-50">
+		            		<label class="checkbox-wrap checkbox-primary">Remember Me
+										  <input type="checkbox" checked>
+										  <span class="checkmark"></span>
+										</label>
+									</div>
+									<div class="w-50 text-md-right">
+										<a href="#" style="color: #fff">Forgot Password</a>
+									</div>
+					</div>*@
+					</form>
+					@*<p class="w-100 text-center">&mdash; Or Sign In With &mdash;</p>
+					<div class="social d-flex text-center">
+	          			<a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span> Facebook</a>
+	          			<a href="#" class="px-2 py-2 ml-md-1 rounded"><span class="ion-logo-twitter mr-2"></span> Twitter</a>
+					</div>*@
+					</div>
+					</div>
 				</div>
+			</div>
 		</section>
-		<!-- end: page -->
+    <script src="~/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="~/assets/javascripts/popper.js"></script>
+    <script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/assets/javascripts/login.js"></script>
+
+</body>
+</html>
+

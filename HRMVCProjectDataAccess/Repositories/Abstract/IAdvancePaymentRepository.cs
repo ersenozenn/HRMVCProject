@@ -12,5 +12,6 @@ namespace HRMVCProjectDataAccess.Repositories.Abstract
     {
         bool AddAdvancePayment(AdvancePayment advance, Employee employee);
         IEnumerable<AdvancePayment> AdvancePaymentList(int id);
+        public float TotalAdvance(int id);
     }
 }

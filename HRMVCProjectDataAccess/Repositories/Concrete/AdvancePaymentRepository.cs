@@ -27,21 +27,26 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
             //var lastAdvance=employee.AdvancePayments.LastOrDefault();
             //var dateControl =advance.ReplyDate- lastAdvance.ReplyDate;
             //var _advancelist = _employee.AdvancePayments;
-            if (advance.Amount<_employee.Wage*0.3)
-            {
-                //if(dateControl.TotalDays>90)//son izin tarihi ile arasında 3 ay olacak kontrolü
-                //{
-                    _employee.AdvancePayments.Add(advance);
-                    return db.SaveChanges() > 0;
-                //}                
-            }
-            return false;           
-                
+            //if (advance.Amount<_employee.Wage*0.3)
+            //{
+            //    //if(dateControl.TotalDays>90)//son izin tarihi ile arasında 3 ay olacak kontrolü
+            //    //{
+
+            //    //}                
+            //}
+            //return false;           
+            _employee.AdvancePayments.Add(advance);
+            return db.SaveChanges() > 0;
         }
 
         public IEnumerable<AdvancePayment> AdvancePaymentList(int id)
         {
-            return db.AdvancePayment.Where(x=>x.EmployeeId==id).ToList();
+            return db.AdvancePayment.Where(x=>x.EmployeeId==id && x.RequestDate.Month == DateTime.Now.Month).ToList();
+        }
+
+        public float TotalAdvance(int id) 
+        {
+            return (float)db.AdvancePayment.Where(b => b.EmployeeId == id).Sum(a => a.Amount);
         }
     }
 }

@@ -18,10 +18,6 @@ namespace HRMVCProjectBusiness.Services.Concrete
         {
             this.costRepositroy = costRepositroy;   
         }
-
-        public IEnumerable<Cost> CostList(int id)
-        {
-            return costRepositroy.CostList(id);
-        }
+       
     }
 }

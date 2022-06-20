@@ -4,10 +4,11 @@
     string header2 = ViewBag.Header2;
     string foto = Context.Session.GetString("picPath");
     string kullanıcıAdı = Context.Session.GetString("userName");
-     //@if (User.Identity.IsAuthenticated)
-     //               {
-     //                   if (User.IsInRole("User"))
-     //                   { bunu kullanacağız
+    int id = (int)Context.Session.GetInt32("Id");
+    //@if (User.Identity.IsAuthenticated)
+    //               {
+    //                   if (User.IsInRole("User"))
+    //                   { bunu kullanacağız
 }
 <!doctype html>
 <html class="fixed">
@@ -26,7 +27,7 @@
 
     <!-- Web Fonts  -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
- 
+
     <!-- Vendor CSS -->
     <link href="~/assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="~/assets/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -59,7 +60,7 @@
         <!-- start: header -->
         <header class="header" style="background-color:white">
             <div class="logo-container">
-                <a asp-action="Index" asp-controller="Home" class="logo">
+                <a asp-action="Index" asp-controller="Employee" asp-route-id-=@id class="logo">
                     <img src="~/assets/images/logo.png" height="40px" width="auto" alt="" />
                 </a>
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
@@ -70,45 +71,45 @@
             <!-- start: search & user box -->
             <div class="header-right">
                 <span class="separator"></span>
-                
-                    <div id="userbox" class="userbox">
-                        <a href="#" data-toggle="dropdown">
-                            <figure class="profile-picture">
-                                @if (foto == null)
-                                {
-                                    foto = "/assets/images/default.png";
-                                }
-                                <img src="@foto" alt="" class="img-circle" />
-                            </figure>
-                            <div class="profile-info">
-                                @if (kullanıcıAdı == null)
-                                {
-                                    kullanıcıAdı = "Kullanıcı Adı";
-                                }
-                                <span class="name">@kullanıcıAdı</span>
-                                <span class="role">Personel</span>
-                            </div>
 
-                            <i class="fa custom-caret"></i>
-                        </a>
+                <div id="userbox" class="userbox">
+                    <a href="#" data-toggle="dropdown">
+                        <figure class="profile-picture">
+                            @if (foto == null)
+                            {
+                                foto = "/assets/images/default.png";
+                            }
+                            <img src="@foto" alt="" class="img-circle" />
+                        </figure>
+                        <div class="profile-info">
+                            @if (kullanıcıAdı == null)
+                            {
+                                kullanıcıAdı = "Kullanıcı Adı";
+                            }
+                            <span class="name">@kullanıcıAdı</span>
+                            <span class="role">Personel</span>
+                        </div>
 
-                        <div class="dropdown-menu">
-                            <ul class="list-unstyled">
-                                <li class="divider"></li>
-                                <li>
-                                    <a asp-action="Home" asp-controller="Employee" asp-route-id="@Context.Session.GetInt32("Id")" role="menuitem" tabindex="-1">Profilim</a>
-                                </li>
-                                @*<li>
+                        <i class="fa custom-caret"></i>
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <ul class="list-unstyled">
+                            <li class="divider"></li>
+                            <li>
+                                <a asp-action="EmployeeHome" asp-controller="Employee" asp-route-id="@id" role="menuitem" tabindex="-1">Profilim</a>
+                            </li>
+                            @*<li>
                             <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
                             </li>*@
-                                <li>
-                                    <a role="menuitem" tabindex="-1" asp-controller="Employee" asp-action="LogOut">Çıkış Yap</a>
-                                </li>
-                            </ul>
-                        </div>
+                            <li>
+                                <a role="menuitem" tabindex="-1" asp-controller="Employee" asp-action="LogOut" asp-area="UserArea">Çıkış Yap</a>
+                            </li>
+                        </ul>
                     </div>
-                                                                   
-                   
+                </div>
+
+
                 @* <partial name="_LoginPartial" />*@
             </div>
             <!-- end: search & user box -->
@@ -133,30 +134,19 @@
                         <nav id="menu" class="nav-main" role="navigation">
                             <ul class="nav nav-main">
                                 <li>
-                                    <a asp-action="Index" asp-controller="Home">
+                                    <a asp-action="Index" asp-controller="Employee" asp-route-id=@id>
                                         <i class="fa fa-home" aria-hidden="true"></i>
                                         <span>Anasayfa</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a asp-area="User" asp-action="EmployeeList" asp-controller="Employee">
+                                    <a asp-area="UserArea" asp-action="EmployeeList" asp-controller="Employee">
                                         <span class="pull-right label label-primary">@Context.Session.GetString("employeesCount")</span>
                                         <i class="fa fa-users" aria-hidden="true"></i>
                                         <span>Çalışanlar</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a asp-action="AboutUs" asp-controller="Home">
-                                        <i class="fa fa-info" aria-hidden="true"></i>
-                                        <span>Hakkımızda</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-action="ContactUs" asp-controller="Home">
-                                        <i class="fa fa-phone-square" aria-hidden="true"></i>
-                                        <span>İletişim</span>
-                                    </a>
-                                </li>
+
                                 @if (kullanıcıAdı != null)
                                 {
                                     <li class="nav-parent">
@@ -166,12 +156,12 @@
                                         </a>
                                         <ul class="nav nav-children">
                                             <li>
-                                                <a asp-controller="Employee" asp-action="AdvancePaymentCreate" asp-route-id="@Context.Session.GetInt32("Id")">
+                                                <a asp-controller="AdvancePayment" asp-action="AdvancePaymentCreate" asp-route-id="@id">
                                                     Avans Talebi
                                                 </a>
                                             </li>
                                             <li>
-                                                <a asp-controller="Employee" asp-action="AdvancePaymentList" asp-route-id="@Context.Session.GetInt32("Id")">
+                                                <a asp-controller="AdvancePayment" asp-action="AdvancePaymentList" asp-route-id="@id">
                                                     Avans Listesi
                                                 </a>
                                             </li>
@@ -184,23 +174,57 @@
                                         </a>
                                         <ul class="nav nav-children">
                                             <li>
-                                                <a asp-controller="Employee" asp-action="PermissionCreate" asp-route-id="@Context.Session.GetInt32("Id")">
+                                                <a asp-area="UserArea" asp-controller="Permission" asp-action="PermissionCreate" asp-route-id="@id">
                                                     İzin Talebi
                                                 </a>
                                             </li>
                                             <li>
-                                                <a asp-controller="Employee" asp-action="EmployeesPermissions" asp-route-id="@Context.Session.GetInt32("Id")">
+                                                <a asp-area="UserArea" asp-controller="Permission" asp-action="PermissionList" asp-route-id="@id">
                                                     İzin Listesi
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="nav-parent">
+                                        <a>
+                                            <i class="fa fa-copy" aria-hidden="true"></i>
+                                            <span>Harcama</span>
+                                        </a>
+                                        <ul class="nav nav-children">
+                                            <li>
+                                                <a asp-controller="Cost" asp-action="CostCreate" asp-route-id="@id">
+                                                    Harcama Talebi
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-controller="Cost" asp-action="CostList" asp-route-id="@id">
+                                                    Harcama Listesi
                                                 </a>
                                             </li>
                                         </ul>
                                     </li>
                                 }
                                 <li>
+                                <li>
+                                    <a asp-action="AboutUs" asp-controller="Home" asp-area="">
+                                        <i class="fa fa-info" aria-hidden="true"></i>
+                                        <span>Hakkımızda</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="ContactUs" asp-controller="Home" asp-area="">
+                                        <i class="fa fa-phone-square" aria-hidden="true"></i>
+                                        <span>İletişim</span>
+                                    </a>
+                                </li>
 
                                     @if (kullanıcıAdı != null)
                                     {
-                                        <p class="menu-position"> @kullanıcıAdı Merhaba, personel olarak giriş yapıldı..</p>
+                                    <p class="menu-position text-white display-3">
+                                        &emsp;nbsp;
+                                        Personel olarak giriş yapıldı.
+                                    </p>
                                     }
                                 </li>
                             </ul>
@@ -219,7 +243,7 @@
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
-                                <a asp-action="List" asp-controller="Employee">
+                                <a asp-action="Index" asp-controller="Employee">
                                     <i class="fa fa-home"></i>
                                 </a>
                             </li>

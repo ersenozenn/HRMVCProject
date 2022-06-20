@@ -12,7 +12,7 @@ namespace HRMVCProjectBusiness.Validators
     {
         public AdvancePaymentValidator()
         {
-            RuleFor(x => x.Description).Matches(@"(?!^\d+$)^.+$").WithMessage("Lütfen geçerli bir açıklama giriniz.").NotEmpty().WithMessage("Lütfen açıklama giriniz.");
+            RuleFor(x => x.Description).Matches(@"(?!^\d+$)^.+$").WithMessage("Lütfen geçerli bir açıklama giriniz.").WithMessage("Lütfen açıklama giriniz.");
             RuleFor(x => x.Amount.ToString()).Matches(@"^[0-9]*$").WithMessage("Lütfen geçerli bir tutar giriniz.").NotEmpty().WithMessage("Lütfen tutar giriniz.");
 
         }

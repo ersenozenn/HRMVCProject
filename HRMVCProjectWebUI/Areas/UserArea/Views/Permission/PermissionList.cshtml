@@ -1,4 +1,5 @@
-﻿@model IEnumerable<HRMVCProjectEntities.Concrete.Permission>
+﻿@using HRMVCProjectEntities.Concrete.Enums
+@model IEnumerable<HRMVCProjectEntities.Concrete.Permission>
 
 @{
     ViewData["Title"] = "İzinler";
@@ -19,7 +20,7 @@
 </header>
 <h2>Çalışan İzinleri</h2>
 
-<table class="table">
+<table class="table bold-olsun">
     <thead>
         <tr>
             <th>
@@ -53,8 +54,21 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReplyState)
-            </td>
+                    @{
+                        if (item.ReplyState == ReplyState.Onaylandı)
+                        {                                  
+                            <span>&#128994</span>                        
+                        }
+                        if (item.ReplyState == ReplyState.OnaylanMAdı)
+                        {
+                            <span>&#128308;</span>
+                        }
+                        if (item.ReplyState == ReplyState.Beklemede)
+                        {
+                            <span>&#128993;</span>
+                        }
+                    }
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AdressToGo)
             </td>

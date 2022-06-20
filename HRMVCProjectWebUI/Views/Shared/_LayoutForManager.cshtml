@@ -1,0 +1,315 @@
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    string header = ViewBag.Header;
+    string header2 = ViewBag.Header2;
+    string foto = Context.Session.GetString("picPath");
+    string kullanıcıAdı = Context.Session.GetString("userName");
+    int id = (int)Context.Session.GetInt32("Id");
+    //@if (User.Identity.IsAuthenticated)
+    //               {
+    //                   if (User.IsInRole("User"))
+    //                   { bunu kullanacağız
+}
+<!doctype html>
+<html class="fixed">
+<head>
+
+    <!-- Basic -->
+    <meta charset="UTF-8">
+
+    <title>IKBurada</title>
+    <meta name="keywords" content="HTML5 Admin Template" />
+    <meta name="description" content="Porto Admin - Responsive HTML5 Template">
+    <meta name="author" content="okler.net">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Web Fonts  -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+
+    <!-- Vendor CSS -->
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/assets/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/assets/vendor/magnific-popup/magnific-popup.css" rel="stylesheet" />
+    <link href="~/assets/vendor/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
+
+    <link href="~/assets/stylesheets/site.css" rel="stylesheet" />
+
+    <!-- Employee List Specific Page Vendor CSS -->
+    <link rel="stylesheet" href="~/assets/vendor/select2/select2.css" />
+    <link rel="stylesheet" href="~/assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+
+    <!-- Theme CSS -->
+    <link href="~/assets/stylesheets/theme.css" rel="stylesheet" />
+
+    <!-- Skin CSS -->
+
+    <link href="~/assets/stylesheets/skins/default.css" rel="stylesheet" />
+
+    <!-- Theme Custom CSS -->
+    <link href="~/assets/stylesheets/theme-custom.css" rel="stylesheet" />
+
+    <!-- Head Libs -->
+    <script src="~/assets/vendor/modernizr/modernizr.js"></script>
+
+</head>
+<body>
+    <section class="body">
+
+        <!-- start: header -->
+        <header class="header" style="background-color:white">
+            <div class="logo-container">
+                <a asp-action="Index" asp-controller="Employee" asp-route-id-=@id class="logo">
+                    <img src="~/assets/images/logo.png" height="40px" width="auto" alt="" />
+                </a>
+                <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
+                    <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                </div>
+            </div>
+
+            <!-- start: search & user box -->
+            <div class="header-right">
+                <span class="separator"></span>
+
+                <div id="userbox" class="userbox">
+                    <a href="#" data-toggle="dropdown">
+                        <figure class="profile-picture">
+                            @if (foto == null)
+                            {
+                                foto = "/assets/images/default.png";
+                            }
+                            <img src="@foto" alt="" class="img-circle" />
+                        </figure>
+                        <div class="profile-info">
+                            @if (kullanıcıAdı == null)
+                            {
+                                kullanıcıAdı = "Kullanıcı Adı";
+                            }
+                            <span class="name">@kullanıcıAdı</span>
+                            <span class="role">Personel</span>
+                        </div>
+
+                        <i class="fa custom-caret"></i>
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <ul class="list-unstyled">
+                            <li class="divider"></li>
+                            <li>
+                                <a asp-action="EmployeeHome" asp-controller="Employee" asp-route-id="@id" role="menuitem" tabindex="-1">Profilim</a>
+                            </li>
+                            @*<li>
+                            <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
+                            </li>*@
+                            <li>
+                                <a role="menuitem" tabindex="-1" asp-controller="Employee" asp-action="LogOut" asp-area="UserArea">Çıkış Yap</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                @* <partial name="_LoginPartial" />*@
+            </div>
+            <!-- end: search & user box -->
+        </header>
+        <!-- end: header -->
+
+        <div class="inner-wrapper">
+            <!-- start: sidebar -->
+            <aside id="sidebar-left" class="sidebar-left">
+
+                <div class="sidebar-header">
+                    @*<div class="sidebar-title">
+                    Navigation
+                    </div>*@
+                    <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
+                        <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                    </div>
+                </div>
+
+                <div class="nano">
+                    <div class="nano-content">
+                        <nav id="menu" class="nav-main" role="navigation">
+                            <ul class="nav nav-main">
+                                <li>
+                                    <a asp-action="Index" asp-controller="Employee" asp-route-id=@id>
+                                        <i class="fa fa-home" aria-hidden="true"></i>
+                                        <span>Anasayfa</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="UserArea" asp-action="EmployeeList" asp-controller="Employee">
+                                        <span class="pull-right label label-primary">@Context.Session.GetString("employeesCount")</span>
+                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                        <span>Çalışanlar</span>
+                                    </a>
+                                </li>
+
+                                @if (kullanıcıAdı != null)
+                                {
+                                    <li class="nav-parent">
+                                        <a>
+                                            <i class="fa fa-copy" aria-hidden="true"></i>
+                                            <span>Avans</span>
+                                        </a>
+                                        <ul class="nav nav-children">
+                                            <li>
+                                                <a asp-controller="AdvancePayment" asp-action="AdvancePaymentCreate" asp-route-id="@id">
+                                                    Avans Talebi
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-controller="AdvancePayment" asp-action="AdvancePaymentList" asp-route-id="@id">
+                                                    Avans Listesi
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-parent">
+                                        <a>
+                                            <i class="fa fa-copy" aria-hidden="true"></i>
+                                            <span>İzin</span>
+                                        </a>
+                                        <ul class="nav nav-children">
+                                            <li>
+                                                <a asp-area="UserArea" asp-controller="Permission" asp-action="PermissionCreate" asp-route-id="@id">
+                                                    İzin Talebi
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-area="UserArea" asp-controller="Permission" asp-action="PermissionList" asp-route-id="@id">
+                                                    İzin Listesi
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="nav-parent">
+                                        <a>
+                                            <i class="fa fa-copy" aria-hidden="true"></i>
+                                            <span>Harcama</span>
+                                        </a>
+                                        <ul class="nav nav-children">
+                                            <li>
+                                                <a asp-controller="Cost" asp-action="CostCreate" asp-route-id="@id">
+                                                    Harcama Talebi
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-controller="Cost" asp-action="CostList" asp-route-id="@id">
+                                                    Harcama Listesi
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                }
+                                <li>
+                                <li>
+                                    <a asp-action="AboutUs" asp-controller="Home" asp-area="">
+                                        <i class="fa fa-info" aria-hidden="true"></i>
+                                        <span>Hakkımızda</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="ContactUs" asp-controller="Home" asp-area="">
+                                        <i class="fa fa-phone-square" aria-hidden="true"></i>
+                                        <span>İletişim</span>
+                                    </a>
+                                </li>
+
+                                    @if (kullanıcıAdı != null)
+                                    {
+                                    <p class="menu-position text-white display-3">
+                                        &emsp;nbsp;
+                                        Yönetici olarak giriş yapıldı.
+                                    </p>
+                                    }
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+
+            </aside>
+            <!-- end: sidebar -->
+
+            <section role="main" class="content-body">
+                <header class="page-header">
+                    <h2>@header</h2>
+
+                    <div class="right-wrapper pull-right">
+                        <ol class="breadcrumbs">
+                            <li>
+                                <a asp-action="Index" asp-controller="Employee">
+                                    <i class="fa fa-home"></i>
+                                </a>
+                            </li>
+
+                            <li>
+                                @if (header == "Anasayfa")
+                                {
+                                    header = "";
+                                }
+                                <span>
+                                    @header
+                                </span>
+                            </li>
+                            <li><span>@header2</span></li>
+                        </ol>
+                    </div>
+                </header>
+
+                <div class="container">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+                </div>
+
+            </section>
+        </div>
+    </section>
+
+
+    <!-- Vendor -->
+    <script src="~/assets/vendor/jquery/jquery.js"></script>
+    <script src="~/assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="~/assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="~/assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="~/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="~/assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+
+    <!--Emloyee List Specific Page Vendor -->
+    <script src="~/assets/vendor/select2/select2.js"></script>
+    <script src="~/assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+    <script src="~/assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+    <script src="~/assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+
+    <!-- Specific Page Vendor -->
+    <script src="~/assets/vendor/owl-carousel/owl.carousel.js"></script>
+    <script src="~/assets/vendor/jquery-validation/jquery.validate.js"></script>
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/assets/javascripts/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="~/assets/javascripts/theme.custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/assets/javascripts/theme.init.js"></script>
+
+
+    <!-- Examples -->
+    @* <script src="~/assets/javascripts/forms/examples.validation.js"></script>*@
+
+
+    <!-- Employee list examples -->
+    <script src="~/assets/javascripts/tables/examples.datatables.default.js"></script>
+    <script src="~/assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
+    <script src="~/assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

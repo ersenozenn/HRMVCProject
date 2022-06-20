@@ -1,5 +1,6 @@
 using DataAccess.Repositories;
 using DataAccess.Repositories.Abstract;
+using FluentValidation.AspNetCore;
 using HRMVCProjectBusiness.ErrorMessages;
 using HRMVCProjectBusiness.Services.Abstract;
 using HRMVCProjectBusiness.Services.Concrete;
@@ -33,7 +34,8 @@ namespace HRMVCProjectWebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation
+                (a => a.RegisterValidatorsFromAssemblyContaining<Startup>());//validation için *(validationlar bi yerde tutulmalý ve bunu sisteme bildirmeliyiz diye )
             services.AddRazorPages();
                         
             services.AddDbContext<HRMVCProjectDbContext>();
@@ -42,9 +44,15 @@ namespace HRMVCProjectWebUI
 
             services.AddDefaultIdentity<User>()
                 .AddRoles<UserRole>()
-                .AddEntityFrameworkStores<HRMVCProjectDbContext>().AddDefaultTokenProviders().AddErrorDescriber<CustomIdentityErrorDescriber>().AddEntityFrameworkStores<HRMVCProjectDbContext>(); ; ;
+                .AddEntityFrameworkStores<HRMVCProjectDbContext>().AddDefaultTokenProviders().AddErrorDescriber<CustomIdentityErrorDescriber>().AddEntityFrameworkStores<HRMVCProjectDbContext>();
 
             //services.AddIdentity<User, UserRole>().AddUserStore<User>().AddRoleStore<UserRole>();
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.Cookie.HttpOnly = true;
+            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+            //    options.AccessDeniedPath = "/Error/Index";
+            //});
 
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
@@ -73,6 +81,8 @@ namespace HRMVCProjectWebUI
             services.AddScoped<ICostTypeRepository, CostTypeRepository>();
             services.AddScoped<ICostTypeService, CostTypeService>();
 
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<ICompanyService, CompanyService>();
 
             services.AddMvc()
             .AddSessionStateTempDataProvider();

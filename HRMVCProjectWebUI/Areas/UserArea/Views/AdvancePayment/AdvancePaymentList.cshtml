@@ -3,27 +3,26 @@
 
 @{
     ViewData["Title"] = "Avans Listesi";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <header class="page-header">
-	<h2>Avans Listesi</h2>
-	<div class="right-wrapper pull-right">
-		<ol class="breadcrumbs">
-			<li>
-				<a href="index.html">
-					<i class="fa fa-home"></i>
-				</a>
-			</li>
-			<li><span>Avans</span></li>
-			<li><span>Avans Listesi</span></li>
-		</ol>				
+    <h2>Avans Listesi</h2>
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-home"></i>
+                </a>
+            </li>
+            <li><span>Avans</span></li>
+            <li><span>Avans Listesi</span></li>
+        </ol>
     </div>
 </header>
 
 <h2>Avans Listesi</h2>
 
 
-<table class="table">
+<table class="table bold-olsun">
     <thead>
         <tr>
             <th>
@@ -38,56 +37,47 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReplyDate)
             </th>
-           @* <th>
-                @Html.DisplayNameFor(model => model.ReplyState) siliniyor muydu bu??
-            </th>*@
-            
+            <th>
+                @Html.DisplayNameFor(model => model.ReplyState)
+            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount) ₺
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequestDate)
-            </td>
-           @* <td>
-                @Html.DisplayFor(modelItem => item.ReplyDate)
-            </td>*@
-            <td>
-                @if(item.ReplyState==ReplyState.Onaylandı)
-                {
-                   @* @Html.DisplayFor(modelItem => item.ReplyState)*@                  
-                    <span class="ball green"></span>
-                    <span class="green"></span>
-                    @*<p class="text-success">.text-success</p>
-<p class="text-danger">.text-danger</p>
-<p class="text-warning">.text-warning</p>*@
-//https://www.w3schools.com/howto/howto_css_circles.asp
-                }
-                 @if(item.ReplyState==ReplyState.OnaylanMAdı)
-                {
-                    @*@Html.DisplayFor(modelItem => item.ReplyState)*@
-                    <span class="ball red"></span>
-                    <span>&#128308;</span>
-                }
-                 @if(item.ReplyState==ReplyState.Beklemede)
-                {
-                   @* @Html.DisplayFor(modelItem => item.ReplyState)*@
-                    <span class="ball orange"></span>
-                }
-                
-            </td>
-             <td>
-                <a asp-action="AdvancePaymentUpdate" asp-route-id="@item.Id">Güncelle</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount) ₺
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReplyDate)
+                </td>
+                <td>
+                    @{
+                        if (item.ReplyState == ReplyState.Onaylandı)
+                        {                                  
+                            <span>&#128994</span>                        
+                        }
+                        if (item.ReplyState == ReplyState.OnaylanMAdı)
+                        {
+                            <span>&#128308;</span>
+                        }
+                        if (item.ReplyState == ReplyState.Beklemede)
+                        {
+                            <span>&#128993;</span>
+                        }
+                    }
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

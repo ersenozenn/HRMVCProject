@@ -9,5 +9,6 @@ namespace HRMVCProjectBusiness.Services.Abstract
 {
     public interface IPermissionTypeService : IGenericService<PermissionType>
     {
+        public PermissionType GetById(int id);
     }
 }

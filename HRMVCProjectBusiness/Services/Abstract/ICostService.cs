@@ -9,6 +9,6 @@ namespace HRMVCProjectBusiness.Services.Abstract
 {
     public interface ICostService:IGenericService<Cost>
     {
-        IEnumerable<Cost> CostList(int id);
+        
     }
 }
