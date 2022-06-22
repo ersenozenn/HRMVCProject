@@ -27,6 +27,7 @@ namespace HRMVCProjectWebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(UserRegisterVM userRegisterVM)
         {
+
             if (ModelState.IsValid)
             {
                 Employee user = new Employee()
@@ -34,13 +35,17 @@ namespace HRMVCProjectWebUI.Controllers
                     UserName = userRegisterVM.UserName,
                     FirstName = userRegisterVM.FirstName,
                     LastName = userRegisterVM.LastName,
-                    Identity = userRegisterVM.IdentityNumber,                
+                    Identity = userRegisterVM.IdentityNumber,
                     Email = userRegisterVM.Mail,
                     BirthDate = userRegisterVM.BirthDate
                     //DateStarted = DateTime.Now                    
                 };
 
-
+                if (string.IsNullOrEmpty(userRegisterVM.Password))
+                {
+                    ModelState.AddModelError("", "Lütfen geçerli bir şifre giriniz.");
+                    return View(userRegisterVM);
+                }
                 var result = await _userManager.CreateAsync(user, userRegisterVM.Password);
                 var defaultrole = _roleManager.FindByNameAsync("User").Result;
                 if (defaultrole != null)
@@ -73,6 +78,7 @@ namespace HRMVCProjectWebUI.Controllers
                 }
             }
             return View(userRegisterVM);
+
 
         }
 

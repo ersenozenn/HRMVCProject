@@ -29,9 +29,10 @@ namespace HRMVCProjectEntities.Concrete
         [Display(Name = "Maaş")]
         public double Wage { get; set; }
         //[RegularExpression(@"^[\w-._+%]+@(?:[\w-]+.)+[\w]{2,6}$", ErrorMessage = "Please enter a valid email address")]
-       
-       // public string Password { get; set; }
-       // public string Telephone { get; set; }
+
+        // public string Password { get; set; }
+        // public string Telephone { get; set; }
+        public bool IsActive { get; set; }
         public DateTime DateStarted { get; set; }=DateTime.Now;
         public DateTime? DateQuit { get; set; }
         public string UserPhotoPath { get; set; }

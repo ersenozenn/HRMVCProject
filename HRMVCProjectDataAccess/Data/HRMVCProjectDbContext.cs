@@ -79,13 +79,14 @@ namespace HRMVCProjectDataAccess.Data
                 NormalizedEmail = "FATOS@GMAİL.COM",
                 NormalizedUserName = "FATOSERASLAN",
                 CompanyId = 1,
-                //PasswordHash="AQAAAAEAACcQAAAAECNZRjAilUhkUg8Rpxr2FJ6anWBxrJpdCpfHbgBb0DdO9 + Af2HZU + cYM4svOpPo3dA"                               
+                //PasswordHash="AQAAAAEAACcQAAAAECNZRjAilUhkUg8Rpxr2FJ6anWBxrJpdCpfHbgBb0DdO9 + Af2HZU + cYM4svOpPo3dA"
+                PasswordHash=passwordHasher.HashPassword(null, "Admin*123"),                
                 EmailConfirmed=true,
                 LockoutEnabled = false,
-                SecurityStamp = Guid.NewGuid().ToString()
+                //SecurityStamp = Guid.NewGuid().ToString()
                 
             };
-            manager.PasswordHash = passwordHasher.HashPassword(manager, "sss");
+
             //await userStore.AddToRoleAsync(user, "admin");
             modelBuilder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int>
             {

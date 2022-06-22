@@ -97,6 +97,16 @@ namespace HRMVCProjectWebUI.Controllers
                 return RedirectToAction(nameof(List));
             }
             TempData["Message"] = "Güncellenemedi!";
+            Employee employeeForPhoto = employeeService.GetById(_employee.Id);
+            if (employeeForPhoto.UserPhotoPath == null)
+            {
+                ViewBag.Foto = "/assets/images/default.jfif";
+            }
+            else
+            {
+                ViewBag.Foto = employeeForPhoto.UserPhotoPath;
+
+            }
             return View(Index());
         }
 

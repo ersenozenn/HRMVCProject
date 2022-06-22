@@ -53,6 +53,10 @@ namespace HRMVCProjectWebUI
             //    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
             //    options.AccessDeniedPath = "/Error/Index";
             //});
+            //services.AddScoped<IUserManager, UserManager>();
+            //services.AddScoped<IRoleManager, RoleManager>();
+            //services.AddScoped<ISignInManager, SignInManager>();
+            //services.AddScoped<IUserStore, UserStore>();
 
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));

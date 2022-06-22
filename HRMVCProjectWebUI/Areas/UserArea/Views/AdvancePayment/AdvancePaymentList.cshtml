@@ -19,7 +19,6 @@
     </div>
 </header>
 
-<h2>Avans Listesi</h2>
 
 
 <table class="table bold-olsun">
@@ -63,8 +62,8 @@
                 <td>
                     @{
                         if (item.ReplyState == ReplyState.Onaylandı)
-                        {                                  
-                            <span>&#128994</span>                        
+                        {
+                            <span>&#128994</span>
                         }
                         if (item.ReplyState == ReplyState.OnaylanMAdı)
                         {
@@ -75,9 +74,65 @@
                             <span>&#128993;</span>
                         }
                     }
-
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<!-- start: page -->
+<section class="panel bold-olsun">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Çalışanlar Listesi </h2>
+    </header>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped mb-none" id="datatable-default">
+            <thead>
+                <tr>
+                    <th>Açıklama</th>
+                    <th>Tutar</th>
+                    <th>Talep Tarihi</th>
+                    <th>Cevap Tarihi</th>
+                    <th>Onay Durumu</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="gradeA">
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Amount) ₺</td>
+                        <td>@Html.DisplayFor(modelItem => item.RequestDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ReplyDate)</td>                        
+                        <td>
+                            @{
+                                if (item.ReplyState == ReplyState.Onaylandı)
+                                {
+                                    <span>&#128994</span>
+                                }
+                                if (item.ReplyState == ReplyState.OnaylanMAdı)
+                                {
+                                    <span>&#128308;</span>
+                                }
+                                if (item.ReplyState == ReplyState.Beklemede)
+                                {
+                                    <span>&#128993;</span>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- end: page -->
+<div>
+    <p><span>&#128994</span> : Avans talebi onaylandı</p>
+    <p><span>&#128993</span> : Avans talebi beklemede</p>
+    <p><span>&#128308</span> : Avans talebi onaylanmadı</p>
+</div>

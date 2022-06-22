@@ -1,14 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Http
 @{
-    int id = (int)Context.Session.GetInt32("Id");
-    if(id<0)
-    {
+    //int id = (int)Context.Session.GetInt32("Id");
+    //if(id<0)
+    //{
         Layout = "~/Views/Shared/_Layout.cshtml";
-    }
-    else
-    {
-        Layout = "_LayoutForEmployee";
-    }
+    //}
+    //else
+    //{
+    //    Layout = "_LayoutForEmployee";
+    //}
     ViewData["Title"] = "About Us";
    
 }

@@ -104,8 +104,13 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
                 }
                 
                 employee.PhoneNumber = _employee.PhoneNumber;
-
                 employeeService.Update(employee);
+
+                if (employee.UserPhotoPath != null)
+                {
+                    HttpContext.Session.SetString("picPath", employee.UserPhotoPath);
+                }
+
                 return RedirectToAction(nameof(EmployeeList));
             }
             ModelState.AddModelError("","Güncellenemedi!");
