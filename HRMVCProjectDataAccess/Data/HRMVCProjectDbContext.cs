@@ -105,7 +105,7 @@ namespace HRMVCProjectDataAccess.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:boostserver.database.windows.net,1433;Initial Catalog=HRProjectDb;Persist Security Info=False;User ID=boostadmin;Password=Boost1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;");
+                optionsBuilder.UseSqlServer("Server=*;Initial Catalog=HRProjectDb;Persist Security Info=False;User ID=*;Password=*;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;");
             }
         }
     }
