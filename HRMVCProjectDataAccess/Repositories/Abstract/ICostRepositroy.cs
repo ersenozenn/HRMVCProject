@@ -10,6 +10,6 @@ namespace HRMVCProjectDataAccess.Repositories.Abstract
 {
     public interface ICostRepositroy:IRepository<Cost>
     {
-        
+        IEnumerable<Cost> GetAllByCompanyId(int companyId);
     }
 }

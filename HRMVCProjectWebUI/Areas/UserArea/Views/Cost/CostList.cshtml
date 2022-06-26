@@ -3,10 +3,11 @@
 @model IEnumerable<HRMVCProjectEntities.Concrete.Cost>
 
 @{
+    Layout = "_LayoutForEmployee";
     ViewData["Title"] = "Harcama-Listesi";
     int id = (int)Context.Session.GetInt32("Id");
 }
-<header class="page-header bold-olsun">
+@*<header class="page-header bold-olsun">
     <h2>Harcamalarım</h2>
     <div class="right-wrapper pull-right">
         <ol class="breadcrumbs">
@@ -19,7 +20,7 @@
             <li><span>Harcamalarım</span></li>
         </ol>
     </div>
-</header>
+</header>*@
 @*<h2>Harcama Listesi</h2>
 
 <table class="table bold-olsun">
@@ -91,6 +92,7 @@
                     <th>Talep Tarihi</th>
                     @*<th>Cevap Tarihi</th>*@
                     <th>Onay Durumu</th>
+                    <th>Cevap Tarihi</th>
                 </tr>
             </thead>
             <tbody>
@@ -116,6 +118,16 @@
                                 }
                             }
                         </td>
+                         <td>
+                                @if(item.ReplyState == ReplyState.Onaylandı || item.ReplyState == ReplyState.OnaylanMAdı)
+                                {
+                                    @Html.DisplayFor(modelItem => item.ReplyDate)
+                                }
+                                else
+                                {
+                                    <h4>Cevaplanmadı</h4>
+                                }
+                         </td>
                     </tr>
                 }
             </tbody>

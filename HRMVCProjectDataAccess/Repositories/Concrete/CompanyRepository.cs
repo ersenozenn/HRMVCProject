@@ -2,6 +2,7 @@
 using HRMVCProjectDataAccess.Data;
 using HRMVCProjectDataAccess.Repositories.Abstract;
 using HRMVCProjectEntities.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
         public CompanyRepository(HRMVCProjectDbContext db) : base(db)
         {
             this.db = db;
+        }
+
+        public Company GetByIdWithEmployees(int id)
+        {
+            return db.Companies.Include(x => x.Employees).FirstOrDefault(a => a.Id == id);
         }
     }
 }

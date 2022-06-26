@@ -52,6 +52,10 @@
     <!-- Head Libs -->
     <script src="~/assets/vendor/modernizr/modernizr.js"></script>
 
+    <!-- JQUERY KISMI -->
+    <script src="~/assets/jquery/jquery.min.js"></script>
+    <script src="~/assets/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/assets/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </head>
 <body>
     <section class="body">
@@ -97,8 +101,8 @@
                 }
                 else
                 {                     
-                    <a class="btn btn-primary" asp-controller="LogIn" asp-action="Login">Giriş Yap</a>
-                    <a class="btn btn-primary" asp-controller="Manager" asp-action="AddEmployee" asp-area="ManagerArea">kayıt Yap</a>
+                   <a class="btn btn-primary" asp-controller="LogIn" asp-action="Login">Giriş Yap</a>
+                  @* <a class="btn btn-primary" asp-controller="Manager" asp-action="AddEmployee" asp-area="ManagerArea">kayıt Yap</a>*@
                 }
                 @* <partial name="_LoginPartial" />*@
             </div>
@@ -110,7 +114,7 @@
             <!-- start: sidebar -->
             <aside id="sidebar-left" class="sidebar-left">
 
-                <div class="sidebar-header">
+                <div class="sidebar-header" style="background-color: #e67e00 ">
                     @*<div class="sidebar-title">
                     Navigation
                     </div>*@
@@ -119,7 +123,7 @@
                     </div>
                 </div>
 
-                <div class="nano">
+                <div class="nano" style="background-color: #e67e00 ">
                     <div class="nano-content">
                         <nav id="menu" class="nav-main" role="navigation">
                             <ul class="nav nav-main">
@@ -140,8 +144,6 @@
                                         <i class="fa fa-phone-square" aria-hidden="true"></i>
                                         <span>İletişim</span>
                                     </a>
-                            
-
                                 </li>
                             </ul>
                         </nav>
@@ -153,15 +155,15 @@
             <!-- end: sidebar -->
 
             <section role="main" class="content-body">
-                <header class="page-header">
+                <header class="page-header" style="background-color:#e67e00 ">
                     <h2>@header</h2>
 
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
-                                <a asp-action="Index" asp-controller="Home">
+                                @*<a asp-action="Index" asp-controller="Home">*@
                                     <i class="fa fa-home"></i>
-                                </a>
+                                @*</a>*@
                             </li>
 
                             <li>

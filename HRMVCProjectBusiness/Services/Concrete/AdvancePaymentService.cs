@@ -45,6 +45,11 @@ namespace HRMVCProjectBusiness.Services.Concrete
            return advancePaymentRepository.AdvancePaymentList(id);    
         }
 
+        public IEnumerable<AdvancePayment> GetAllByCompanyId(int companyId)
+        {
+            return advancePaymentRepository.GetAllByCompanyId(companyId);
+        }
+
         public float TotalAdvance(int id)
         {
             if (id >= 0)
@@ -53,5 +58,11 @@ namespace HRMVCProjectBusiness.Services.Concrete
             }
             else throw new Exception("Id hatası");
         }
+
+       public IEnumerable<AdvancePayment> GetPendingAdvancePayments()
+        {
+            return advancePaymentRepository.GetPendingAdvancePayments();
+        }
+
     }
 }

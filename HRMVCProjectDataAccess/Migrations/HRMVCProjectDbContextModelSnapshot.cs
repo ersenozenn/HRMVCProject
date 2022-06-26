@@ -217,6 +217,7 @@ namespace HRMVCProjectDataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdressToGo")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -228,6 +229,9 @@ namespace HRMVCProjectDataAccess.Migrations
 
                     b.Property<int?>("PermissionTypeID")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("ReplyDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ReplyState")
                         .HasColumnType("int");
@@ -430,16 +434,65 @@ namespace HRMVCProjectDataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "f60cb22d-98ea-48e8-a189-fb84899cb4e3",
+                            ConcurrencyStamp = "759e905e-065d-4fee-aa3d-e8f09b8efe15",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "4dde03b6-008d-4bd2-900b-0735e5eca872",
+                            ConcurrencyStamp = "f556015a-aaac-487a-8d72-5f5fc766fe43",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ConcurrencyStamp = "496e7a8a-2dad-4fc2-aee5-9929c1ec3d5f",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityRole");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "74bb5a0d-b667-4720-87d0-674de464acd4",
+                            ConcurrencyStamp = "c1fa9455-7935-4b01-970b-b31688208d91",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "5461a98f-69bb-4be0-93af-ca3c8bae58d6",
+                            ConcurrencyStamp = "3e428475-0cb3-4d58-8700-e9649e7ef112",
+                            Name = "Manager",
+                            NormalizedName = "MANAGER"
+                        },
+                        new
+                        {
+                            Id = "a749d3ce-0cc6-46c7-8ee7-99ae0492f249",
+                            ConcurrencyStamp = "c3730ece-5dcb-48b7-a60f-75aba882caf3",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         });
                 });
 
@@ -525,13 +578,6 @@ namespace HRMVCProjectDataAccess.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            RoleId = 2
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -576,6 +622,9 @@ namespace HRMVCProjectDataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("Gender")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Identity")
                         .IsRequired()
                         .HasMaxLength(13)
@@ -598,31 +647,6 @@ namespace HRMVCProjectDataAccess.Migrations
                     b.HasIndex("CompanyId");
 
                     b.HasDiscriminator().HasValue("Employee");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "a0d20a9f-7b22-430e-b021-379363a2be0b",
-                            Email = "fatos@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "FATOS@GMAİL.COM",
-                            NormalizedUserName = "FATOSERASLAN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAHCf3zEVklFw22oCVfJpowhnCd7Y4+7HUpMVmb2ry9I9HaOfvw8vZlLmpm/iyCq2Q==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "fatoseraslan",
-                            BirthDate = new DateTime(1998, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CompanyId = 1,
-                            DateStarted = new DateTime(2022, 6, 21, 21, 31, 45, 787, DateTimeKind.Local).AddTicks(5804),
-                            FirstName = "Fatoş",
-                            Identity = "12345678912",
-                            IsActive = false,
-                            LastName = "Eraslan",
-                            Wage = 152000.0
-                        });
                 });
 
             modelBuilder.Entity("HRMVCProjectEntities.Concrete.Manager", b =>

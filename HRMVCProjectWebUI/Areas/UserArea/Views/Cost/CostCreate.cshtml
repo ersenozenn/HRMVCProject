@@ -2,30 +2,31 @@
 
 @{
     ViewData["Title"] = "Harcama-Talebi";  
+    Layout = "_LayoutForEmployee";
 }
 
-<header class="page-header">
+@*<header class="page-header">
 	<h2>Harcama Talebi</h2>
 	<div class="right-wrapper pull-right">
 		<ol class="breadcrumbs">
-		@*	<li>
+			<li>
 				<a asp-action="Index" asp-controller="Employee">
 					<i class="fa fa-home"></i>
 				</a>
-			</li>*@
+			</li>
 			<li><span>Harcama</span></li>
 			<li><span>Harcama Talebi</span></li>
 		</ol>				
     </div>
 </header>
-<hr />
+<hr />*@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CostCreate" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Cost.Amount" class="control-label"></label>
-                <input asp-for="Cost.Amount" class="form-control" />
+                <input asp-for="Cost.Amount" class="form-control"  />
                 <span asp-validation-for="Cost.Amount" class="text-danger"></span>
             </div>
             @* harcama türü seçiyor*@
@@ -46,11 +47,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="Cost.CostFile" class="control-label"></label>            
-                 <input type="file" asp-for="Cost.CostFile" class="form-control" accept="image/jpeg,image/png/vnd.ms-excel, application/vnd.ms-powerpoint,
-text/plain, application/pdf, image/*" />
+                 <input type="file" asp-for="Cost.CostFile" class="form-control" accept="image/jpeg,application/pdf,image/*"  />
                 <span asp-validation-for="Cost.CostFile" class="text-danger"></span>
             </div>
-            	<div class="text-danger" asp-validation-summary="ModelOnly"> </div>
+            	@*<div class="text-danger" asp-validation-summary="ModelOnly"> </div>*@
             <div class="form-group">
                 <input type="submit" value="Oluştur" class="btn btn-default"asp-route-id="@Model.EmployeeId" />
             </div>

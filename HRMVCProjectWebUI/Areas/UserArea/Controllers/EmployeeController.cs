@@ -1,6 +1,7 @@
 ﻿using HRMVCProjectBusiness.Services.Abstract;
 using HRMVCProjectBusiness.Services.Concrete;
 using HRMVCProjectEntities.Concrete;
+using HRMVCProjectWebUI.Areas.UserArea.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,17 +20,18 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
 
-        public EmployeeController(IEmployeeService employeeService,IAdvancePaymentService advancePaymentService)
+        public EmployeeController(IEmployeeService employeeService,IAdvancePaymentService advancePaymentService, UserManager<User> userManager)
         {
             this.employeeService = employeeService;
             this.advancePaymentService = advancePaymentService;
+            this.userManager = userManager;
         }
         public IActionResult Index(int id)
         {
             ViewBag.Header = "Ana Sayfa";
             var employee = employeeService.GetById(id);
-            
-            
+
+
             ViewBag.KullaniciIsim = employee.FirstName;
             HttpContext.Session.SetInt32("Id", employee.Id);
             if (employee.UserPhotoPath != null)
@@ -53,14 +55,15 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
        // [Route("Anasayfa/{id:int}")]
         public IActionResult EmployeeHome(int id)
         {
+            ViewBag.Header = "Profilim";
             Employee employee = employeeService.GetById(id);
             if (employee.UserPhotoPath == null)
             {
-                ViewBag.Foto = "/assets/images/default.jfif";
+                HttpContext.Session.SetString("picPath", "~/assets/images/default.png");
             }
             else
             {
-                ViewBag.Foto = employee.UserPhotoPath;
+                HttpContext.Session.SetString("picPath", employee.UserPhotoPath);
 
             }
             ViewBag.KullanıcıAdı = $"{employee.FirstName} {employee.LastName}";
@@ -123,6 +126,73 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
             HttpContext.Session.Remove("userName");
             HttpContext.Session.Remove("picPath");
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult PasswordChange(int id)
+        {
+            PasswordChangeVM passwordChangeVM = new PasswordChangeVM();
+            passwordChangeVM.EmployeeId = id;
+            Employee employee = employeeService.GetById(passwordChangeVM.EmployeeId);
+            //passwordChangeVM.CurrentPassword=employee. tamam unuttum, yok böyle bir şey
+            return View(passwordChangeVM);
+        }
+
+        [HttpPost]
+        public IActionResult PasswordChange(PasswordChangeVM passwordChangeVM)
+        {
+            //if(passwordChangeVM.CurrentPassword== "258iK!")
+            //{
+            //    Employee employee = employeeService.GetById(passwordChangeVM.EmployeeId);  
+            //    if(passwordChangeVM.NewPassword!=null && passwordChangeVM.NewPassword==passwordChangeVM.ConfirmPassword)
+            //    {
+            //        var presult = userManager.ChangePasswordAsync(employee, passwordChangeVM.CurrentPassword, passwordChangeVM.NewPassword);
+
+            //        var result = userManager.UpdateAsync(employee);
+            //        if (!result.IsCompleted)
+            //        {
+            //            ModelState.AddModelError("", "Şifre güncellenemedi");
+            //        }
+            //    }
+            //    ModelState.AddModelError("", "Şifre hatalı");
+
+            //}
+
+            if (ModelState.IsValid)
+            {
+                //var user = userManager.GetUserAsync(User);
+                var user = employeeService.GetById(passwordChangeVM.EmployeeId);
+                if (user == null)
+                {
+                    return RedirectToAction("Login","LogIn");
+                }
+
+                // ChangePasswordAsync changes the user password
+                var result =  userManager.ChangePasswordAsync(user,passwordChangeVM.CurrentPassword, passwordChangeVM.NewPassword);
+
+                // The new password did not meet the complexity rules or
+                // the current password is incorrect. Add these errors to
+                // the ModelState and rerender ChangePassword view
+                if (!result.IsCompleted)
+                {
+                    //foreach (var error in result.Errors)
+                    //{
+                        ModelState.AddModelError(string.Empty, "şifre değştirilemedi");
+                    //}
+                    return View();
+                }
+
+                // Upon successfully changing the password refresh sign-in cookie
+                 signInManager.RefreshSignInAsync(user);
+                return View();
+            }
+
+            return View(passwordChangeVM);
+
+
+
+
+
+            return View();
         }
 
 

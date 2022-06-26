@@ -1,5 +1,60 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<div class="col-md-12 col-lg-12 col-xl-4">
+    <h5 class="text-semibold text-dark text-uppercase mb-md mt-lg">Talep Görüntüleme Kartları234rrAZX</h5>
+    <div class="row">
+
+
+        <div class="col-md-6 col-xl-12">
+            <section class="panel">
+                <div class="panel-body bg-quartenary">
+                    <div class="widget-summary">
+                        <div class="widget-summary-col widget-summary-col-icon">
+                            <div class="summary-icon bg-quartenary">
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="widget-summary-col">
+                            <div class="summary">
+                                <h4 class="title">Beklemede olan avans talepleri</h4>
+                                <div class="info">
+                                    <strong class="amount">@ViewBag.PendingAdvancePaymentCount</strong>
+                                </div>
+                            </div>
+                            <div class="summary-footer">
+                                <a asp-controller="AdvancePayments" asp-action="AdvancePaymentCheck" asp-area="ManagerArea" class="text-uppercase">görüntüle</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <div class="col-md-6 col-xl-12">
+            <section class="panel">
+                <div class="panel-body bg-quartenary">
+                    <div class="widget-summary">
+                        <div class="widget-summary-col widget-summary-col-icon">
+                            <div class="summary-icon">
+                                <i class="fa fa-life-ring"></i>
+                            </div>
+                        </div>
+                        <div class="widget-summary-col">
+                            <div class="summary">
+                                <h4 class="title">Support Questions</h4>
+                                <div class="info">
+                                    <strong class="amount">1281</strong>
+                                </div>
+                            </div>
+                            <div class="summary-footer">
+                                <a class="text-uppercase">(view all)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+
+    </div>
+</div>

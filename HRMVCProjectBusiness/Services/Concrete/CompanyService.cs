@@ -17,5 +17,10 @@ namespace HRMVCProjectBusiness.Services.Concrete
         {
             this.companyRepository = companyRepository;
         }
+
+        public Company GetByIdIncludeEmployees(int id)
+        {
+            return companyRepository.GetByIdWithEmployees(id);
+        }
     }
 }

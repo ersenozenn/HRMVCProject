@@ -32,23 +32,41 @@ namespace HRMVCProjectWebUI.Controllers
                 if(userResult != null)
                 {
                     var getUser = userManager.IsInRoleAsync(userResult, "User").Result;
-                    var getAdmin = userManager.IsInRoleAsync(userResult, "Manager").Result;
+                    var getManager = userManager.IsInRoleAsync(userResult, "Manager").Result;
+                    var getAdmin = userManager.IsInRoleAsync(userResult, "Admin").Result;//eklenecek
 
                     
                     if (getUser)
                     {
-                        var result = await signInManager.PasswordSignInAsync(userResult.UserName, user.Password, false, true);
-                        if (result.Succeeded)
+                        var result = await signInManager.PasswordSignInAsync(userResult.UserName, user.Password, false, true);                        if (result.Succeeded)
                         {
-                            return RedirectToAction("Index", "Employee", new { id = userResult.Id, Area = "UserArea" });
-
+                            if(user.Password== "2/*58iK!*/")
+                            {
+                                return RedirectToAction("PasswordChange", "Employee", new { id = userResult.Id, Area = "UserArea" });
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", "Employee", new { id = userResult.Id, Area = "UserArea" });
+                            }
                         }
                         else
                         {
                             ModelState.AddModelError("", "Hatalı kullanıcı adı veya şifre girdiniz");
                         }
                     }
-                    else if(getAdmin)
+                    if (getAdmin)
+                    {
+                        var result = await signInManager.PasswordSignInAsync(userResult.UserName, user.Password, false, true);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("AdminHome", "Admin", new { id = userResult.Id, Area = "AdminArea" });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Hatalı kullanıcı adı veya şifre girdiniz");
+                        }
+                    }
+                    if (getManager)
                     {
                         var result = await signInManager.PasswordSignInAsync(userResult.UserName, user.Password, false, true);
                         if (result.Succeeded)

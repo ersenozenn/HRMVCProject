@@ -6246,6 +6246,11 @@ html .panel .panel-heading-transparent + .panel-body {
 	margin-top: 15px;
 }
 
+.foremphome {
+	margin:20px;
+}
+
+
 /* Justified */
 .nav-tabs.nav-justified {
 	margin-bottom: -1px;

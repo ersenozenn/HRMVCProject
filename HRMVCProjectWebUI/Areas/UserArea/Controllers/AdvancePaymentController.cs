@@ -24,6 +24,7 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
         //[Route("AvansTalebi/{id:int}")]
         public IActionResult AdvancePaymentCreate(int id)
         {
+            ViewBag.Header = "Avans Talebi Oluştur";
             EmployeeAdvanceVM employeeAdvanceVM = new EmployeeAdvanceVM();
             employeeAdvanceVM.Employee = employeeService.GetById(id);
 
@@ -45,7 +46,11 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
                 {
                     if (advancePaymentService.AddAdvancePayment(employeeAdvanceVM.AdvancePayment, employeeAdvanceVM.Employee))
                     {
-                        return RedirectToAction("AdvancePaymentList", "AdvancePayment", new { id });//??******oley
+                        if (employeeAdvanceVM.AdvancePayment.Amount >= 50)
+                        {
+                            return RedirectToAction("AdvancePaymentList", "AdvancePayment", new { id });//??******oley
+                        }
+                        else ModelState.AddModelError("", "Avans talebiniz minimum 50 TL olmalıdır.");
                     }
                     else ModelState.AddModelError("", "Avans talebiniz maaşınızın %30undan fazla olmaz ve 3 ayda bir avans alabilirsiniz.");
                 }
@@ -53,12 +58,14 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
 
 
             }
-            return View();
+            employeeAdvanceVM.Employee = employeeService.GetById(id);
+            return View(employeeAdvanceVM);
         }
 
         //[Route("AvansListesi/{id:int}")]
         public IActionResult AdvancePaymentList(int id)
         {
+            ViewBag.Header = "Avans Listesi";
             //var employee = employeeService.GetById(id);
             var advances = advancePaymentService.AdvancePaymentList(id);
             return View(advances);

@@ -12,9 +12,11 @@ namespace HRMVCProjectBusiness.Validators
     {
         public PermissionValidator()
         {
-            RuleFor(x => x.AdressToGo).Matches(@"(?!^\d+$)^.+$").WithMessage("Lütfen geçerli bir adres giriniz.").NotEmpty().WithMessage("Lütfen adres giriniz.");
-            RuleFor(x => x.AdressToGo).Matches(@"^\d+$").WithMessage("Lütfen geçerli bir adres giriniz.");
-
+            //RuleFor(x => x.AdressToGo).Matches(@"(?!^\d+$)^.+$").WithMessage("Lütfen geçerli bir adres giriniz.").NotEmpty().WithMessage("Lütfen adres giriniz.");
+            //RuleFor(x => x.AdressToGo).Matches(@"^\d+$").WithMessage("Lütfen geçerli bir adres giriniz.");
+            //RuleFor(x => x.StartingDate.Date).LessThan(DateTime.Now.Date).WithMessage("Geçmiş tarih için izin alamazsınız.");
+            //RuleFor(x => x.EndDate.Date.CompareTo(x.StartingDate)).LessThan(1).WithMessage("Başlangıç tarihinden önce izninizi bitirmeye çalışıyorsunuz.");
+            //RuleFor(x => x.EndDate.Date).LessThan(x => x.StartingDate).WithMessage("Başlangıç tarihinden önce izninizi bitirmeye çalışıyorsunuz.");
         }
     }
 }

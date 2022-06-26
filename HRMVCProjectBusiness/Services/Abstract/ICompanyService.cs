@@ -9,5 +9,6 @@ namespace HRMVCProjectBusiness.Services.Abstract
 {
     public interface ICompanyService : IGenericService<Company>
     {
+        Company GetByIdIncludeEmployees(int id);
     }
 }

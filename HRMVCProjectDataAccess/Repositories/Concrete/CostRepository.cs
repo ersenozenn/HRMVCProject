@@ -25,6 +25,21 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
         //    return db.Costs.Include(a => a.Employees).Where(a => a.Id == id).ToList();
         //}
 
-       
+        public IEnumerable<Cost> GetAllByCompanyId(int companyId)
+        {
+            List<Cost> costs = new List<Cost>();
+
+            foreach (Cost item in db.Costs)
+            {
+                foreach (Employee item2 in item.Employees)
+                {
+                    if (item2.CompanyId == companyId)
+                    {
+                        costs.Add(item);
+                    }
+                }
+            }
+            return costs;
+        }
     }
 }

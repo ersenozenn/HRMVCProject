@@ -2,6 +2,7 @@
 using HRMVCProjectDataAccess.Data;
 using HRMVCProjectDataAccess.Repositories.Abstract;
 using HRMVCProjectEntities.Concrete;
+using HRMVCProjectEntities.Concrete.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -44,9 +45,19 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
             return db.AdvancePayment.Where(x=>x.EmployeeId==id && x.RequestDate.Month == DateTime.Now.Month).ToList();
         }
 
+        public IEnumerable<AdvancePayment> GetAllByCompanyId(int companyId)
+        {
+            return db.AdvancePayment.Where(x => x.Employee.CompanyId == companyId).ToList();
+        }
+
         public float TotalAdvance(int id) 
         {
             return (float)db.AdvancePayment.Where(b => b.EmployeeId == id).Sum(a => a.Amount);
+        }
+
+        public IEnumerable<AdvancePayment> GetPendingAdvancePayments()
+        {
+            return db.AdvancePayment.Where(x=>x.ReplyState==ReplyState.Beklemede).ToList();
         }
     }
 }

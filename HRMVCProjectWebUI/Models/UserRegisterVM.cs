@@ -10,7 +10,8 @@ namespace HRMVCProjectWebUI.Models
         public string Mail { get; set; }
         public string Password { get; set; }
         public string IdentityNumber { get; set; }
-        public DateTime BirthDate { get; set; }        
+        public DateTime BirthDate { get; set; }
+        public bool Gender { get; set; }
 
     }
 }

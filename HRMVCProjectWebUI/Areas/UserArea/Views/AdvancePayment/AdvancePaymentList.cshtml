@@ -3,8 +3,9 @@
 
 @{
     ViewData["Title"] = "Avans Listesi";
+    Layout = "_LayoutForEmployee";
 }
-<header class="page-header">
+@*<header class="page-header">
     <h2>Avans Listesi</h2>
     <div class="right-wrapper pull-right">
         <ol class="breadcrumbs">
@@ -17,10 +18,10 @@
             <li><span>Avans Listesi</span></li>
         </ol>
     </div>
-</header>
+</header>*@
 
 
-
+@*
 <table class="table bold-olsun">
     <thead>
         <tr>
@@ -78,7 +79,7 @@
             </tr>
         }
     </tbody>
-</table>
+</table>*@
 <!-- start: page -->
 <section class="panel bold-olsun">
     <header class="panel-heading">
@@ -95,8 +96,8 @@
                     <th>Açıklama</th>
                     <th>Tutar</th>
                     <th>Talep Tarihi</th>
-                    <th>Cevap Tarihi</th>
                     <th>Onay Durumu</th>
+                    <th>Cevap Tarihi</th>
                 </tr>
             </thead>
             <tbody>
@@ -105,8 +106,7 @@
                     <tr class="gradeA">
                         <td>@Html.DisplayFor(modelItem => item.Description)</td>
                         <td>@Html.DisplayFor(modelItem => item.Amount) ₺</td>
-                        <td>@Html.DisplayFor(modelItem => item.RequestDate)</td>
-                        <td>@Html.DisplayFor(modelItem => item.ReplyDate)</td>                        
+                        <td>@Html.DisplayFor(modelItem => item.RequestDate)</td>                    
                         <td>
                             @{
                                 if (item.ReplyState == ReplyState.Onaylandı)
@@ -123,6 +123,16 @@
                                 }
                             }
                         </td>
+                         <td>
+                                @if(item.ReplyState == ReplyState.Onaylandı || item.ReplyState == ReplyState.OnaylanMAdı)
+                                {
+                                    @Html.DisplayFor(modelItem => item.ReplyDate)
+                                }
+                                else
+                                {
+                                    <h4>Cevaplanmadı</h4>
+                                }
+                         </td>
                     </tr>
                 }
             </tbody>

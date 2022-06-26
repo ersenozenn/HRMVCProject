@@ -1,8 +1,10 @@
 ﻿@model HRMVCProjectEntities.Concrete.Employee
+@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Çalışan Detayları";   
+    string foto = Context.Session.GetString("picPath");
 }
-<header class="page-header">
+@*<header class="page-header">
 	<h2>Çalışan Düzenle</h2>
 	<div class="right-wrapper pull-right">
 		<ol class="breadcrumbs">
@@ -15,7 +17,7 @@
 			<li><span>Çalışan Düzenle</span></li>
 		</ol>				
     </div>
-</header>
+</header>*@
 
 <!doctype html>
 <html class="fixed">
@@ -27,7 +29,15 @@
                 <section class="panel">
                     <div class="panel-body">
                         <div class="thumb-info mb-md">
-                            <img src="@Model.UserPhotoPath" class="rounded img-responsive" alt="">
+                            @*<img src="@foto" class="rounded img-responsive" alt="">*@
+                                        @if (@Model.UserPhotoPath != null)
+                                        {
+                                            <img src="@Url.Content(@Model.UserPhotoPath)" width="300" @*height="100" *@class="img-circle" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@Url.Content("~/assets/images/default.png")" width="300" @*height="300"*@ class="img-circle" />
+                                        }
                             <div class="thumb-info-title">
                                 <span class="thumb-info-inner">@Html.DisplayFor(model => model.FirstName)</span>
                                 @*<span class="thumb-info-type">CEO</span>*@
@@ -118,7 +128,7 @@
                                 </dl>
                             </div>
                         </div>
-                        <div id="edit" class="tab-pane">
+                        <div id="edit" class="tab-pane foremphome">
                             <form class="form-horizontal" asp-action="EmployeeUpdate" enctype="multipart/form-data" method="post">
                                   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <h4 class="mb-xlg">Çalışan Bilgileri</h4>
@@ -130,21 +140,24 @@
                                         }
                                         else
                                         {
-                                            <img src="@Url.Content("~/assets/images/default.jfif")" width="100" height="100" class="img-circle" />
+                                            <img src="@Url.Content("~/assets/images/default.png")" width="100" height="100" class="img-circle" />
                                         }
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="Email" class="control-label"></label>
+                                        @*<label asp-for="Email" class="control-label"></label>*@
+                                         <h4>E-Mail</h4>
                                         <h5>@Html.DisplayFor(a=>a.Email)</h5>
                                         <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="PhoneNumber" class="control-label"></label>
+                                        @*<label asp-for="PhoneNumber" class="control-label"></label>*@
+                                        <h4>Telefon Numarası</h4>
                                         <input type="tel" asp-for="PhoneNumber" class="form-control" required />
                                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="UserPhoto" class="control-label">Fotografı güncelle(jpeg/git/png):</label>
+                                       @* <label asp-for="UserPhoto" class="control-label">Fotografı güncelle(jpeg/git/png):</label>*@
+                                        <h4>Fotoğraf</h4>
                                         <input type="file" asp-for="UserPhoto" class="form-control" accept="image/jpeg,image/gif,image/png" />
                                         <span asp-validation-for="UserPhoto" class="text-danger"></span>
                                     </div>

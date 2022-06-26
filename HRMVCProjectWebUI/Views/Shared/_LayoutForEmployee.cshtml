@@ -53,6 +53,11 @@
     <!-- Head Libs -->
     <script src="~/assets/vendor/modernizr/modernizr.js"></script>
 
+    <!-- JQUERY KISMI -->
+    <script src="~/assets/jquery/jquery.min.js"></script>
+    <script src="~/assets/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/assets/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
 </head>
 <body>
     <section class="body">
@@ -77,9 +82,12 @@
                         <figure class="profile-picture">
                             @if (foto == null)
                             {
-                                foto = "/assets/images/default.png";
+                                <img src="/assets/images/default.png" alt="" class="img-circle" height="50"  />
                             }
-                            <img src="@foto" alt="" class="img-circle" />
+                            else
+                            {
+                                <img src="@foto" alt="" class="img-circle" height="50"  />   
+                            }
                         </figure>
                         <div class="profile-info">
                             @if (kullanıcıAdı == null)
@@ -185,7 +193,6 @@
                                             </li>
                                         </ul>
                                     </li>
-
                                     <li class="nav-parent">
                                         <a>
                                             <i class="fa fa-copy" aria-hidden="true"></i>
@@ -222,7 +229,7 @@
                                     @if (kullanıcıAdı != null)
                                     {
                                     <p class="menu-position text-white display-3">
-                                        &emsp;nbsp;
+                                        &emsp;
                                         Personel olarak giriş yapıldı.
                                     </p>
                                     }
@@ -243,9 +250,9 @@
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
-                                <a asp-action="Index" asp-controller="Employee">
+                                @*<a asp-action="Index" asp-controller="Employee">*@
                                     <i class="fa fa-home"></i>
-                                </a>
+                                @*</a>*@
                             </li>
 
                             <li>

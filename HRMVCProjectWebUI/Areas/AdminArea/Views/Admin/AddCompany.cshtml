@@ -1,0 +1,44 @@
+﻿@model HRMVCProjectEntities.Concrete.Company
+@{
+    ViewData["Title"] = "Şirket-Ekle";   
+}
+
+<h2>Şirket Ekle</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddCompany">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sector" class="control-label"></label>
+                <input asp-for="Sector" class="form-control" />
+                <span asp-validation-for="Sector" class="text-danger"></span>
+            </div>          
+
+            <div class="form-group">
+                <label asp-for="MailExtension" class="control-label"></label>
+                <input asp-for="MailExtension" class="form-control" />
+                <span asp-validation-for="MailExtension" class="text-danger"></span>
+            </div>          
+
+
+            <div class="form-group">
+                <input type="submit" value="Oluştur" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

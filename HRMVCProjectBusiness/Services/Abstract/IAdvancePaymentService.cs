@@ -12,5 +12,8 @@ namespace HRMVCProjectBusiness.Services.Abstract
         bool AddAdvancePayment(AdvancePayment advance, Employee employee);
         IEnumerable<AdvancePayment> AdvancePaymentList(int id);
         public float TotalAdvance(int id);
+        IEnumerable<AdvancePayment> GetAllByCompanyId(int companyId);
+        IEnumerable<AdvancePayment> GetPendingAdvancePayments();
+
     }
 }

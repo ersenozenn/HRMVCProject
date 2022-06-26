@@ -36,7 +36,7 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
             HttpContext.Session.Remove("userName");
             HttpContext.Session.Remove("picPath");
             return RedirectToAction("Index", "Home");
-            return View();
+           
         }
     }
 }

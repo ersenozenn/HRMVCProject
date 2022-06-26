@@ -26,6 +26,7 @@ namespace HRMVCProjectEntities.Concrete
         [Display(Name = "Onay Durumu")]
         public ReplyState ReplyState { get; set; }
         [Display(Name = "Harcama Dosyası")]
+        [Required(ErrorMessage = "Dosya alanı boş geçilemez.")]
         public IFormFile CostFile { get; set; }
         public string CostFilePath { get; set; }
         [Display(Name ="Harcama Türü")]

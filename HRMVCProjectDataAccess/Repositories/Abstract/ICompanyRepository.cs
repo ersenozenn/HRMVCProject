@@ -10,5 +10,6 @@ namespace HRMVCProjectDataAccess.Repositories.Abstract
 {
     public interface ICompanyRepository : IRepository<Company>
     {
+        Company GetByIdWithEmployees(int id);
     }
 }

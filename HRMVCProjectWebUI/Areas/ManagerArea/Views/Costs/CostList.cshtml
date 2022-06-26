@@ -1,0 +1,68 @@
+﻿@model IEnumerable<HRMVCProjectEntities.Concrete.Cost>
+
+@{
+    ViewData["Title"] = "Harcama Listesi";
+}
+
+<h2>Harcama Listesi</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplyDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplyState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostFilePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReplyDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReplyState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostFilePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostType.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

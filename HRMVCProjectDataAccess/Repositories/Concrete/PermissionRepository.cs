@@ -36,5 +36,22 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
             return false;
 
         }
+        public IEnumerable<Permission> GetAllByCompanyId(int companyId)
+        {
+            List<Permission> permissions = new List<Permission>();
+
+            foreach (Permission item in db.Permissions)
+            {
+                foreach (Employee item2 in item.Employees)
+                {
+                    if (item2.CompanyId == companyId)
+                    {
+                        permissions.Add(item);
+                    }
+                }
+            }
+            return permissions;
+        }
+
     }
 }

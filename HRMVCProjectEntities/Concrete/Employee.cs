@@ -24,6 +24,8 @@ namespace HRMVCProjectEntities.Concrete
         public string FirstName { get; set; }
         [Display(Name = "Soyad")]
         public string LastName { get; set; }
+        [Display(Name = "Cinsiyet")]
+        public bool Gender { get; set; }
         [Display(Name = "Doğum Tarihi")]
         public DateTime BirthDate { get; set; }
         [Display(Name = "Maaş")]

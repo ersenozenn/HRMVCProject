@@ -27,7 +27,7 @@
 					{
 						sExtends: 'print',
 						sButtonText: 'Print',
-						sInfo: 'Please press CTR+P to print or ESC to quit'
+						sInfo: 'Lütfen yazdýrmak için CTR+P ye veya çýkmak için ESC ye basýn'
 					}
 				]
 			}

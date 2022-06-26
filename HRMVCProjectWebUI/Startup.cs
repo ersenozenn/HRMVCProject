@@ -32,9 +32,10 @@ namespace HRMVCProjectWebUI
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddFluentValidation
+            services.AddControllersWithViews().AddRazorRuntimeCompilation().AddFluentValidation
                 (a => a.RegisterValidatorsFromAssemblyContaining<Startup>());//validation için *(validationlar bi yerde tutulmalý ve bunu sisteme bildirmeliyiz diye )
             services.AddRazorPages();
                         
@@ -87,6 +88,8 @@ namespace HRMVCProjectWebUI
 
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<ICompanyService, CompanyService>();
+
+
 
             services.AddMvc()
             .AddSessionStateTempDataProvider();

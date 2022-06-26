@@ -19,5 +19,10 @@ namespace HRMVCProjectWebUI.Areas.ManagerArea.Models
         public string IdentityNumber { get; set; }
         [Display(Name = "Doğum Tarihi")]
         public DateTime BirthDate { get; set; }
+        [Display(Name = "Cinsiyet")]
+        public bool Gender { get; set; }
+        [Display(Name = "Maaş")]
+        public bool Wage { get; set; }
+
     }
 }

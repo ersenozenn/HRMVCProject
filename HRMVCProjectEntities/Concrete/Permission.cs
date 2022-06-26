@@ -17,14 +17,19 @@ namespace HRMVCProjectEntities.Concrete
         }
 		[Display(Name = "Talep Tarihi")]
         public DateTime RequestDate { get; set; }
+        [Display(Name = "Cevaplanma Tarihi")]
+        public DateTime ReplyDate { get; set; }
         [Display(Name = "Başlangıç Tarihi")]
+        [Required(ErrorMessage ="Başlangıç tarihi boş geçilemez.")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime StartingDate { get; set; }
         [Display(Name = "Bitiş Tarihi")]
+        [Required(ErrorMessage = "Bitiş tarihi boş geçilemez.")]
         public DateTime EndDate { get; set; }
         [Display(Name = "Başvuru Durumu")]
         public ReplyState ReplyState { get; set; }
         [Display(Name = "Gidilecek Adres")]
+        [Required(ErrorMessage = "Adres alanı boş geçilemez.")]
         [StringLength(250, MinimumLength = 10, ErrorMessage = "10 karakterden az, 250 karakterden fazla giremezsiniz.")]
         public string AdressToGo { get; set; }
         [Display(Name = "İzin Türü")]

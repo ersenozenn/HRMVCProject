@@ -18,6 +18,10 @@ namespace HRMVCProjectBusiness.Services.Concrete
         {
             this.costRepositroy = costRepositroy;   
         }
-       
+
+        public IEnumerable<Cost> GetAllByCompanyId(int companyId)
+        {
+            return costRepositroy.GetAllByCompanyId(companyId);
+        }
     }
 }

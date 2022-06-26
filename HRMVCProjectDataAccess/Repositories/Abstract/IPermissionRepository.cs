@@ -12,5 +12,6 @@ namespace HRMVCProjectDataAccess.Repositories.Abstract
     {
         public ICollection<Permission> GetAllById(int id);
         public bool AddPermission(Permission permission, Employee employee);
+        public IEnumerable<Permission> GetAllByCompanyId(int companyId);
     }
 }

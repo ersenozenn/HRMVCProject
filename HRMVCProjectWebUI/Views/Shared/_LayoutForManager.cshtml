@@ -4,7 +4,7 @@
     string header2 = ViewBag.Header2;
     string foto = Context.Session.GetString("picPath");
     string kullanıcıAdı = Context.Session.GetString("userName");
-    int id = (int)Context.Session.GetInt32("Id");
+    int companyId = (int)Context.Session.GetInt32("CompanyId");
     //@if (User.Identity.IsAuthenticated)
     //               {
     //                   if (User.IsInRole("User"))
@@ -40,6 +40,14 @@
     <link rel="stylesheet" href="~/assets/vendor/select2/select2.css" />
     <link rel="stylesheet" href="~/assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
 
+    <!-- Check list Specific Page Vendor CSS -->
+    <link rel="stylesheet" href="~/assets/vendor/select2/select2.css" />
+    <link rel="stylesheet" href="~/assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+
+    <!--Notification Specific Page Vendor CSS -->
+    <link rel="stylesheet" href="~/assets/vendor/pnotify/pnotify.custom.css" />
+
+
     <!-- Theme CSS -->
     <link href="~/assets/stylesheets/theme.css" rel="stylesheet" />
 
@@ -53,6 +61,10 @@
     <!-- Head Libs -->
     <script src="~/assets/vendor/modernizr/modernizr.js"></script>
 
+    <!-- JQUERY KISMI -->
+    <script src="~/assets/jquery/jquery.min.js"></script>
+    <script src="~/assets/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/assets/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </head>
 <body>
     <section class="body">
@@ -60,9 +72,9 @@
         <!-- start: header -->
         <header class="header" style="background-color:white">
             <div class="logo-container">
-                <a asp-action="Index" asp-controller="Employee" asp-route-id-=@id class="logo">
-                    <img src="~/assets/images/logo.png" height="40px" width="auto" alt="" />
-                </a>
+                @* <a asp-action="Index" asp-controller="Employee" asp-route-id-=@id class="logo">
+                <img src="~/assets/images/logo.png" height="40px" width="auto" alt="" />
+                </a>*@
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
                     <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
                 </div>
@@ -96,9 +108,9 @@
                     <div class="dropdown-menu">
                         <ul class="list-unstyled">
                             <li class="divider"></li>
-                            <li>
-                                <a asp-action="EmployeeHome" asp-controller="Employee" asp-route-id="@id" role="menuitem" tabindex="-1">Profilim</a>
-                            </li>
+                            @* <li>
+                            <a asp-action="EmployeeHome" asp-controller="Employee" asp-route-id="@id" role="menuitem" tabindex="-1">Profilim</a>
+                            </li>*@
                             @*<li>
                             <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
                             </li>*@
@@ -134,99 +146,78 @@
                         <nav id="menu" class="nav-main" role="navigation">
                             <ul class="nav nav-main">
                                 <li>
-                                    <a asp-action="Index" asp-controller="Employee" asp-route-id=@id>
-                                        <i class="fa fa-home" aria-hidden="true"></i>
-                                        <span>Anasayfa</span>
+                                    @*  <a asp-action="Index" asp-controller="Employee" asp-route-id=@id>
+                                    <i class="fa fa-home" aria-hidden="true"></i>
+                                    <span>Anasayfa</span>
+                                    </a>*@
+                                </li>
+
+                                <li class="nav-parent">
+                                    <a>
+                                        <i class="fa fa-copy" aria-hidden="true"></i>
+                                        <span>Çalışan</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            <a asp-area="UserArea" asp-action="EmployeeList" asp-controller="Employee">
+                                                <span class="pull-right label label-primary">@Context.Session.GetString("employeesCount")</span>
+                                                <i class="fa fa-users" aria-hidden="true"></i>
+                                                <span>Çalışanlar</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-action="AddEmployee" asp-controller="Manager" asp-area="ManagerArea">
+                                                <i class="fa  fa-plus" aria-hidden="true"></i>
+                                                <span>Çalışan Ekle</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+
+                                <li class="nav-parent">
+                                    <a>
+                                        <i class="fa fa-money" aria-hidden="true"></i>
+                                        <span>Avans</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            <a asp-action="AdvancePaymentList" asp-controller="AdvancePayments" asp-area="ManagerArea" asp-route-id="@companyId">
+                                                <span>Avans Listesi</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-controller="AdvancePayments" asp-action="AdvancePaymentCheck" asp-area="ManagerArea">
+                                                Bekleyen Avans Talepleri
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+
+
+                                <li>
+                                    <a asp-action="CostList" asp-controller="Costs" asp-area="ManagerArea" asp-route-id="@companyId">
+                                        <i class="fa  fa-smile-o" aria-hidden="true"></i>
+                                        <span>Harcama Listesi</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a asp-area="UserArea" asp-action="EmployeeList" asp-controller="Employee">
-                                        <span class="pull-right label label-primary">@Context.Session.GetString("employeesCount")</span>
-                                        <i class="fa fa-users" aria-hidden="true"></i>
-                                        <span>Çalışanlar</span>
+                                    <a asp-action="PermissionList" asp-controller="Permissions" asp-area="ManagerArea" asp-route-id="@companyId">
+                                        <i class="fa fa-info" aria-hidden="true"></i>
+                                        <span>İzin Listesi</span>
                                     </a>
                                 </li>
-
                                 @if (kullanıcıAdı != null)
                                 {
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-copy" aria-hidden="true"></i>
-                                            <span>Avans</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-controller="AdvancePayment" asp-action="AdvancePaymentCreate" asp-route-id="@id">
-                                                    Avans Talebi
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-controller="AdvancePayment" asp-action="AdvancePaymentList" asp-route-id="@id">
-                                                    Avans Listesi
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-copy" aria-hidden="true"></i>
-                                            <span>İzin</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-area="UserArea" asp-controller="Permission" asp-action="PermissionCreate" asp-route-id="@id">
-                                                    İzin Talebi
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-area="UserArea" asp-controller="Permission" asp-action="PermissionList" asp-route-id="@id">
-                                                    İzin Listesi
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-parent">
-                                        <a>
-                                            <i class="fa fa-copy" aria-hidden="true"></i>
-                                            <span>Harcama</span>
-                                        </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a asp-controller="Cost" asp-action="CostCreate" asp-route-id="@id">
-                                                    Harcama Talebi
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a asp-controller="Cost" asp-action="CostList" asp-route-id="@id">
-                                                    Harcama Listesi
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                }
-                                <li>
-                                <li>
-                                    <a asp-action="AboutUs" asp-controller="Home" asp-area="">
-                                        <i class="fa fa-info" aria-hidden="true"></i>
-                                        <span>Hakkımızda</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-action="ContactUs" asp-controller="Home" asp-area="">
-                                        <i class="fa fa-phone-square" aria-hidden="true"></i>
-                                        <span>İletişim</span>
-                                    </a>
-                                </li>
-
-                                    @if (kullanıcıAdı != null)
-                                    {
                                     <p class="menu-position text-white display-3">
-                                        &emsp;nbsp;
+                                        &emsp;&nbsp;
                                         Yönetici olarak giriş yapıldı.
                                     </p>
-                                    }
-                                </li>
+                                }
+
                             </ul>
                         </nav>
                     </div>
@@ -243,9 +234,9 @@
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
-                                <a asp-action="Index" asp-controller="Employee">
-                                    <i class="fa fa-home"></i>
-                                </a>
+                                @*<a asp-action="Index" asp-controller="Employee">*@
+                                <i class="fa fa-home"></i>
+                                @*</a>*@
                             </li>
 
                             <li>
@@ -303,7 +294,18 @@
 
     <!-- Examples -->
     @* <script src="~/assets/javascripts/forms/examples.validation.js"></script>*@
+    <!-- Specific Page Vendor check -->
+    <script src="~/assets/vendor/select2/select2.js"></script>
+    <script src="~/assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+    <script src="~/assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
 
+    <!-- NoficTİONLAR Examples -->
+    <script src="~/assets/javascripts/ui-elements/examples.notifications.js"></script>
+    <!-- notif Specific Page Vendor -->
+    <script src="~/assets/vendor/pnotify/pnotify.custom.js"></script>
+
+    <!-- Examples  check-->
+    <script src="~/assets/javascripts/tables/examples.datatables.editable.js"></script>
 
     <!-- Employee list examples -->
     <script src="~/assets/javascripts/tables/examples.datatables.default.js"></script>

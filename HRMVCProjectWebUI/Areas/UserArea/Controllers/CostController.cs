@@ -25,13 +25,15 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
 
         public IActionResult CostList(int id)
         {
-           var costs = employeeService.GetByIdIncludeCosts(id).Costs;
+            ViewBag.Header = "Harcama Listesi";
+            var costs = employeeService.GetByIdIncludeCosts(id).Costs;
             return View(costs);
         }
 
         
         public IActionResult CostCreate(int id)
         {
+            ViewBag.Header = "Harcama Talebi Oluştur";
             var costTypes = costService.GetAll();
             if(costTypes!=null)
             {
@@ -60,26 +62,38 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
             cost.Amount = costAndTypesVM.Cost.Amount;
             cost.RequestDate = DateTime.Now;
             cost.ReplyState= ReplyState.Beklemede;
+            cost.CostFile = costAndTypesVM.Cost.CostFile;
             if(cost.CostFile!=null)
             {
                 string ticks = DateTime.Now.Ticks.ToString();
                 var path = Directory.GetCurrentDirectory() +
-                    @"\wwwroot\assests\files\" + ticks + Path.GetExtension(cost.CostFile.FileName);
+                    @"\wwwroot\assets\files\" + ticks + Path.GetExtension(cost.CostFile.FileName);
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     cost.CostFile.CopyTo(stream);
                 }
-                cost.CostFilePath = @"\assests\files\" + ticks + Path.GetExtension(cost.CostFile.FileName);
+                cost.CostFilePath = @"\assets\files\" + ticks + Path.GetExtension(cost.CostFile.FileName);
             }
             if (cost.Amount > 0)
             {
-                cost.Employees.Add(employeeService.GetById(id));
-                costService.Add(cost);
-                return RedirectToAction("CostList", "Cost", new { id });
+                if (cost.Amount >= 50)
+                {
+                    cost.Employees.Add(employeeService.GetById(id));
+                    costService.Add(cost);
+                    return RedirectToAction("CostList", "Cost", new { id });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Harcama talebiniz minimum 50 TL olmalıdır.");
+                    costAndTypesVM.EmployeeId = id;
+                    costAndTypesVM.CostTypes = costTypeService.GetAll();
+                    return View(costAndTypesVM);
+                }
             }
             else
             {
                 ModelState.AddModelError("", "Harcama tutarı negatif bir değer olamaz.");
+                costAndTypesVM.EmployeeId = id;
                 costAndTypesVM.CostTypes = costTypeService.GetAll();
                 return View(costAndTypesVM);
             }
