@@ -8,22 +8,29 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Models
     {
         [Display(Name = "Kullanıcı Adı")]
         public string UserName { get { return StringReplace(FirstName + LastName).ToLower(); } }
+        [Required(ErrorMessage = "Ad boş geçilemez.")]
         [Display(Name = "Ad")]
         public string FirstName { get; set; }
+        [Required(ErrorMessage = "Soyad boş geçilemez.")]
         [Display(Name = "Soyad")]
         public string LastName { get; set; }
         [Display(Name = "Mail")]
         public string Mail { get; set; }
         [Display(Name = "Şifre")]
+        [Required(ErrorMessage = "Şifre boş geçilemez.")]
         public string Password { get; set; }
         [Display(Name = "TC Kimlik No")]
+        [Required(ErrorMessage = "Kimlik numarası boş geçilemez.")]
         public string IdentityNumber { get; set; }
         [Display(Name = "Doğum Tarihi")]
+        [Required(ErrorMessage = "Doğum tarihi boş geçilemez.")]
         public DateTime BirthDate { get; set; }
         [Display(Name = "Cinsiyet")]
+        [Required(ErrorMessage = "Cinsiyet boş geçilemez.")]
         public bool Gender { get; set; }
         [Display(Name = "Maaş")]
-        public bool Wage { get; set; }
+        [Required(ErrorMessage = "Maaş boş geçilemez.")]
+        public int Wage { get; set; }
         public int CompanyId { get; set; }
         public string StringReplace(string text)
         {

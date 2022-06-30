@@ -11,6 +11,7 @@ using HRMVCProjectBusiness.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
 using HRMVCProjectWebUI.Areas.ManagerArea.Models;
 using HRMVCProjectEntities.Concrete.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace HRMVCProjectWebUI.Areas.ManagerArea.Controllers
 {
@@ -26,17 +27,24 @@ namespace HRMVCProjectWebUI.Areas.ManagerArea.Controllers
             this.advancePaymentService = advancePaymentService;
         }
 
-        public IActionResult AdvancePaymentList(int companyId)
+        public IActionResult AdvancePaymentList()
         {
             ViewBag.Header = "Avans Listesi";
-            var advances = advancePaymentService.GetAllByCompanyId(companyId);
-            return View(advances);
+            EmployeeAdvancePaymentVM employeeAdvancePaymentVM = new EmployeeAdvancePaymentVM();
+            Employee employee = employeeService.GetById((int)HttpContext.Session.GetInt32("ManagerId"));
+            employeeAdvancePaymentVM.AdvancePayments = advancePaymentService.GetAllByCompanyId((int)employee.CompanyId);
+            foreach (AdvancePayment item in employeeAdvancePaymentVM.AdvancePayments)
+            {
+                employeeAdvancePaymentVM.EmployeeFullName = employeeService.GetById(item.EmployeeId).FirstName + " " + employeeService.GetById(item.EmployeeId).LastName;
+            }
+            return View(employeeAdvancePaymentVM);
         }
 
         public IActionResult AdvancePaymentCheck()
         {
             EmployeeAdvancePaymentVM employeeAdvancePaymentVM = new EmployeeAdvancePaymentVM();
-            employeeAdvancePaymentVM.AdvancePayments = advancePaymentService.GetPendingAdvancePayments();
+            Employee employee = employeeService.GetById((int)HttpContext.Session.GetInt32("ManagerId"));
+            employeeAdvancePaymentVM.AdvancePayments = advancePaymentService.GetPendingAdvancePayments((int)employee.CompanyId);
             foreach (AdvancePayment item in employeeAdvancePaymentVM.AdvancePayments)
             {
                 employeeAdvancePaymentVM.EmployeeFullName = employeeService.GetById(item.EmployeeId).FirstName + " " + employeeService.GetById(item.EmployeeId).LastName;
@@ -47,7 +55,8 @@ namespace HRMVCProjectWebUI.Areas.ManagerArea.Controllers
         [HttpPost]
         public IActionResult AdvancePaymentCheck(EmployeeAdvancePaymentVM employeeAdvancePaymentVM,int id)
         {
-            employeeAdvancePaymentVM.AdvancePayments = advancePaymentService.GetPendingAdvancePayments();
+            Employee employee = employeeService.GetById((int)HttpContext.Session.GetInt32("ManagerId"));
+            employeeAdvancePaymentVM.AdvancePayments = advancePaymentService.GetPendingAdvancePayments((int)employee.CompanyId);
             
             foreach (AdvancePayment item in employeeAdvancePaymentVM.AdvancePayments)
             {
@@ -58,12 +67,19 @@ namespace HRMVCProjectWebUI.Areas.ManagerArea.Controllers
                     advancePaymentService.Update(item);
                 }                
             }
+            employeeAdvancePaymentVM.AdvancePayments = advancePaymentService.GetPendingAdvancePayments((int)employee.CompanyId);
+            foreach (AdvancePayment item in employeeAdvancePaymentVM.AdvancePayments)
+            {
+                employeeAdvancePaymentVM.EmployeeFullName = employeeService.GetById(item.EmployeeId).FirstName + " " + employeeService.GetById(item.EmployeeId).LastName;
+            }
             return View(employeeAdvancePaymentVM);
         }
 
         [HttpPost]
         public IActionResult AdvancePaymentCheckRed(EmployeeAdvancePaymentVM employeeAdvancePaymentVM, int id)
         {
+            Employee employee = employeeService.GetById((int)HttpContext.Session.GetInt32("ManagerId"));
+            employeeAdvancePaymentVM.AdvancePayments = advancePaymentService.GetPendingAdvancePayments((int)employee.CompanyId);
             foreach (AdvancePayment item in employeeAdvancePaymentVM.AdvancePayments)
             {
                 if (item.Id == id)
@@ -73,7 +89,12 @@ namespace HRMVCProjectWebUI.Areas.ManagerArea.Controllers
                     advancePaymentService.Update(item);
                 }
             }
-            return View(employeeAdvancePaymentVM);
+            employeeAdvancePaymentVM.AdvancePayments = advancePaymentService.GetPendingAdvancePayments((int)employee.CompanyId);
+            foreach (AdvancePayment item in employeeAdvancePaymentVM.AdvancePayments)
+            {
+                employeeAdvancePaymentVM.EmployeeFullName = employeeService.GetById(item.EmployeeId).FirstName + " " + employeeService.GetById(item.EmployeeId).LastName;
+            }
+            return View("AdvancePaymentCheck",employeeAdvancePaymentVM);
         }
     }
 }

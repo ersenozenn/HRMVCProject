@@ -1,0 +1,45 @@
+﻿@model EmployeePermissionVM
+
+<!-- start: page -->
+<section class="panel">
+    <header class="panel-heading">
+
+        <h2 class="panel-title">Bekleyen İzinler</h2>
+    </header>
+    <div class="panel-body">
+
+        <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    @*<th>İzin Türü</th>*@
+                    <th>Talep Tarihi</th>
+                    <th>Başlangıç Tarihi</th>
+                    <th>Bitiş Tarihi</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Permissions)
+                {
+                    <tr class="gradeA">
+                        <td>@Model.EmployeeFullName</td>
+                        @*<td>@item.PermissionType.PermissionName</td>*@
+                        <td>@item.RequestDate.ToShortDateString()</td>
+                        <td>@item.StartingDate.ToShortDateString()</td>
+                        <td>@item.EndDate.ToShortDateString()</td>
+                        <td class="actions">
+                            <form asp-action="PermissionCheck" method="post">
+                                <button asp-action="PermissionCheck" method="post" asp-route-id="@item.Id" id="position-4-success" type="submit" class="mt-sm mb-sm btn btn-success">Onayla</button>
+                            </form>
+                            <form asp-action="PermissionCheckRed" method="post">
+                            <button  asp-action="PermissionCheckRed" method="post" asp-route-id="@item.Id" id="position-4-error" type="submit" class="mt-sm mb-sm btn btn-danger">Reddet</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+<!-- end: page -->

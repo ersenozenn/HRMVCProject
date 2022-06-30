@@ -55,9 +55,9 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
             return (float)db.AdvancePayment.Where(b => b.EmployeeId == id).Sum(a => a.Amount);
         }
 
-        public IEnumerable<AdvancePayment> GetPendingAdvancePayments()
+        public IEnumerable<AdvancePayment> GetPendingAdvancePayments(int companyId)
         {
-            return db.AdvancePayment.Where(x=>x.ReplyState==ReplyState.Beklemede).ToList();
+            return db.AdvancePayment.Where(x=>x.ReplyState==ReplyState.Beklemede && x.Employee.CompanyId == companyId).ToList();
         }
     }
 }

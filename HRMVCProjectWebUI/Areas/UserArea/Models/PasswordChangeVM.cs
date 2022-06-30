@@ -6,7 +6,7 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Models
     {
         public int EmployeeId { get; set; }
 
-        [Display(Name = "Şifreniz")]       
+        [Display(Name = "Eski Şifreniz")]       
         [Required(ErrorMessage = "Lütfen açıklama giriniz")]
         [DataType(DataType.Password)]
         public string CurrentPassword { get; set; }
@@ -19,7 +19,7 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Models
 
         [DataType(DataType.Password)]
         [Compare("NewPassword", ErrorMessage ="Şifreler eşleşmiyor")]
-        [Display(Name = "Şifre Tekrar")]
-        public string ConfirmPassword { get; set; }    
+        [Display(Name = "Yeni Şifre Tekrar")]
+        public string ConfirmPassword { get; set; }           
     }
 }

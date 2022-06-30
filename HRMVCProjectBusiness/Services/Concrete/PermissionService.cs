@@ -45,5 +45,10 @@ namespace HRMVCProjectBusiness.Services.Concrete
         {
             return permissionRepository.GetAllByCompanyId(companyId);
         }
+
+        public IEnumerable<Permission> GetPendingPermissions(int companyId)
+        {
+            return permissionRepository.GetPendingPermissions(companyId);
+        }
     }
 }

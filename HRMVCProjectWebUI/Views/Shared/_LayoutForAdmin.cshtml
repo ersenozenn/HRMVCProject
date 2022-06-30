@@ -122,13 +122,13 @@
 
         <div class="inner-wrapper">
             <!-- start: sidebar -->
-            <aside id="sidebar-left" class="sidebar-left">
+            <aside id="sidebar-left" class="sidebar-left" style="background-color:#115304">
 
-                <div class="sidebar-header">
+                <div class="sidebar-header" style="background-color:#115304">
                     @*<div class="sidebar-title">
                     Navigation
                     </div>*@
-                    <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
+                    <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle" style="background-color:#115304">
                         <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
                     </div>
                 </div>
@@ -167,19 +167,7 @@
 
                                     
                                 }
-                                <li>
-                                <li>
-                                    <a asp-action="AboutUs" asp-controller="Home" asp-area="">
-                                        <i class="fa fa-info" aria-hidden="true"></i>
-                                        <span>Hakkımızda</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-action="ContactUs" asp-controller="Home" asp-area="">
-                                        <i class="fa fa-phone-square" aria-hidden="true"></i>
-                                        <span>İletişim</span>
-                                    </a>
-                                </li>
+                                <li>                              
 
                                     @if (kullanıcıAdı != null)
                                     {
@@ -199,7 +187,7 @@
             <!-- end: sidebar -->
 
             <section role="main" class="content-body">
-                <header class="page-header">
+                <header class="page-header" style="background-color:#115304">
                     <h2>@header</h2>
 
                     <div class="right-wrapper pull-right">

@@ -74,7 +74,7 @@
             </div>
 
             <!-- start: search & user box -->
-            <div class="header-right">
+            <div class="header-right" >
                 <span class="separator"></span>
 
                 <div id="userbox" class="userbox">
@@ -107,6 +107,9 @@
                             <li>
                                 <a asp-action="EmployeeHome" asp-controller="Employee" asp-route-id="@id" role="menuitem" tabindex="-1">Profilim</a>
                             </li>
+                            <li>
+                                <a asp-action="PasswordChange" asp-controller="Employee" asp-route-id="@id" role="menuitem" tabindex="-1">Şifre Değiştir</a>
+                            </li>
                             @*<li>
                             <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
                             </li>*@
@@ -126,13 +129,13 @@
 
         <div class="inner-wrapper">
             <!-- start: sidebar -->
-            <aside id="sidebar-left" class="sidebar-left">
+            <aside id="sidebar-left" class="sidebar-left" style="background-color:#800c0c">
 
-                <div class="sidebar-header">
+                <div class="sidebar-header" style="background-color:#800c0c">
                     @*<div class="sidebar-title">
                     Navigation
                     </div>*@
-                    <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
+                    <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle" style="background-color:#800c0c">
                         <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
                     </div>
                 </div>
@@ -244,7 +247,7 @@
             <!-- end: sidebar -->
 
             <section role="main" class="content-body">
-                <header class="page-header">
+                <header class="page-header" style="background-color:#800c0c">
                     <h2>@header</h2>
 
                     <div class="right-wrapper pull-right">

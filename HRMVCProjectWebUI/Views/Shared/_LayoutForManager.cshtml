@@ -4,7 +4,8 @@
     string header2 = ViewBag.Header2;
     string foto = Context.Session.GetString("picPath");
     string kullanıcıAdı = Context.Session.GetString("userName");
-    int companyId = (int)Context.Session.GetInt32("CompanyId");
+    //int managerId = (int)Context.Session.GetInt32("ManagerId");
+    //int companyId = Context.Session.GetInt32("CompanyId");
     //@if (User.Identity.IsAuthenticated)
     //               {
     //                   if (User.IsInRole("User"))
@@ -75,6 +76,7 @@
                 @* <a asp-action="Index" asp-controller="Employee" asp-route-id-=@id class="logo">
                 <img src="~/assets/images/logo.png" height="40px" width="auto" alt="" />
                 </a>*@
+
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
                     <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
                 </div>
@@ -99,7 +101,7 @@
                                 kullanıcıAdı = "Kullanıcı Adı";
                             }
                             <span class="name">@kullanıcıAdı</span>
-                            <span class="role">Personel</span>
+                            <span class="role">Yönetici</span>
                         </div>
 
                         <i class="fa custom-caret"></i>
@@ -130,27 +132,27 @@
 
         <div class="inner-wrapper">
             <!-- start: sidebar -->
-            <aside id="sidebar-left" class="sidebar-left">
+            <aside id="sidebar-left" class="sidebar-left" style="background-color: #734ba9 ">
 
                 <div class="sidebar-header">
                     @*<div class="sidebar-title">
                     Navigation
                     </div>*@
-                    <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
+                    <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle" style="background-color: #734ba9 ">
                         <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
                     </div>
                 </div>
 
                 <div class="nano">
                     <div class="nano-content">
-                        <nav id="menu" class="nav-main" role="navigation">
+                        <nav id="menu" class="nav-main" role="navigation" style="background-color: #734ba9 ">
                             <ul class="nav nav-main">
-                                <li>
-                                    @*  <a asp-action="Index" asp-controller="Employee" asp-route-id=@id>
+                                @*<li>
+                                      <a asp-action="ManagerHome" asp-controller="Manager" asp-area="ManagerArea" asp-route-id=@Context.Session.GetInt32("ManagerId");>
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                     <span>Anasayfa</span>
-                                    </a>*@
-                                </li>
+                                    </a>
+                                </li>*@
 
                                 <li class="nav-parent">
                                     <a>
@@ -166,7 +168,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a asp-action="AddEmployee" asp-controller="Manager" asp-area="ManagerArea">
+                                            <a asp-action="AddEmployee" asp-controller="Manager" asp-area="ManagerArea" >
                                                 <i class="fa  fa-plus" aria-hidden="true"></i>
                                                 <span>Çalışan Ekle</span>
                                             </a>
@@ -183,7 +185,7 @@
                                     </a>
                                     <ul class="nav nav-children">
                                         <li>
-                                            <a asp-action="AdvancePaymentList" asp-controller="AdvancePayments" asp-area="ManagerArea" asp-route-id="@companyId">
+                                            <a asp-action="AdvancePaymentList" asp-controller="AdvancePayments" asp-area="ManagerArea" asp-route-id="@Context.Session.GetInt32("ManagerId")">
                                                 <span>Avans Listesi</span>
                                             </a>
                                         </li>
@@ -194,21 +196,41 @@
                                         </li>
                                     </ul>
                                 </li>
-
-
-
-
-                                <li>
-                                    <a asp-action="CostList" asp-controller="Costs" asp-area="ManagerArea" asp-route-id="@companyId">
-                                        <i class="fa  fa-smile-o" aria-hidden="true"></i>
-                                        <span>Harcama Listesi</span>
+                                <li class="nav-parent">
+                                    <a>
+                                        <i class="fa fa-tags" aria-hidden="true"></i>
+                                        <span>Harcama</span>
                                     </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            <a asp-action="CostList" asp-controller="Costs" asp-area="ManagerArea" asp-route-id="@Context.Session.GetInt32("ManagerId")">
+                                                <span>Harcama Listesi</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-controller="Costs" asp-action="CostCheck" asp-area="ManagerArea">
+                                                Bekleyen Harcama Talepleri
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <li>
-                                    <a asp-action="PermissionList" asp-controller="Permissions" asp-area="ManagerArea" asp-route-id="@companyId">
-                                        <i class="fa fa-info" aria-hidden="true"></i>
-                                        <span>İzin Listesi</span>
+                                <li class="nav-parent">
+                                    <a>
+                                        <i class="fa fa-beer" aria-hidden="true"></i>
+                                        <span>İzin</span>
                                     </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            <a asp-action="PermissionList" asp-controller="Permissions" asp-area="ManagerArea" asp-route-id="@Context.Session.GetInt32("ManagerId")">
+                                                <span>İzin Listesi</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a asp-controller="Permissions" asp-action="PermissionCheck" asp-area="ManagerArea">
+                                                Bekleyen İzin Talepleri
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 @if (kullanıcıAdı != null)
                                 {
@@ -228,7 +250,7 @@
             <!-- end: sidebar -->
 
             <section role="main" class="content-body">
-                <header class="page-header">
+                <header class="page-header" style="background-color: #734ba9 ">
                     <h2>@header</h2>
 
                     <div class="right-wrapper pull-right">
@@ -253,7 +275,7 @@
                     </div>
                 </header>
 
-                <div class="container">
+                <div class="container" >
                     <main role="main" class="pb-3">
                         @RenderBody()
                     </main>

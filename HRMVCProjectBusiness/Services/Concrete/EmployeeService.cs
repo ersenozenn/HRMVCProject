@@ -47,6 +47,11 @@ namespace HRMVCProjectBusiness.Services.Concrete
             return employeeRepository.GetByIdIncludeCosts(id);
         }
 
+        public bool CheckIdentity(string identity)
+        {
+            return employeeRepository.CheckIdentity(identity);
+        }
+
 
         //public Employee GetByEmailAndPassword(string email, string password)
         //{
@@ -56,5 +61,6 @@ namespace HRMVCProjectBusiness.Services.Concrete
         //    }
         //    else throw new Exception();
         //}
+
     }
 }

@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddEmployee">
+        <form asp-action="AddEmployee" asp-controller="Manager" asp-area="ManagerArea">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="IdentityNumber" class="control-label"></label>
@@ -31,34 +31,34 @@
                 @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     Erkek
-                    @Html.RadioButtonFor(model => model.Gender, true)
+                    @Html.RadioButtonFor(model => model.Gender, true) 
                     Kadın
                     @Html.RadioButtonFor(model => model.Gender, false)
                 </div>
             </div>
-@*
+
              <div class="form-group">
-                <label asp-for="Wage" class="control-label">₺</label>
+                <label asp-for="Wage" class="control-label"></label>
                 <input asp-for="Wage"  class="form-control" /> 
                 <span asp-validation-for="Wage" class="text-danger"></span>
-            </div> *@ 
+            </div>  
             
-             @* <div class="form-group">
+              @*<div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password"  class="form-control" /> ₺
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div> *@
 
-            <div class="form-group">
+           @* <div class="form-group">
                 <label asp-for="Mail" class="control-label"></label>
                 <input asp-for="Mail" class="form-control" />
                 <span asp-validation-for="Mail" class="text-danger"></span>
             </div>
-
+*@
             <div class="form-group">
                 <label asp-for="BirthDate" class="control-label"></label>
                 <input asp-for="BirthDate" type="date" class="form-control" />
-                @*<span asp-validation-for="BirthDate" class="text-danger"></span>*@
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
 
 

@@ -1,68 +1,72 @@
-﻿@model IEnumerable<HRMVCProjectEntities.Concrete.Cost>
+﻿@using HRMVCProjectEntities.Concrete.Enums
+@model EmployeeCostVM
 
-@{
-    ViewData["Title"] = "Harcama Listesi";
-}
+<!-- start: page -->
+<section class="panel">
+    <header class="panel-heading">
 
-<h2>Harcama Listesi</h2>
+        <h2 class="panel-title">Bütün Harcamalar</h2>
+    </header>
+    <div class="panel-body">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RequestDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReplyDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReplyState)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CostFilePath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CostType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequestDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReplyDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReplyState)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CostFilePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CostType.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>Tutar</th>
+                    <th>Talep Tarihi</th>
+                    <th>Onay Durumu</th>
+                    <th>Cevap Tarihi</th>
+                    <th>Harcama Dosyası</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Costs)
+                {
+                    <tr class="gradeA">
+                        <td>@Model.EmployeeFullName</td>
+                        <td>@item.Amount ₺</td>
+                        <td>@item.RequestDate.ToShortDateString()</td>
+                        <td>
+                            @{
+                                if (item.ReplyState == ReplyState.Onaylandı)
+                                {
+                                    <span>&#128994</span>
+                                }
+                                if (item.ReplyState == ReplyState.OnaylanMAdı)
+                                {
+                                    <span>&#128308;</span>
+                                }
+                                if (item.ReplyState == ReplyState.Beklemede)
+                                {
+                                    <span>&#128993;</span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @if (item.ReplyState == ReplyState.Onaylandı || item.ReplyState == ReplyState.OnaylanMAdı)
+                            {
+                                @Html.DisplayFor(modelItem => item.ReplyDate)
+                            }
+                            else
+                            {
+                                <h5>Cevaplanmadı</h5>
+                            }
+                        </td>
+                        <td>
+                            @if (item.CostFilePath != null)
+                            {
+                                <a asp-controller="Costs" asp-action="DownloadPdf" asp-route-id=@item.Id>
+                                    Harcama Dosyası
+                                </a>
+                            }
+
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</section>
+<!-- end: page -->

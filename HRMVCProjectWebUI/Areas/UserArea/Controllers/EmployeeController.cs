@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
 {
@@ -18,13 +19,16 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
         private readonly IEmployeeService employeeService;
         private readonly IAdvancePaymentService advancePaymentService;
         private readonly SignInManager<User> signInManager;
-        private readonly UserManager<User> userManager;
+        private readonly UserManager<User> userManager;     
+        private readonly ICostService costService;
 
-        public EmployeeController(IEmployeeService employeeService,IAdvancePaymentService advancePaymentService, UserManager<User> userManager)
+        public EmployeeController(IEmployeeService employeeService,IAdvancePaymentService advancePaymentService, UserManager<User> userManager,ICostService costService,SignInManager<User> signInManager)
         {
             this.employeeService = employeeService;
             this.advancePaymentService = advancePaymentService;
             this.userManager = userManager;
+            this.costService = costService;
+            this.signInManager = signInManager;          
         }
         public IActionResult Index(int id)
         {
@@ -48,7 +52,16 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
         {
             ViewBag.Header = "Çalışanlar";
             var employees = employeeService.GetAll();
-            return View(employees);
+            List<Employee> list = new List<Employee>();
+            Employee employee = employeeService.GetById((int)HttpContext.Session.GetInt32("Id"));
+            foreach (Employee item in employees)
+            {
+                if (item.CompanyId == employee.CompanyId)
+                {
+                    list.Add(item);
+                }
+            }
+            return View(list);
         }
 
         // [HttpGet("{id}")]
@@ -68,10 +81,37 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
             }
             ViewBag.KullanıcıAdı = $"{employee.FirstName} {employee.LastName}";
             ICollection<Permission> permissions = employeeService.GetByIdIncludePermission(id).Permissions;
-            ViewBag.IzinTalepSayisi = permissions.Count;
+            int permissionCount = 0;
+            foreach (Permission item in permissions)
+            {
+                if (item.ReplyState == HRMVCProjectEntities.Concrete.Enums.ReplyState.Beklemede)
+                {
+                    permissionCount++;
+                }
+            }
+            ViewBag.IzinTalepSayisi = permissionCount;
             ViewBag.AvansMiktari = (employee.Wage*0.3) - advancePaymentService.TotalAdvance(id);
             ICollection<AdvancePayment> advancePayments = (ICollection<AdvancePayment>)advancePaymentService.AdvancePaymentList(id);
-            ViewBag.AvansTalepSayisi = advancePayments.Count;
+            int advancePaymentCount = 0;
+            foreach (AdvancePayment item in advancePayments)
+            {
+                if (item.ReplyState == HRMVCProjectEntities.Concrete.Enums.ReplyState.Beklemede)
+                {
+                    advancePaymentCount++;
+                }
+            }
+            ViewBag.AvansTalepSayisi = advancePaymentCount;
+
+            ICollection<Cost> costs = (ICollection<Cost>)employeeService.GetByIdIncludeCosts(id).Costs;
+            int costsCount = 0;
+            foreach (Cost item in costs)
+            {
+                if (item.ReplyState == HRMVCProjectEntities.Concrete.Enums.ReplyState.Beklemede)
+                {
+                    costsCount++;
+                }
+            }
+            ViewBag.HarcamaTalepSayisi = costsCount;
             return View(employee);
         }
 
@@ -130,36 +170,20 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
 
         public IActionResult PasswordChange(int id)
         {
+            HttpContext.Session.SetInt32("Id", id);
             PasswordChangeVM passwordChangeVM = new PasswordChangeVM();
             passwordChangeVM.EmployeeId = id;
-            Employee employee = employeeService.GetById(passwordChangeVM.EmployeeId);
-            //passwordChangeVM.CurrentPassword=employee. tamam unuttum, yok böyle bir şey
+            Employee employee = employeeService.GetById(passwordChangeVM.EmployeeId);           
             return View(passwordChangeVM);
         }
 
         [HttpPost]
-        public IActionResult PasswordChange(PasswordChangeVM passwordChangeVM)
-        {
-            //if(passwordChangeVM.CurrentPassword== "258iK!")
-            //{
-            //    Employee employee = employeeService.GetById(passwordChangeVM.EmployeeId);  
-            //    if(passwordChangeVM.NewPassword!=null && passwordChangeVM.NewPassword==passwordChangeVM.ConfirmPassword)
-            //    {
-            //        var presult = userManager.ChangePasswordAsync(employee, passwordChangeVM.CurrentPassword, passwordChangeVM.NewPassword);
-
-            //        var result = userManager.UpdateAsync(employee);
-            //        if (!result.IsCompleted)
-            //        {
-            //            ModelState.AddModelError("", "Şifre güncellenemedi");
-            //        }
-            //    }
-            //    ModelState.AddModelError("", "Şifre hatalı");
-
-            //}
-
+        public async Task<IActionResult> PasswordChange(PasswordChangeVM passwordChangeVM,int id)
+        {      
             if (ModelState.IsValid)
             {
                 //var user = userManager.GetUserAsync(User);
+                passwordChangeVM.EmployeeId = id;
                 var user = employeeService.GetById(passwordChangeVM.EmployeeId);
                 if (user == null)
                 {
@@ -167,32 +191,34 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
                 }
 
                 // ChangePasswordAsync changes the user password
-                var result =  userManager.ChangePasswordAsync(user,passwordChangeVM.CurrentPassword, passwordChangeVM.NewPassword);
+                var result =await  userManager.ChangePasswordAsync(user,passwordChangeVM.CurrentPassword, passwordChangeVM.NewPassword);
 
-                // The new password did not meet the complexity rules or
-                // the current password is incorrect. Add these errors to
-                // the ModelState and rerender ChangePassword view
-                if (!result.IsCompleted)
+                
+                if (!result.Succeeded)
                 {
-                    //foreach (var error in result.Errors)
-                    //{
-                        ModelState.AddModelError(string.Empty, "şifre değştirilemedi");
-                    //}
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                     return View();
                 }
-
-                // Upon successfully changing the password refresh sign-in cookie
-                 signInManager.RefreshSignInAsync(user);
-                return View();
+                var resultforUpdate = await userManager.UpdateAsync(user);
+                if (resultforUpdate.Succeeded)
+                {
+                    await signInManager.RefreshSignInAsync(user);
+                    return RedirectToAction("EmployeeHome","Employee", new { id = id });
+                }
+                foreach (var item in resultforUpdate.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, item.Description);
+                    return View();
+                }
+                
             }
 
-            return View(passwordChangeVM);
-
-
-
-
-
             return View();
+
+
         }
 
 

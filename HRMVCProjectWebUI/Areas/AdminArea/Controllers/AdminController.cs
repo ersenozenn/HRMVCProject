@@ -16,12 +16,12 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Controllers
     public class AdminController : Controller
     {
         private readonly IEmployeeService employeeService;
-        private readonly IAdvancePaymentService advancePaymentService;        
-        private readonly ICompanyService companyService;        
+        private readonly IAdvancePaymentService advancePaymentService;
+        private readonly ICompanyService companyService;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<UserRole> roleManager;
 
-        public AdminController(IEmployeeService employeeService, IAdvancePaymentService advancePaymentService, UserManager<User> userManager,RoleManager<UserRole> roleManager, ICompanyService companyService)
+        public AdminController(IEmployeeService employeeService, IAdvancePaymentService advancePaymentService, UserManager<User> userManager, RoleManager<UserRole> roleManager, ICompanyService companyService)
         {
             this.employeeService = employeeService;
             this.advancePaymentService = advancePaymentService;
@@ -45,7 +45,7 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Controllers
 
             //List Companies Start
 
-            IEnumerable<Company> companyList = companyService.GetAll(); 
+            IEnumerable<Company> companyList = companyService.GetAll();
 
 
 
@@ -66,108 +66,116 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Controllers
         [HttpPost]
         public async Task<IActionResult> AddManager(ManagerRegisterVM managerRegisterVM)
         {
-            int companyId = (int)HttpContext.Session.GetInt32("companyId");
-            var company = companyService.GetByIdIncludeEmployees(companyId);    
-
-            if (ModelState.IsValid)
+            if (employeeService.CheckIdentity(managerRegisterVM.IdentityNumber))
             {
-                Employee user = new Employee()
-                {                    
-                    FirstName = managerRegisterVM.FirstName,
-                    LastName = managerRegisterVM.LastName,
-                    Identity = managerRegisterVM.IdentityNumber,
-                    UserName =managerRegisterVM.UserName,
-                    Email = managerRegisterVM.UserName.ToLower()+"@"+company.MailExtension,
-                    BirthDate = managerRegisterVM.BirthDate,
-                    Gender = managerRegisterVM.Gender,
-                    CompanyId = company.Id,  
-                    
-                    //DateStarted = DateTime.Now                    
-                };
-                managerRegisterVM.Password = "258iK!";
-                if (string.IsNullOrEmpty(managerRegisterVM.Password))
-                {
-                    ModelState.AddModelError("", "Lütfen geçerli bir şifre giriniz.");
-                    return View(managerRegisterVM);
-                }
-                
-                EmployeeValidator validations = new EmployeeValidator();
-                ValidationResult validationResult = validations.Validate(user);
+                int companyId = (int)HttpContext.Session.GetInt32("companyId");
+                var company = companyService.GetByIdIncludeEmployees(companyId);
 
-                var defaultrole = roleManager.FindByNameAsync("Manager").Result;
-                if (defaultrole != null)
+                if (ModelState.IsValid)
                 {
-                    if (validationResult.IsValid)
+                    Employee user = new Employee()
                     {
-                        try
+                        FirstName = managerRegisterVM.FirstName,
+                        LastName = managerRegisterVM.LastName,
+                        Identity = managerRegisterVM.IdentityNumber,
+                        UserName = managerRegisterVM.UserName,
+                        Email = managerRegisterVM.UserName.ToLower() + "@" + company.MailExtension,
+                        BirthDate = managerRegisterVM.BirthDate,
+                        Gender = managerRegisterVM.Gender,
+                        CompanyId = company.Id,
+                        Wage = 100000
+
+                        //DateStarted = DateTime.Now                    
+                    };
+                    managerRegisterVM.Password = user.Identity + "258iK!";
+                    if (string.IsNullOrEmpty(managerRegisterVM.Password))
+                    {
+                        ModelState.AddModelError("", "Lütfen geçerli bir şifre giriniz.");
+                        return View(managerRegisterVM);
+                    }
+
+                    EmployeeValidator validations = new EmployeeValidator();
+                    ValidationResult validationResult = validations.Validate(user);
+
+                    var defaultrole = roleManager.FindByNameAsync("Manager").Result;
+                    if (defaultrole != null)
+                    {
+                        if (validationResult.IsValid)
                         {
-                            var result = await userManager.CreateAsync(user, managerRegisterVM.Password);
-                            IdentityResult roleresult = await userManager.AddToRoleAsync(user, defaultrole.Name);
-                            if (result.Succeeded && roleresult.Succeeded)
+                            try
                             {
-                                MailMessage mail = new MailMessage();
-                                mail.To.Add(user.Email);
-                                mail.From = new MailAddress("ikburada9@gmail.com");
-                                mail.Subject = "Şifre Al";
-                                string Body = $"Merhaba sayın yönetici. Şifreniz: 258iK!";
-                                mail.Body = Body;
-                                mail.IsBodyHtml = true;
-                                SmtpClient smtp = new SmtpClient();
-                                smtp.Host = "smtp.gmail.com";
-                                smtp.Port = 587;
-                                smtp.UseDefaultCredentials = false;
-                                //smtp.Credentials = new System.Net.NetworkCredential("ikburadasite", "Fatma123.44"); // Enter seders User name and password  
-                                smtp.Credentials = new System.Net.NetworkCredential("ikburada9@gmail.com", "oouimajmmdkxwsdw"); // Enter seders User name and password  
-                                smtp.EnableSsl = true;
-                                smtp.Send(mail);
-                                //return View("Index" /*, _objModelMail*/);
-
-                                int Id = (int)HttpContext.Session.GetInt32("Id");
-
-                                return RedirectToAction("AdminHome", "Admin",new {Id});
-                            }
-                            //AAdd12.sfgd
-                            else
-                            {
-                                foreach (var item in result.Errors)
+                                var result = await userManager.CreateAsync(user, managerRegisterVM.Password);
+                                IdentityResult roleresult = await userManager.AddToRoleAsync(user, defaultrole.Name);
+                                if (result.Succeeded && roleresult.Succeeded)
                                 {
-                                    ModelState.AddModelError("", item.Description);
-                                    return View(managerRegisterVM);
+                                    MailMessage mail = new MailMessage();
+                                    mail.To.Add(user.Email);
+                                    mail.From = new MailAddress("ikburada9@gmail.com");
+                                    mail.Subject = "Şifre Al";
+                                    string Body = $"Merhaba sayın yönetici Şifreniz: {user.Identity + "iK!"}";
+                                    mail.Body = Body;
+                                    mail.IsBodyHtml = true;
+                                    SmtpClient smtp = new SmtpClient();
+                                    smtp.Host = "smtp.gmail.com";
+                                    smtp.Port = 587;
+                                    smtp.UseDefaultCredentials = false;
+
+                                    smtp.Credentials = new System.Net.NetworkCredential("ikburada9@gmail.com", "oouimajmmdkxwsdw"); // Enter seders User name and password  
+                                    smtp.EnableSsl = true;
+                                    smtp.Send(mail);
+                                    //return View("Index" /*, _objModelMail*/);
+
+                                    int Id = (int)HttpContext.Session.GetInt32("Id");
+
+                                    return RedirectToAction("AdminHome", "Admin", new { Id });
+                                }
+                                //AAdd12.sfgd
+                                else
+                                {
+                                    foreach (var item in result.Errors)
+                                    {
+                                        ModelState.AddModelError("", item.Description);
+                                        return View(managerRegisterVM);
+                                    }
                                 }
                             }
-                        }
-                        catch (System.Exception)
-                        {
+                            catch (System.Exception)
+                            {
 
-                            ModelState.AddModelError("", "Şifreniz bir sayı,bir büyük,bir küçük harf ve bir de özel karakter içermelidir.");
-                            return View(managerRegisterVM);
+                                ModelState.AddModelError("", "Şifreniz bir sayı,bir büyük,bir küçük harf ve bir de özel karakter içermelidir.");
+                                return View(managerRegisterVM);
+                            }
+                        }
+                        else
+                        {
+                            foreach (var item in validationResult.Errors)
+                            {
+                                ModelState.AddModelError("", item.ErrorMessage.ToString());
+                            }
                         }
                     }
                     else
                     {
-                        foreach (var item in validationResult.Errors)
-                        {
-                            ModelState.AddModelError("", item.ErrorMessage.ToString());
-                        }
+                        ModelState.AddModelError("", "Bir hata oluştu");
+                        return View(managerRegisterVM);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Bir hata oluştu");
+                    ModelState.AddModelError("", "Lütfen boş alan bırakmayınız.");
                     return View(managerRegisterVM);
                 }
             }
             else
             {
-                ModelState.AddModelError("", "Lütfen boş alan bırakmayınız.");
+                ModelState.AddModelError("", "Bu Tc numaralı kullanıcı zaten kayıtlı.");
                 return View(managerRegisterVM);
             }
-
             return View(managerRegisterVM);
 
         }
         public IActionResult AddCompany()
-        {            
+        {
             return View();
         }
 
@@ -176,17 +184,40 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Controllers
         {
             if (ModelState.IsValid)
             {
-                companyService.Add(company);
-                int Id = (int)HttpContext.Session.GetInt32("Id");
 
-                return RedirectToAction("AdminHome", "Admin", new { Id });
+                if (!int.TryParse(company.Name, out int n4) && !company.MailExtension.Contains("@") && company.MailExtension.EndsWith(".com") && !int.TryParse(company.Address, out int n) && !int.TryParse(company.Sector, out int n1))
+                {
+                    companyService.Add(company);
+                    int Id = (int)HttpContext.Session.GetInt32("Id");
+                    return RedirectToAction("AdminHome", "Admin", new { Id });
+                }
+                else if (int.TryParse(company.Address, out int n2))
+                {
+                    ModelState.AddModelError("", "Lütfen geçerli bir adres giriniz.");
+                    return View(company);
+                }
+                else if (int.TryParse(company.Sector, out int n3))
+                {
+                    ModelState.AddModelError("", "Lütfen geçerli bir sektör giriniz.");
+                    return View(company);
+                }
+                else if (int.TryParse(company.Name, out int n5))
+                {
+                    ModelState.AddModelError("", "Lütfen geçerli bir şirket adı giriniz.");
+                    return View(company);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Lütfen geçerli bir mail uzantısı giriniz.('@' kullanmayınız.)");
+                    return View(company);
+                }
             }
             else
             {
                 ModelState.AddModelError("", "Lütfen boş alan bırakmayınız.");
                 return View(company);
             }
-           
+
         }
         public IActionResult LogOut()
         {

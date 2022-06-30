@@ -1,74 +1,66 @@
-﻿@model IEnumerable<HRMVCProjectEntities.Concrete.Permission>
+﻿@using HRMVCProjectEntities.Concrete.Enums
+@model EmployeePermissionVM
 
-@{
-    ViewData["Title"] = "İzin Listesi";
-}
+<!-- start: page -->
+<section class="panel">
+    <header class="panel-heading">
 
-<h2>İzin Listesi</h2>
+        <h2 class="panel-title">Bütün İzinler</h2>
+    </header>
+    <div class="panel-body">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RequestDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReplyDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartingDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReplyState)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdressToGo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PermissionType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequestDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReplyDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartingDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReplyState)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdressToGo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PermissionType.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>İzin Türü</th>
+                    <th>Talep Tarihi</th>
+                    <th>Başlangıç Tarihi</th>
+                    <th>Bitiş Tarihi</th>
+                    <th>Onay Durumu</th>
+                    <th>Cevap Tarihi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Permissions)
+                {
+                    <tr class="gradeA">
+                        <td>@Model.EmployeeFullName</td>
+                        <td>@item.RequestDate.ToShortDateString()</td>
+                        <td>@item.PermissionType</td>
+                        <td>@item.StartingDate.ToShortDateString()</td>
+                        <td>@item.EndDate.ToShortDateString()</td>
+                        <td>
+                            @{
+                                if (item.ReplyState == ReplyState.Onaylandı)
+                                {
+                                    <span>&#128994</span>
+                                }
+                                if (item.ReplyState == ReplyState.OnaylanMAdı)
+                                {
+                                    <span>&#128308;</span>
+                                }
+                                if (item.ReplyState == ReplyState.Beklemede)
+                                {
+                                    <span>&#128993;</span>
+                                }
+                            }
+                        </td>
+                         <td>
+                                @if(item.ReplyState == ReplyState.Onaylandı || item.ReplyState == ReplyState.OnaylanMAdı)
+                                {
+                                    @Html.DisplayFor(modelItem => item.ReplyDate)
+                                }
+                                else
+                                {
+                                    <h5>Cevaplanmadı</h5>
+                                }
+                         </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</section>
+<!-- end: page -->

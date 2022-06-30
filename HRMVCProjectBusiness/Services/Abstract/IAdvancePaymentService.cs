@@ -13,7 +13,7 @@ namespace HRMVCProjectBusiness.Services.Abstract
         IEnumerable<AdvancePayment> AdvancePaymentList(int id);
         public float TotalAdvance(int id);
         IEnumerable<AdvancePayment> GetAllByCompanyId(int companyId);
-        IEnumerable<AdvancePayment> GetPendingAdvancePayments();
+        IEnumerable<AdvancePayment> GetPendingAdvancePayments(int companyId);
 
     }
 }

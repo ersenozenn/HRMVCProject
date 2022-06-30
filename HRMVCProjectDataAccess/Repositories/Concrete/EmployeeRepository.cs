@@ -51,5 +51,13 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
         //    employee.Pa
         //}
 
+        public bool CheckIdentity(string identity)
+        {
+            if(db.Employees.All(x=>x.Identity != identity))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

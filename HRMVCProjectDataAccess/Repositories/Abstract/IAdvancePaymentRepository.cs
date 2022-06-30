@@ -14,6 +14,6 @@ namespace HRMVCProjectDataAccess.Repositories.Abstract
         IEnumerable<AdvancePayment> AdvancePaymentList(int id);
         float TotalAdvance(int id);
         IEnumerable<AdvancePayment> GetAllByCompanyId(int companyId);
-        IEnumerable<AdvancePayment> GetPendingAdvancePayments();
+        IEnumerable<AdvancePayment> GetPendingAdvancePayments(int companyId);
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using HRMVCProjectEntities.Concrete.Enums;
 
 namespace HRMVCProjectDataAccess.Repositories.Concrete
 {
@@ -40,11 +41,28 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
         {
             List<Permission> permissions = new List<Permission>();
 
-            foreach (Permission item in db.Permissions)
+            foreach (Permission item in db.Permissions.Include(a=>a.Employees))
             {
                 foreach (Employee item2 in item.Employees)
                 {
                     if (item2.CompanyId == companyId)
+                    {
+                        permissions.Add(item);
+                    }
+                }
+            }
+            return permissions;
+        }
+
+        public IEnumerable<Permission> GetPendingPermissions(int companyId)
+        {
+            List<Permission> permissions = new List<Permission>();
+
+            foreach (Permission item in db.Permissions.Include(x => x.Employees))
+            {
+                foreach (Employee item2 in item.Employees)
+                {
+                    if (item2.CompanyId == companyId && item.ReplyState == ReplyState.Beklemede)
                     {
                         permissions.Add(item);
                     }

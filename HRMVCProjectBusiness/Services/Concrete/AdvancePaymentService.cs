@@ -59,9 +59,9 @@ namespace HRMVCProjectBusiness.Services.Concrete
             else throw new Exception("Id hatası");
         }
 
-       public IEnumerable<AdvancePayment> GetPendingAdvancePayments()
+       public IEnumerable<AdvancePayment> GetPendingAdvancePayments(int companyId)
         {
-            return advancePaymentRepository.GetPendingAdvancePayments();
+            return advancePaymentRepository.GetPendingAdvancePayments(companyId);
         }
 
     }

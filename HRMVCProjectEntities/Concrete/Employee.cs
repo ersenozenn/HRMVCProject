@@ -29,7 +29,7 @@ namespace HRMVCProjectEntities.Concrete
         [Display(Name = "Doğum Tarihi")]
         public DateTime BirthDate { get; set; }
         [Display(Name = "Maaş")]
-        public double Wage { get; set; }
+        public int Wage { get; set; }
         //[RegularExpression(@"^[\w-._+%]+@(?:[\w-]+.)+[\w]{2,6}$", ErrorMessage = "Please enter a valid email address")]
 
         // public string Password { get; set; }

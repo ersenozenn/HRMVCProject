@@ -18,8 +18,11 @@ namespace HRMVCProjectBusiness.Validators
             RuleFor(x => x.BirthDate).LessThan(DateTime.Now.AddYears(-18)).WithName("Doğum tarihi").WithMessage("Sadece 18 yaşından büyük çalışanları ekleyebilirsiniz!");
             RuleFor(s => s.Email).NotEmpty().WithName("mail").WithMessage("Mail alanını boş bırakmayınız.")
                      .EmailAddress().WithMessage("Geçerli bir mail giriniz.");
+            RuleFor(s => s.Wage).NotEmpty().WithName("Maaş").WithMessage("Maaş alanını boş bırakmayınız.").GreaterThan(4800).WithMessage("Asgari ücretten düşük bir maaş veremezsiniz.").LessThanOrEqualTo(10000000).WithMessage("10.000.000 TL'den daha yüksek maaş veremezsiniz.");
+                     
+
             //RuleFor(x => x.PhoneNumber).Matches(@"^[0-9]{10}$").WithMessage("Telefon numarasını doğru formatta giriniz").NotEmpty().WithMessage("Telefon numarası boş bırakılamaz"); //Telefon numarası formatlama deneme
-            
+
         }
     }
 }
