@@ -14,10 +14,10 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Models
         [Required(ErrorMessage = "Soyad boş geçilemez.")]
         [Display(Name = "Soyad")]
         public string LastName { get; set; }
-        [Display(Name = "Mail")]
+        //[Display(Name = "Mail")]
         public string Mail { get; set; }
         [Display(Name = "Şifre")]
-        [Required(ErrorMessage = "Şifre boş geçilemez.")]
+        //[Required(ErrorMessage = "Şifre boş geçilemez.")]
         public string Password { get; set; }
         [Display(Name = "TC Kimlik No")]
         [Required(ErrorMessage = "Kimlik numarası boş geçilemez.")]
@@ -26,10 +26,10 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Models
         [Required(ErrorMessage = "Doğum tarihi boş geçilemez.")]
         public DateTime BirthDate { get; set; }
         [Display(Name = "Cinsiyet")]
-        [Required(ErrorMessage = "Cinsiyet boş geçilemez.")]
+        //[Required(ErrorMessage = "Cinsiyet boş geçilemez.")]
         public bool Gender { get; set; }
         [Display(Name = "Maaş")]
-        [Required(ErrorMessage = "Maaş boş geçilemez.")]
+        //[Required(ErrorMessage = "Maaş boş geçilemez.")]
         public int Wage { get; set; }
         public int CompanyId { get; set; }
         public string StringReplace(string text)

@@ -59,5 +59,9 @@ namespace HRMVCProjectDataAccess.Repositories.Concrete
             }
             return false;
         }
+        public Employee GetByManagerIdIncludeCreditCards(int ManagerId)
+        {
+            return db.Employees.Include(a => a.CreditCards).FirstOrDefault(b => b.Id == ManagerId);
+        }
     }
 }

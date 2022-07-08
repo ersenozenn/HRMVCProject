@@ -65,7 +65,7 @@
         <!-- start: header -->
         <header class="header" style="background-color:white">
             <div class="logo-container">
-                <a asp-action="Index" asp-controller="Employee" asp-route-id-=@id class="logo">
+                <a @*asp-action="Index" asp-controller="Employee" asp-route-id-=@Context.Session.GetInt32("UserId")*@ class="logo">
                     <img src="~/assets/images/logo.png" height="40px" width="auto" alt="" />
                 </a>
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">

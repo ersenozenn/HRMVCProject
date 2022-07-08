@@ -1,39 +1,31 @@
-﻿@model IEnumerable<HRMVCProjectEntities.Concrete.Company>
+﻿@using HRMVCProjectEntities.Concrete
+@model IEnumerable<HRMVCProjectEntities.Concrete.Package>
 
-<section class="panel bold-olsun">
-        <header class="panel-heading">
-            <div class="panel-actions">
-                <a href="#" class="fa fa-caret-down"></a>
-            </div>
-
-            <h2 class="panel-title">Çalışanlar Listesi </h2>
-        </header>
-        <div class="panel-body">
-            <table class="table table-bordered table-striped mb-none" id="datatable-default">
-                <thead>
-                    <tr>
-                        <th>Şirket İsmi</th>
-                        <th>Sektör</th>
-                        <th>Çalışan Sayısı</th>
-                        <th>Yönetici Atama</th>                        
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                {
-                    <tr class="gradeA">
-                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Sector)</td>
-                        <td>@Html.DisplayFor(modelItem => item.NumberOfEmployees)</td>                       
-                        <td>
-                           <a asp-area="AdminArea" asp-controller="Admin" asp-action="AddManager" asp-route-id="@item.Id" >Yönetici ekle</a>
-                        </td>
-                        
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</section>
-
-<!-- end: page -->
+@*<div class="owl-carousel bold-olsun" data-plugin-carousel data-plugin-options='{ "autoPlay": 3000, "items": 6, "itemsDesktop": [1199,4], "itemsDesktopSmall": [979,3], "itemsTablet": [768,2], "itemsMobile": [479,1] }'>
+    @foreach (Package item in Model)
+    {
+        <div>
+            <h5>@item.PackageName</h5>
+            <div class="item spaced"><img class="img-thumbnail" src="@item.PackagePhotoPath" width="120" height="120" alt=""></div>
+            <button type="button" class="mb-xs mt-xs mr-xs btn btn-info">Detay</button>
+        </div>
+    }
+</div>*@
+<h2><b>Aktif Paketler</b></h2> <br />
+ @foreach (Package item in Model)
+    {
+   
+<div class="img-responsive">
+    <img class="pull-left" src="@item.PackagePhotoPath" width="170" height="170" data-appear-animation="wobble">
+</div>
+<h4> &emsp; <b>@item.PackageName</b></h4>
+<p class="bold-olsun"> &emsp; @item.Description</p>
+<p class="bold-olsun"> &emsp; @item.Amount ₺</p>
+<br /><br /><br />
+ @*<button  onclick="location.href='@Url.Action("UpdatePackage", "Package")'" type="submit" style="left:10px" class="mb-xs mt-xs mr-xs btn btn-warning">Güncelle</button>*@
+  @*<form asp-action="UpdatePackage" asp-controller="Package"  asp-route-Id="@item.Id" enctype="multipart/form-data" method="get">
+ <input type="submit" value="Güncelle" asp-action="UpdatePackage" asp-controller="Package"  asp-route-Id="@item.Id"   class="btn btn-default" />
+ </form>*@
+<hr>
+ }
+<hr>

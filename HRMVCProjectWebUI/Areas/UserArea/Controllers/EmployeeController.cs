@@ -34,7 +34,7 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
         {
             ViewBag.Header = "Ana Sayfa";
             var employee = employeeService.GetById(id);
-
+            HttpContext.Session.SetInt32("UserId", (int)employee.Id);
 
             ViewBag.KullaniciIsim = employee.FirstName;
             HttpContext.Session.SetInt32("Id", employee.Id);
@@ -53,7 +53,8 @@ namespace HRMVCProjectWebUI.Areas.UserArea.Controllers
             ViewBag.Header = "Çalışanlar";
             var employees = employeeService.GetAll();
             List<Employee> list = new List<Employee>();
-            Employee employee = employeeService.GetById((int)HttpContext.Session.GetInt32("Id"));
+            int Id = (int)HttpContext.Session.GetInt32("Id");
+            Employee employee = employeeService.GetById(Id);
             foreach (Employee item in employees)
             {
                 if (item.CompanyId == employee.CompanyId)

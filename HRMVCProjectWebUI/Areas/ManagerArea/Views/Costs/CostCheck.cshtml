@@ -14,7 +14,7 @@
                     <th>Ad Soyad</th>
                     <th>Tutar</th>
                     <th>Talep Tarihi</th>
-                    <th>Dosya</th>
+                    @*<th>Dosya</th>*@
                     <th>İşlem</th>
                 </tr>
             </thead>
@@ -25,7 +25,7 @@
                         <td>@Model.EmployeeFullName</td>
                         <td>@item.Amount ₺</td>
                         <td>@item.RequestDate.ToShortDateString()</td>
-                        <td>@item.CostFilePath</td>
+                        @*<td>@item.CostFilePath</td>*@
                         <td class="actions">
                             <form asp-action="CostCheck" method="post">
                                 <button asp-action="CostCheck" method="post" asp-route-id="@item.Id" id="position-4-success" type="submit" class="mt-sm mb-sm btn btn-success">Onayla</button>

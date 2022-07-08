@@ -12,10 +12,16 @@ namespace HRMVCProjectBusiness.Services.Concrete
     public class GenericService<T> : IGenericService<T> where T : class
     {
         private readonly IRepository<T> repository;
+        private IPackageService packageService;
 
         public GenericService(IRepository<T> repository)
         {
             this.repository = repository;
+        }
+
+        public GenericService(IPackageService packageService)
+        {
+            this.packageService = packageService;
         }
 
         public bool Add(T entity)

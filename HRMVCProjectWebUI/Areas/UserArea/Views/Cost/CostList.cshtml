@@ -91,6 +91,7 @@
                     <th>Tutar</th>
                     <th>Talep Tarihi</th>
                     @*<th>Cevap Tarihi</th>*@
+                    <th>Harcama Türü</th>
                     <th>Onay Durumu</th>
                     <th>Cevap Tarihi</th>
                 </tr>
@@ -101,6 +102,7 @@
                     <tr class="gradeA">
                         <td>@Html.DisplayFor(modelItem => item.Amount) ₺</td>
                         <td>@Html.DisplayFor(modelItem => item.RequestDate)</td>                     
+                        <td>@Html.DisplayFor(modelItem => item.CostType.CostName)</td>                     
                       @*  <td>@Html.DisplayFor(modelItem => item.ReplyDate)</td>      *@                
                         <td>
                             @{

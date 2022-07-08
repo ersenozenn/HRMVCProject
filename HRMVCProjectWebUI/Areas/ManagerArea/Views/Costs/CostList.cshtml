@@ -17,6 +17,7 @@
                     <th>Talep Tarihi</th>
                     <th>Onay Durumu</th>
                     <th>Cevap Tarihi</th>
+                    @*<th>Harcama Türü</th>*@
                     <th>Harcama Dosyası</th>
                 </tr>
             </thead>
@@ -53,6 +54,7 @@
                                 <h5>Cevaplanmadı</h5>
                             }
                         </td>
+                        @*<td>@item.CostType.CostName</td>*@
                         <td>
                             @if (item.CostFilePath != null)
                             {

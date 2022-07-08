@@ -24,8 +24,10 @@ namespace HRMVCProjectWebUI.Areas.ManagerArea.Controllers
         private readonly ICostService costService;
         private readonly IPermissionService permissionService;
         private readonly ICompanyService companyService;
+        private readonly IWalletService walletService;
+        private readonly IPackageService packageService;
 
-        public ManagerController(UserManager<User> userManager, RoleManager<UserRole> roleManager, IEmployeeService employeeService, IAdvancePaymentService advancePaymentService, ICostService costService, IPermissionService permissionService, ICompanyService companyService)
+        public ManagerController(UserManager<User> userManager, RoleManager<UserRole> roleManager, IEmployeeService employeeService, IAdvancePaymentService advancePaymentService, ICostService costService, IPermissionService permissionService, ICompanyService companyService, IWalletService walletService,IPackageService packageService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -33,7 +35,9 @@ namespace HRMVCProjectWebUI.Areas.ManagerArea.Controllers
             this.advancePaymentService = advancePaymentService;
             this.costService = costService;
             this.permissionService = permissionService;
-            this.companyService = companyService;   
+            this.companyService = companyService;
+            this.walletService = walletService;
+            this.packageService = packageService;
         }
 
         public IActionResult ManagerHome(int id)
@@ -56,7 +60,39 @@ namespace HRMVCProjectWebUI.Areas.ManagerArea.Controllers
             HttpContext.Session.SetInt32("CompanyId", (int)employee.CompanyId);
             HttpContext.Session.SetInt32("ManagerId", (int)id);
 
-            return View();
+            //package kart
+            var packages = packageService.ManagersPackages(id);
+            return View(packages);
+        }
+
+     
+
+        public IActionResult Wallet(int id)
+        {
+            Employee employee = employeeService.GetById(id);
+            Wallet wallet = null;
+            if(employee.WalletId!=null)
+            {
+                wallet = walletService.GetByIdIncludeEmployee((int)employee.WalletId);
+                return View(wallet);
+            }
+            return View(wallet);
+        }
+
+        [HttpPost]
+        public IActionResult Wallet(Wallet wallet)
+        {
+            Employee employee = employeeService.GetById(wallet.Id);
+            Wallet walletNew = walletService.GetByIdIncludeEmployee((int)employee.WalletId);
+            if (wallet.Balance < 50)
+            {
+                ModelState.AddModelError("", "Eklemek istediğiniz bakiye tutarı 50 tl'den az olamaz.");
+                return View(walletNew);
+            }
+            walletNew.TransactionDate = DateTime.Now;
+            walletNew.Balance = walletNew.Balance + wallet.Balance;
+            walletService.Update(walletNew);
+            return View(walletNew);
         }
 
         public IActionResult AddEmployee()
@@ -168,6 +204,22 @@ namespace HRMVCProjectWebUI.Areas.ManagerArea.Controllers
 
             return View(employeeRegisterVM);
 
+        }
+        public IActionResult EmployeeList()
+        {
+            ViewBag.Header = "Çalışanlar";
+            var employees = employeeService.GetAll();
+            List<Employee> list = new List<Employee>();
+            int Id = (int)HttpContext.Session.GetInt32("ManagerId");
+            Employee employee = employeeService.GetById(Id);
+            foreach (Employee item in employees)
+            {
+                if (item.CompanyId == employee.CompanyId)
+                {
+                    list.Add(item);
+                }
+            }
+            return View(list);
         }
     }
 }

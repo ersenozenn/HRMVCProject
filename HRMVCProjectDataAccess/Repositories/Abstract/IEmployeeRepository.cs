@@ -17,5 +17,6 @@ namespace HRMVCProjectDataAccess.Repositories.Abstract
         Employee GetById(int id);
         Employee GetByIdIncludeCosts(int id);
         bool CheckIdentity(string identity);
+        public Employee GetByManagerIdIncludeCreditCards(int ManagerId);
     }
 }

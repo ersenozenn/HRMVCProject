@@ -1,0 +1,39 @@
+﻿@model IEnumerable<HRMVCProjectEntities.Concrete.Company>
+
+<section class="panel bold-olsun">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+            </div>
+
+            <h2 class="panel-title">Çalışanlar Listesi </h2>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered table-striped mb-none" id="datatable-default">
+                <thead>
+                    <tr>
+                        <th>Şirket İsmi</th>
+                        <th>Sektör</th>
+                        <th>Çalışan Sayısı</th>
+                        <th>Yönetici Atama</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                {
+                    <tr class="gradeA">
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Sector)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NumberOfEmployees)</td>                       
+                        <td>
+                           <a asp-area="AdminArea" asp-controller="Admin" asp-action="AddManager" asp-route-id="@item.Id" >Yönetici ekle</a>
+                        </td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- end: page -->

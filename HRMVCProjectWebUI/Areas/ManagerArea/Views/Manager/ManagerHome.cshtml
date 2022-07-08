@@ -1,7 +1,33 @@
-﻿@{
+﻿@using HRMVCProjectEntities.Concrete
+@model IEnumerable<HRMVCProjectEntities.Concrete.Package>
+@{
     //ViewData["Title"] = "Avans Listesi";
     Layout = "_LayoutForManager";
 }
+
+@foreach (Package item in Model)
+{
+    <div class="row">
+        <div class="col-md-6 col-lg-6 col-xl-3">
+            <form asp-action="">
+                <section class="panel">
+                    <header class="panel-heading bg-white">
+                        @* <div class="panel-heading-icon bg-primary mt-sm">
+                    <i class="fa fa-rocket"></i>
+                    </div>*@
+                        <img src="@item.PackagePhotoPath" width="80" height="80" />
+                    </header>
+                    <div class="panel-body">
+                        <h3 class="text-semibold mt-none text-center">@item.PackageName</h3>
+                        <p class="text-center">@item.Description</p>
+                    </div>
+                    <button asp-route-id="@item.Id" type="submit" class="mb-xs mt-xs mr-xs btn btn-info">Detay</button>
+                </section>
+            </form>
+        </div>
+    </div>
+}
+
 
 <div class="col-md-12 col-lg-12 col-xl-4">
     <h5 class="text-semibold text-dark text-uppercase mb-md mt-lg">Talep Görüntüleme Kartları</h5>

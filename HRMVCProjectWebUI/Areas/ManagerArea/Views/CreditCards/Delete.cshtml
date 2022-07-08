@@ -1,0 +1,37 @@
+﻿@model HRMVCProjectEntities.Concrete.CreditCard
+
+@{
+    ViewData["Title"] = "Sil";
+}
+
+<h3>Kartı silmek istediğinize emin misiniz?</h3>
+<div>
+    <h4>Kredi Kartı</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CardNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CardNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpirationDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExpirationDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CardBalance)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CardBalance)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Sil" class="btn btn-default" /> |
+        <a asp-action="Index">Listeye Geri Dön</a>
+    </form>
+</div>

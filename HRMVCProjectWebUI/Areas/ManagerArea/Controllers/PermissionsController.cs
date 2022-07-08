@@ -31,6 +31,7 @@ namespace HRMVCProjectWebUI.Areas.ManagerArea.Controllers
             EmployeePermissionVM employeePermissionVM = new EmployeePermissionVM();
             Employee employee = employeeService.GetById((int)HttpContext.Session.GetInt32("ManagerId"));
             employeePermissionVM.Permissions = permissionService.GetAllByCompanyId((int)employee.CompanyId);
+            
             foreach (Permission item in employeePermissionVM.Permissions)
             {
                 foreach (Employee item2 in item.Employees)

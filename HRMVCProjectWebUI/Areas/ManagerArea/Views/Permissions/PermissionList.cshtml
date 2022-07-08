@@ -1,4 +1,5 @@
-﻿@using HRMVCProjectEntities.Concrete.Enums
+﻿@using HRMVCProjectEntities.Concrete
+@using HRMVCProjectEntities.Concrete.Enums
 @model EmployeePermissionVM
 
 <!-- start: page -->
@@ -13,7 +14,7 @@
             <thead>
                 <tr>
                     <th>Ad Soyad</th>
-                    <th>İzin Türü</th>
+                   @* <th>İzin Türü</th>*@
                     <th>Talep Tarihi</th>
                     <th>Başlangıç Tarihi</th>
                     <th>Bitiş Tarihi</th>
@@ -22,12 +23,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Permissions)
+                @foreach (Permission item in Model.Permissions)
                 {
                     <tr class="gradeA">
                         <td>@Model.EmployeeFullName</td>
+                       @* <td>@item.PermissionType.PermissionName</td>*@
                         <td>@item.RequestDate.ToShortDateString()</td>
-                        <td>@item.PermissionType</td>
                         <td>@item.StartingDate.ToShortDateString()</td>
                         <td>@item.EndDate.ToShortDateString()</td>
                         <td>

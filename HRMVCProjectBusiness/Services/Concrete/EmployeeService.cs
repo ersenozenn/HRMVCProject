@@ -52,6 +52,10 @@ namespace HRMVCProjectBusiness.Services.Concrete
             return employeeRepository.CheckIdentity(identity);
         }
 
+        public Employee GetByManagerIdIncludeCreditCards(int ManagerId)
+        {
+            return employeeRepository.GetByManagerIdIncludeCreditCards(ManagerId);
+        }
 
         //public Employee GetByEmailAndPassword(string email, string password)
         //{

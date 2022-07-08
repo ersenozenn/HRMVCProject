@@ -1,0 +1,84 @@
+﻿@model IEnumerable<HRMVCProjectEntities.Concrete.Package>
+
+@{
+    ViewData["Title"] = "Paket-Listesi";  
+}
+
+<h2>Paket Listesi</h2>
+
+<table class="table bold-olsun">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PackageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackagePhotoPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfEmployee)
+            </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PackageName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    <img src="@item.PackagePhotoPath" width="70" height="70" />
+                </td>
+                <td>
+                    @if (item.State == false)
+                    {
+                        <p>Pasif</p>
+                    }
+                    @if(item.State == true)
+                    {
+                        <p>Aktif</p>
+                    }                   
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfEmployee)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

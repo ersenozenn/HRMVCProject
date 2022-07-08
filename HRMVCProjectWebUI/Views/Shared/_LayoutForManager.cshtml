@@ -22,6 +22,7 @@
     <meta name="keywords" content="HTML5 Admin Template" />
     <meta name="description" content="Porto Admin - Responsive HTML5 Template">
     <meta name="author" content="okler.net">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -52,6 +53,7 @@
     <!-- Theme CSS -->
     <link href="~/assets/stylesheets/theme.css" rel="stylesheet" />
 
+
     <!-- Skin CSS -->
 
     <link href="~/assets/stylesheets/skins/default.css" rel="stylesheet" />
@@ -73,9 +75,9 @@
         <!-- start: header -->
         <header class="header" style="background-color:white">
             <div class="logo-container">
-                @* <a asp-action="Index" asp-controller="Employee" asp-route-id-=@id class="logo">
+                 <a asp-action="ManagerHome" asp-controller="Manager" asp-route-id=@Context.Session.GetInt32("ManagerId")  class="logo">
                 <img src="~/assets/images/logo.png" height="40px" width="auto" alt="" />
-                </a>*@
+                </a>
 
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
                     <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -161,7 +163,7 @@
                                     </a>
                                     <ul class="nav nav-children">
                                         <li>
-                                            <a asp-area="UserArea" asp-action="EmployeeList" asp-controller="Employee">
+                                            <a asp-area="ManagerArea" asp-action="EmployeeList" asp-controller="Manager">
                                                 <span class="pull-right label label-primary">@Context.Session.GetString("employeesCount")</span>
                                                 <i class="fa fa-users" aria-hidden="true"></i>
                                                 <span>Çalışanlar</span>
@@ -175,9 +177,16 @@
                                         </li>
                                     </ul>
                                 </li>
-
-
-
+                                <li class="nav-parent">
+                                    <a class="fa fa-money" aria-hidden="true" asp-action="Index" asp-controller="CreditCards" asp-area="ManagerArea" >
+                                                <span>Kredi Kartlarım</span>
+                                    </a>
+                                </li>
+                               @* <li class="nav-parent">
+                                    <a class="fa fa-money" aria-hidden="true" asp-action="Wallet" asp-controller="Manager" asp-area="ManagerArea" asp-route-id="@Context.Session.GetInt32("ManagerId")">
+                                                <span>Cüzdan</span>
+                                    </a>
+                                </li>*@
                                 <li class="nav-parent">
                                     <a>
                                         <i class="fa fa-money" aria-hidden="true"></i>

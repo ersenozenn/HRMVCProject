@@ -36,6 +36,10 @@
 
     <link href="~/assets/stylesheets/site.css" rel="stylesheet" />
 
+    <!--coursel paket Specific Page Vendor CSS -->
+    <link rel="stylesheet" href="~/assets/vendor/owl-carousel/owl.carousel.css" />
+    <link rel="stylesheet" href="~/assets/vendor/owl-carousel/owl.theme.css" />
+
     <!-- Employee List Specific Page Vendor CSS -->
     <link rel="stylesheet" href="~/assets/vendor/select2/select2.css" />
     <link rel="stylesheet" href="~/assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
@@ -64,7 +68,7 @@
         <!-- start: header -->
         <header class="header" style="background-color:white">
             <div class="logo-container">
-                <a asp-action="Index" asp-controller="Employee" asp-route-id-=@id class="logo">
+                <a @*asp-action="Index" asp-controller="Employee" asp-route-id-=@id*@ class="logo">
                     <img src="~/assets/images/logo.png" height="40px" width="auto" alt="" />
                 </a>
                 <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
@@ -100,8 +104,8 @@
                     <div class="dropdown-menu">
                         <ul class="list-unstyled">
                             <li class="divider"></li>
-                           @* <li>
-                                <a asp-action="EmployeeHome" asp-controller="Employee" asp-route-id="@id" role="menuitem" tabindex="-1">Profilim</a>
+                            @* <li>
+                            <a asp-action="EmployeeHome" asp-controller="Employee" asp-route-id="@id" role="menuitem" tabindex="-1">Profilim</a>
                             </li>*@
                             @*<li>
                             <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
@@ -142,7 +146,7 @@
                                         <i class="fa fa-home" aria-hidden="true"></i>
                                         <span>Anasayfa</span>
                                     </a>
-                                </li>                                
+                                </li>
 
                                 @if (kullanıcıAdı != null)
                                 {
@@ -153,30 +157,49 @@
                                         </a>
                                         <ul class="nav nav-children">
                                             <li>
-                                                <a asp-controller="Admin" asp-action="AddCompany" >
+                                                <a asp-controller="Admin" asp-action="AddCompany">
                                                     Şirket ekle
                                                 </a>
                                             </li>
                                             <li>
-                                                <a asp-action="AdminHome" asp-controller="Admin" asp-area="AdminArea">
+                                                <a asp-action="CompanyList" asp-controller="Admin" asp-area="AdminArea">
                                                     Şirketleri Listele
                                                 </a>
                                             </li>
                                         </ul>
-                                    </li>                                    
+                                    </li>
 
-                                    
+                                    <li class="nav-parent">
+                                        <a>
+                                            <i class="fa fa-copy" aria-hidden="true"></i>
+                                            <span>Paket</span>
+                                        </a>
+                                        <ul class="nav nav-children">
+                                            <li>
+                                                <a asp-controller="Package" asp-action="AddPackage" asp-area="AdminArea">
+                                                    Paket Oluştur
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a asp-action="PackageList" asp-controller="Package" asp-area="AdminArea">
+                                                    Paket Listele
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+
                                 }
-                                <li>                              
+                                <li>
 
                                     @if (kullanıcıAdı != null)
                                     {
-                                    <p class="menu-position text-white display-3">
-                                        &emsp;
-                                        Admin olarak giriş yapıldı.
-                                    </p>
+                                        <p class="menu-position text-white display-3">
+                                            &emsp;
+                                            Admin olarak giriş yapıldı.
+                                        </p>
                                     }
-                              
+
                             </ul>
                         </nav>
                     </div>
@@ -194,7 +217,7 @@
                         <ol class="breadcrumbs">
                             <li>
                                 @*<a asp-action="Index" asp-controller="Employee">*@
-                                    <i class="fa fa-home"></i>
+                                <i class="fa fa-home"></i>
                                 @*</a>*@
                             </li>
 
@@ -231,7 +254,10 @@
     <script src="~/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="~/assets/vendor/magnific-popup/magnific-popup.js"></script>
     <script src="~/assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
-
+    <!--animasyon Specific Page Vendor -->
+    <script src="~/assets/vendor/jquery-appear/jquery.appear.js"></script>
+    <!--Coursel paket Specific Page Vendor -->
+    <script src="~/assets/vendor/owl-carousel/owl.carousel.js"></script>
     <!--Emloyee List Specific Page Vendor -->
     <script src="~/assets/vendor/select2/select2.js"></script>
     <script src="~/assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>

@@ -1,0 +1,71 @@
+﻿@model HRMVCProjectEntities.Concrete.Package
+
+@{
+    ViewData["Title"] = "PackageDetails";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
+}
+
+<h2>PackageDetails</h2>
+
+<div>
+    <h4>Package</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PackageName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Amount) ₺
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>       
+        <dt>
+            @Html.DisplayNameFor(model => model.PackagePhotoPath)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PackagePhotoPath)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+        <dd>
+            @if (Model.State == false)
+            {
+                <p>Pasif</p>
+            }
+            @if (Model.State == true)
+            {
+                <p>Aktif</p>
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfEmployee)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfEmployee)
+        </dd>
+    </dl>
+</div>
+

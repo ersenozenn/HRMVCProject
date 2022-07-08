@@ -16,6 +16,7 @@ namespace HRMVCProjectEntities.Concrete
             Permissions = new HashSet<Permission>();
             AdvancePayments = new HashSet<AdvancePayment>();
             Costs = new HashSet<Cost>();
+            CreditCards = new HashSet<CreditCard>();
         }
 
         [Display(Name = "TC Kimlik No")]
@@ -46,7 +47,15 @@ namespace HRMVCProjectEntities.Concrete
 
         public ICollection<Permission> Permissions { get; set; }   
         
-        public ICollection<AdvancePayment> AdvancePayments { get; set; }    
-        public ICollection<Cost> Costs { get; set; }    
+        public ICollection<AdvancePayment> AdvancePayments { get; set; } 
+        
+        public ICollection<Cost> Costs { get; set; }
+
+        public int? WalletId { get; set; }
+        public Wallet Wallet { get; set; }
+        
+        public int? PackageId { get; set; }
+        public Package Package { get; set; }
+        public ICollection<CreditCard> CreditCards { get; set; }
     }
 }

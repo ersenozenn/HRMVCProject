@@ -213,6 +213,79 @@ namespace HRMVCProjectDataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.CreditCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("CardBalance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<double>("CardNumber")
+                        .HasColumnType("float");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("CreditCards");
+                });
+
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.Package", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NumberOfEmployee")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PackageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PackagePhotoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("State")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Packages");
+                });
+
             modelBuilder.Entity("HRMVCProjectEntities.Concrete.Permission", b =>
                 {
                     b.Property<int>("Id")
@@ -438,24 +511,45 @@ namespace HRMVCProjectDataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "e368d0a3-6985-44d7-80bb-c4f8bf0daf5a",
+                            ConcurrencyStamp = "4498bdcc-43b1-4f92-a702-756415a6cb3b",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "2eb55cc8-95fa-4e3b-952e-7f0b7dfc8640",
+                            ConcurrencyStamp = "8e080373-0248-4cc5-a41a-e2162ccc7a42",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "45a1a89d-0507-4de2-9235-b7396274e64e",
+                            ConcurrencyStamp = "5e302669-58fe-4513-8831-782b246a14b6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
+                });
+
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.Wallet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Wallets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -479,22 +573,22 @@ namespace HRMVCProjectDataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3353e891-0509-4c00-859c-e0f67f2937ef",
-                            ConcurrencyStamp = "8ebbf1ef-f7ad-471e-ad96-976d9c615597",
+                            Id = "e6744b00-2cee-405b-bde9-977f474f2153",
+                            ConcurrencyStamp = "4d1e7ba2-bdf1-4ed1-9ea6-cdd419101860",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "92ef076a-31d0-4dd1-a4b5-debd4065e2f0",
-                            ConcurrencyStamp = "da31f3db-0fae-4978-a26a-4f0fef0c4778",
+                            Id = "f44ffb98-fbe8-4830-af0b-0d48bd3013b0",
+                            ConcurrencyStamp = "ea6dfe62-3e85-42d2-b9de-3f7e38d04d5b",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "52234128-e3ea-4462-9d52-5942989c77bd",
-                            ConcurrencyStamp = "6f7bc7d1-ca9c-486b-a557-1530820e56cb",
+                            Id = "c83e7200-1b48-4f77-83e9-0ae92d94250d",
+                            ConcurrencyStamp = "b35ff99b-444d-40af-b566-84a2cb5b6fc3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -642,13 +736,23 @@ namespace HRMVCProjectDataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("PackageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserPhotoPath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Wage")
                         .HasColumnType("int");
 
+                    b.Property<int?>("WalletId")
+                        .HasColumnType("int");
+
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("PackageId");
+
+                    b.HasIndex("WalletId");
 
                     b.HasDiscriminator().HasValue("Employee");
                 });
@@ -708,6 +812,17 @@ namespace HRMVCProjectDataAccess.Migrations
                         .HasForeignKey("CostTypeId");
 
                     b.Navigation("CostType");
+                });
+
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.CreditCard", b =>
+                {
+                    b.HasOne("HRMVCProjectEntities.Concrete.Employee", "Employee")
+                        .WithMany("CreditCards")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("HRMVCProjectEntities.Concrete.Permission", b =>
@@ -776,7 +891,19 @@ namespace HRMVCProjectDataAccess.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("CompanyId");
 
+                    b.HasOne("HRMVCProjectEntities.Concrete.Package", "Package")
+                        .WithMany("Employees")
+                        .HasForeignKey("PackageId");
+
+                    b.HasOne("HRMVCProjectEntities.Concrete.Wallet", "Wallet")
+                        .WithMany("Employees")
+                        .HasForeignKey("WalletId");
+
                     b.Navigation("Company");
+
+                    b.Navigation("Package");
+
+                    b.Navigation("Wallet");
                 });
 
             modelBuilder.Entity("HRMVCProjectEntities.Concrete.Company", b =>
@@ -789,14 +916,26 @@ namespace HRMVCProjectDataAccess.Migrations
                     b.Navigation("Costs");
                 });
 
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.Package", b =>
+                {
+                    b.Navigation("Employees");
+                });
+
             modelBuilder.Entity("HRMVCProjectEntities.Concrete.PermissionType", b =>
                 {
                     b.Navigation("Permissions");
                 });
 
+            modelBuilder.Entity("HRMVCProjectEntities.Concrete.Wallet", b =>
+                {
+                    b.Navigation("Employees");
+                });
+
             modelBuilder.Entity("HRMVCProjectEntities.Concrete.Employee", b =>
                 {
                     b.Navigation("AdvancePayments");
+
+                    b.Navigation("CreditCards");
                 });
 #pragma warning restore 612, 618
         }

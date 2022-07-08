@@ -18,16 +18,20 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Controllers
         private readonly IEmployeeService employeeService;
         private readonly IAdvancePaymentService advancePaymentService;
         private readonly ICompanyService companyService;
+        private readonly IWalletService walletService;
+        private readonly IPackageService packageService;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<UserRole> roleManager;
 
-        public AdminController(IEmployeeService employeeService, IAdvancePaymentService advancePaymentService, UserManager<User> userManager, RoleManager<UserRole> roleManager, ICompanyService companyService)
+        public AdminController(IEmployeeService employeeService, IAdvancePaymentService advancePaymentService, UserManager<User> userManager, RoleManager<UserRole> roleManager, ICompanyService companyService, IWalletService walletService,IPackageService packageService)
         {
             this.employeeService = employeeService;
             this.advancePaymentService = advancePaymentService;
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.companyService = companyService;
+            this.walletService = walletService;
+            this.packageService = packageService;
         }
         public IActionResult AdminHome(int id)
         {
@@ -43,18 +47,19 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Controllers
             }
             HttpContext.Session.SetString("userName", employee.FirstName + " " + employee.LastName);
 
+            //List active package start
+            return View(packageService.PackageActiveList());
+        }
+
+        public IActionResult CompanyList()
+        {
             //List Companies Start
-
             IEnumerable<Company> companyList = companyService.GetAll();
-
-
-
             //List Companies End
-
-
 
             return View(companyList);
         }
+
         public IActionResult AddManager(int? Id)
         {
             int companyId = (int)Id;
@@ -73,6 +78,10 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    Wallet wallet = new Wallet();
+                    wallet.IsActive = true;
+                    walletService.Add(wallet);
+
                     Employee user = new Employee()
                     {
                         FirstName = managerRegisterVM.FirstName,
@@ -83,11 +92,12 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Controllers
                         BirthDate = managerRegisterVM.BirthDate,
                         Gender = managerRegisterVM.Gender,
                         CompanyId = company.Id,
-                        Wage = 100000
+                        Wage = 100000,
+                        WalletId = wallet.Id
 
                         //DateStarted = DateTime.Now                    
                     };
-                    managerRegisterVM.Password = user.Identity + "258iK!";
+                    managerRegisterVM.Password = user.Identity + "iK!";
                     if (string.IsNullOrEmpty(managerRegisterVM.Password))
                     {
                         ModelState.AddModelError("", "Lütfen geçerli bir şifre giriniz.");
@@ -126,7 +136,7 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Controllers
                                     //return View("Index" /*, _objModelMail*/);
 
                                     int Id = (int)HttpContext.Session.GetInt32("Id");
-
+                                    
                                     return RedirectToAction("AdminHome", "Admin", new { Id });
                                 }
                                 //AAdd12.sfgd
@@ -139,10 +149,9 @@ namespace HRMVCProjectWebUI.Areas.AdminArea.Controllers
                                     }
                                 }
                             }
-                            catch (System.Exception)
+                            catch (System.Exception ex)
                             {
-
-                                ModelState.AddModelError("", "Şifreniz bir sayı,bir büyük,bir küçük harf ve bir de özel karakter içermelidir.");
+                                ModelState.AddModelError("", ex.Message);
                                 return View(managerRegisterVM);
                             }
                         }
